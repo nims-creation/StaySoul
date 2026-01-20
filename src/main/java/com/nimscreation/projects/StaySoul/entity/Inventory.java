@@ -3,9 +3,12 @@ package com.nimscreation.projects.StaySoul.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -45,6 +48,18 @@ public class Inventory {
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal price;
 
-    
+    @Column(nullable = false)
+    private String city;
+
+    @Column(nullable = false)
+    private Boolean closed;
+
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+
+
 
 }
