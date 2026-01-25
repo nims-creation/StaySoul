@@ -1,10 +1,14 @@
 package com.nimscreation.projects.StaySoul.service;
 
 import com.nimscreation.projects.StaySoul.dto.HotelDto;
-import com.nimscreation.projects.StaySoul.entity.Hotel;
+
 public interface HotelService {
 
-    Hotel createNewHotel(HotelDto hotelDto);
+    HotelDto createNewHotel(HotelDto hotelDto);
 
-    Hotel getHotelById(Long id);
+    HotelDto getHotelById(Long id);
+
+    HotelDto updateHotelById(long id, HotelDto hotelDto);
+
+    void deleteHotelById(long hotelId);
 }
