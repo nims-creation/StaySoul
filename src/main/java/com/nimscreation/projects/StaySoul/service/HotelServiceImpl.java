@@ -5,6 +5,7 @@ import com.nimscreation.projects.StaySoul.entity.Hotel;
 import com.nimscreation.projects.StaySoul.entity.Room;
 import com.nimscreation.projects.StaySoul.exception.ResourceNotFoundException;
 import com.nimscreation.projects.StaySoul.repository.HotelRepository;
+import com.nimscreation.projects.StaySoul.repository.RoomRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,7 @@ public class HotelServiceImpl implements HotelService{
 
     private final HotelRepository hotelRepository;
     private final InventoryService inventoryService;
+    private final RoomRepository roomRepository;
     private final ModelMapper modelMapper;
 
 
@@ -61,11 +63,11 @@ public class HotelServiceImpl implements HotelService{
                 .findById(id)
                 .orElseThrow(()->new ResourceNotFoundException("Hotel not found with ID: {}"+id));
 
-        hotelRepository.deleteById(id);
-
         for(Room room : hotel.getRooms()){
-            inventoryService.deleteFutureInventories(room);
+            inventoryService.deleteAllInventories(room);
+            roomRepository.deleteById(room.getId());
         }
+        hotelRepository.deleteById(id);
     }
 
     @Override

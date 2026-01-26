@@ -1,15 +1,22 @@
 package com.nimscreation.projects.StaySoul.service;
 
+import com.nimscreation.projects.StaySoul.dto.HotelDto;
+import com.nimscreation.projects.StaySoul.dto.HotelSearchRequest;
+import com.nimscreation.projects.StaySoul.entity.Hotel;
 import com.nimscreation.projects.StaySoul.entity.Inventory;
 import com.nimscreation.projects.StaySoul.entity.Room;
 import com.nimscreation.projects.StaySoul.repository.InventoryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -39,10 +46,19 @@ public class InventoryServiceImpl implements InventoryService {
         }
     }
 
+
     @Override
-    public void deleteFutureInventories(Room room) {
-        LocalDate today = LocalDate.now();
-        inventoryRepository.deleteByDateAfterRoom(today, room);
+    public void deleteAllInventories(Room room) {
+        inventoryRepository.deleteByRoom(room);
+    }
+
+    @Override
+    public Page<HotelDto> searchHotels(HotelSearchRequest hotelSearchRequest) {
+        Pageable pageable = PageRequest.of(hotelSearchRequest.getPage(), hotelSearchRequest.getSize());
+        long dateCount = ChronoUnit.DAYS.between(hotelSearchRequest.getStartDate(), hotelSearchRequest.getEndDate()) + 1;
+        Page<Hotel> hotelPage = inventoryRepository.findHotelsWithAvailableInventory(hotelSearchRequest.getCity(), hotelSearchRequest.getStartDate(),
+                hotelSearchRequest.getEndDate(), hotelSearchRequest.getRoomsCount(),dateCount, pageable);
+        return null;
     }
 
 
