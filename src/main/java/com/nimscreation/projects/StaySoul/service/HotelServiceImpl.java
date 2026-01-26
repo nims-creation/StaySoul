@@ -2,8 +2,10 @@ package com.nimscreation.projects.StaySoul.service;
 
 import com.nimscreation.projects.StaySoul.dto.HotelDto;
 import com.nimscreation.projects.StaySoul.entity.Hotel;
+import com.nimscreation.projects.StaySoul.entity.Room;
 import com.nimscreation.projects.StaySoul.exception.ResourceNotFoundException;
 import com.nimscreation.projects.StaySoul.repository.HotelRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 public class HotelServiceImpl implements HotelService{
 
     private final HotelRepository hotelRepository;
+    private final InventoryService inventoryService;
     private final ModelMapper modelMapper;
 
 
@@ -38,8 +41,9 @@ public class HotelServiceImpl implements HotelService{
         return modelMapper.map(hotel, HotelDto.class);
     }
 
+
     @Override
-    public HotelDto updateHotelById(long id, HotelDto hotelDto) {
+    public HotelDto updateHotelById(Long id, HotelDto hotelDto) {
         log.info("Updating the hotel with ID: {}",id);
         Hotel hotel = hotelRepository
                 .findById(id)
@@ -51,12 +55,31 @@ public class HotelServiceImpl implements HotelService{
     }
 
     @Override
-    public void deleteHotelById(long hotelId) {
-        boolean exists = hotelRepository.existsById(hotelId);
-        if(!exists) throw new ResourceNotFoundException("Hotel not found with ID: {}"+hotelId);
+    @Transactional
+    public void deleteHotelById(Long id) {
+        Hotel hotel = hotelRepository
+                .findById(id)
+                .orElseThrow(()->new ResourceNotFoundException("Hotel not found with ID: {}"+id));
 
-        hotelRepository.deleteById(hotelId);
+        hotelRepository.deleteById(id);
 
+        for(Room room : hotel.getRooms()){
+            inventoryService.deleteFutureInventories(room);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void activateHotel(Long hotelId) {
+        log.info("Activating the hotel with ID: {}",hotelId);
+        Hotel hotel = hotelRepository
+                .findById(hotelId)
+                .orElseThrow(()->new ResourceNotFoundException("Hotel not found with ID: {}"+hotelId));
+        hotel.setActive(true);
+
+        for(Room room : hotel.getRooms()){
+            inventoryService.initializeRoomForAYear(room);
+        }
 
     }
 
