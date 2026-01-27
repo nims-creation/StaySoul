@@ -1,6 +1,8 @@
 package com.nimscreation.projects.StaySoul.service;
 
+import com.nimscreation.projects.StaySoul.controller.HotelInfoDto;
 import com.nimscreation.projects.StaySoul.dto.HotelDto;
+import org.jspecify.annotations.Nullable;
 
 public interface HotelService {
 
@@ -13,4 +15,6 @@ public interface HotelService {
     void deleteHotelById(Long id);
 
     void activateHotel(Long hotelId);
+
+    HotelInfoDto getHotelInfoById(Long hotelId);
 }

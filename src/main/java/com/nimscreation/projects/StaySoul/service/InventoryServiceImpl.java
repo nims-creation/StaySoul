@@ -58,7 +58,7 @@ public class InventoryServiceImpl implements InventoryService {
         long dateCount = ChronoUnit.DAYS.between(hotelSearchRequest.getStartDate(), hotelSearchRequest.getEndDate()) + 1;
         Page<Hotel> hotelPage = inventoryRepository.findHotelsWithAvailableInventory(hotelSearchRequest.getCity(), hotelSearchRequest.getStartDate(),
                 hotelSearchRequest.getEndDate(), hotelSearchRequest.getRoomsCount(),dateCount, pageable);
-        return null;
+        return hotelPage.map((element)-> modelMapper.map(element, HotelDto.class));
     }
 
 
