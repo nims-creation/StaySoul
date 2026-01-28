@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -17,29 +16,40 @@ public class RoomAdminController {
 
     private final RoomService roomService;
 
+    // ✅ Create room
     @PostMapping
-    public ResponseEntity<RoomDto> createNewRoom(@PathVariable Long hotelId,
-                                                 @RequestBody RoomDto roomDto){
+    public ResponseEntity<RoomDto> createNewRoom(
+            @PathVariable Long hotelId,
+            @RequestBody RoomDto roomDto) {
+
         RoomDto room = roomService.createNewRoom(hotelId, roomDto);
         return new ResponseEntity<>(room, HttpStatus.CREATED);
     }
 
-
+    // ✅ Get all rooms of a hotel
     @GetMapping
-    public ResponseEntity<List<RoomDto>>getAllRoomsInHotel(@PathVariable Long hotelId){
+    public ResponseEntity<List<RoomDto>> getAllRoomsInHotel(
+            @PathVariable Long hotelId) {
+
         return ResponseEntity.ok(roomService.getAllRoomsInHotel(hotelId));
     }
 
-    @GetMapping
-    public ResponseEntity<List<RoomDto>>getRoomById(@PathVariable Long hotelId, @PathVariable Long roomId){
-        return ResponseEntity.ok(Collections.singletonList(roomService.getRoomById(roomId)));
+    // ✅ Get room by ID
+    @GetMapping("/{roomId}")
+    public ResponseEntity<RoomDto> getRoomById(
+            @PathVariable Long hotelId,
+            @PathVariable Long roomId) {
+
+        return ResponseEntity.ok(roomService.getRoomById(roomId));
     }
 
+    // ✅ Delete room
     @DeleteMapping("/{roomId}")
-    public ResponseEntity<List<RoomDto>>deleteById(@PathVariable Long hotelId, @PathVariable Long roomId) {
+    public ResponseEntity<Void> deleteById(
+            @PathVariable Long hotelId,
+            @PathVariable Long roomId) {
+
         roomService.deleteRoomById(roomId);
         return ResponseEntity.noContent().build();
     }
-
-
 }

@@ -1,7 +1,10 @@
 package com.nimscreation.projects.StaySoul.service;
 
 import com.nimscreation.projects.StaySoul.dto.BookingDto;
-import org.jspecify.annotations.Nullable;
+import com.nimscreation.projects.StaySoul.dto.BookingRequest;
+import com.nimscreation.projects.StaySoul.dto.GuestDto;
+
+import java.util.List;
 
 public interface BookingService {
 

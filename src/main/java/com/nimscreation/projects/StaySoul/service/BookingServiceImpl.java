@@ -2,22 +2,22 @@ package com.nimscreation.projects.StaySoul.service;
 
 import com.nimscreation.projects.StaySoul.dto.BookingDto;
 import com.nimscreation.projects.StaySoul.dto.BookingRequest;
-import com.nimscreation.projects.StaySoul.entity.Booking;
-import com.nimscreation.projects.StaySoul.entity.Hotel;
-import com.nimscreation.projects.StaySoul.entity.Inventory;
-import com.nimscreation.projects.StaySoul.entity.Room;
+import com.nimscreation.projects.StaySoul.dto.GuestDto;
+import com.nimscreation.projects.StaySoul.entity.*;
 import com.nimscreation.projects.StaySoul.entity.enums.BookingStatus;
 import com.nimscreation.projects.StaySoul.exception.ResourceNotFoundException;
-import com.nimscreation.projects.StaySoul.repository.BookingRepository;
-import com.nimscreation.projects.StaySoul.repository.HotelRepository;
-import com.nimscreation.projects.StaySoul.repository.InventoryRepository;
-import com.nimscreation.projects.StaySoul.repository.RoomRepository;
+import com.nimscreation.projects.StaySoul.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.jspecify.annotations.Nullable;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.net.http.HttpHeaders;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
@@ -26,15 +26,16 @@ import java.util.List;
 @Slf4j
 
 public class BookingServiceImpl implements BookingService{
-
+    private final GuestRepository guestRepository;
     private final BookingRepository bookingRepository;
     private final HotelRepository hotelRepository;
     private final RoomRepository roomRepository;
     private final InventoryRepository inventoryRepository;
+    private final ModelMapper modelMapper;
 
     @Override
     @Transactional
-    public BookingDto initializeBooking(BookingRequest bookingRequest) {
+    public BookingDto initialiseBooking(BookingRequest bookingRequest) {
 
         log.info("Initialising booking for hotel :{},room :{}, date {}--{}",
                 bookingRequest.getHotelId(),
@@ -63,7 +64,7 @@ public class BookingServiceImpl implements BookingService{
 
         // Reserve the room ya update the booked count of the inventory
         for(Inventory inventory: inventoryList){
-            inventory.setBookedCount(inventory.getBookedCount() + bookingRequest.getRoomsCount());
+            inventory.setReservedCount(inventory.getReservedCount() + bookingRequest.getRoomsCount());
         }
         inventoryRepository.saveAll(inventoryList);
 
@@ -75,8 +76,49 @@ public class BookingServiceImpl implements BookingService{
                 .room(room)
                 .checkInDate(bookingRequest.getCheckInDate())
                 .checkOutDate(bookingRequest.getCheckOutDate())
+                .user(getCurrentUser())
+                .roomCount(bookingRequest.getRoomsCount())
+                .amount(BigDecimal.TEN)
+                .build();
+        booking = bookingRepository.save(booking);
+        return modelMapper.map(booking, BookingDto.class);
+    }
 
 
+    @Override
+    public BookingDto addGuests(Long bookingId, List<GuestDto> guestDtoList) {
+        log.info("Adding guests for booking with Id :{}", bookingId);
 
+        Booking booking = bookingRepository.findById(bookingId).orElseThrow(()->
+                new ResourceNotFoundException("Booking not found with id:"+bookingId));
+
+        if(hasBookingExpired(booking)){
+            throw new IllegalStateException("Booking has already expired");
+        }
+
+
+        if(booking.getBookingStatus() != BookingStatus.RESERVED){
+            throw new IllegalStateException("Booking is not under reserved state, can not guests");
+        }
+
+        for(GuestDto guestDto: guestDtoList){
+            Guest guest = modelMapper.map(guestDto, Guest.class);
+            guest.setUser(getCurrentUser());
+            guest = guestRepository.save(guest);
+            booking.getGuests().add(guest);
+        }
+        booking.setBookingStatus(BookingStatus.GUESTS_ADDED);
+        booking = bookingRepository.save(booking);
+        return modelMapper.map(booking,BookingDto.class);
+    }
+
+    public boolean hasBookingExpired(Booking booking){
+        return booking.getCreatedAt().plusMinutes(10).isBefore(LocalDateTime.now());
+    }
+
+    public User getCurrentUser(){
+        User user = new User();
+        user.setId(1L);
+        return user;
     }
 }
