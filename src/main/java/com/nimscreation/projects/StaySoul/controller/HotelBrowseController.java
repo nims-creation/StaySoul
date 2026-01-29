@@ -1,6 +1,7 @@
 package com.nimscreation.projects.StaySoul.controller;
 
 import com.nimscreation.projects.StaySoul.dto.HotelDto;
+import com.nimscreation.projects.StaySoul.dto.HotelPriceDto;
 import com.nimscreation.projects.StaySoul.dto.HotelSearchRequest;
 import com.nimscreation.projects.StaySoul.service.HotelService;
 import com.nimscreation.projects.StaySoul.service.InventoryService;
@@ -20,8 +21,8 @@ public class HotelBrowseController {
     private final HotelService hotelService;
 
     @GetMapping("/search")
-    public ResponseEntity<Page<HotelDto>> searchHotels(@RequestBody HotelSearchRequest hotelSearchRequest){
-        Page<HotelDto> page = inventoryService.searchHotels(hotelSearchRequest);
+    public ResponseEntity<Page<HotelPriceDto>> searchHotels(@RequestBody HotelSearchRequest hotelSearchRequest){
+        var page = inventoryService.searchHotels(hotelSearchRequest);
         return ResponseEntity.ok(page);
     }
 
