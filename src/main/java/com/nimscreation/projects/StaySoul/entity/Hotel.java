@@ -15,6 +15,7 @@ import java.util.List;
 @Setter
 @Table(name = "hotel")
 public class Hotel {
+    // this is the hotel entity and important to commit today
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -48,5 +49,7 @@ public class Hotel {
     @OneToMany(mappedBy = "hotel")
     @JsonIgnore
     private List<Room> rooms;
+
+
 
 }
