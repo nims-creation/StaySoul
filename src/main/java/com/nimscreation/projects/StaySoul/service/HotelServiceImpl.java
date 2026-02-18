@@ -106,7 +106,7 @@ public class HotelServiceImpl implements HotelService{
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if(!user.equals(hotel.getOwner())){
-            throw new UnAuthorisedException("User does not own this hotel with id:"+id);
+            throw new UnAuthorisedException("User does not own this hotel with id:"+hotelId);
         }
         hotel.setActive(true);
 
