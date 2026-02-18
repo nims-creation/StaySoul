@@ -5,6 +5,7 @@ import com.nimscreation.projects.StaySoul.dto.SignUpRequestDto;
 import com.nimscreation.projects.StaySoul.dto.UserDto;
 import com.nimscreation.projects.StaySoul.entity.User;
 import com.nimscreation.projects.StaySoul.entity.enums.Roles;
+import com.nimscreation.projects.StaySoul.exception.ResourceNotFoundException;
 import com.nimscreation.projects.StaySoul.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -55,6 +56,13 @@ public class AuthService {
         arr[1] = jwtService.generateRefreshToken(user);
 
         return arr;
+    }
+
+    public String refreshToken(String refreshToken){
+        Long id = jwtService.getUserIdFromToken(refreshToken);
+
+        User user = userRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("user not found with id :"));
+        return jwtService.generateRefreshToken(user);
     }
 }
 
