@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,6 +29,12 @@ public class HotelBookingController {
     @PostMapping("/{bookingId}/addGuests")
     public ResponseEntity<BookingDto> addGuests(@PathVariable Long bookingId,  List<GuestDto> guestDtoList){
         return ResponseEntity.ok(bookingService.addGuests(bookingId,guestDtoList));
+    }
+
+    @PostMapping("/{bookingId}/payments")
+    public ResponseEntity<BookingDto> initiatePayment(@PathVariable Long bookingId){
+        String sessionUrl = bookingService.inintiatePayments(bookingId);
+        return ResponseEntity.ok(Map.of("sessionUrl",sessionUrl));
     }
 
 
