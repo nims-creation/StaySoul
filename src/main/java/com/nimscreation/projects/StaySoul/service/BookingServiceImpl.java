@@ -12,6 +12,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +33,10 @@ public class BookingServiceImpl implements BookingService{
     private final InventoryRepository inventoryRepository;
     private final ModelMapper modelMapper;
     private final CheckoutService checkoutService;
+
+    @Value("${frontend.url}")
+    private String frontendUrl;
+
 
     @Override
     @Transactional
@@ -135,7 +140,14 @@ public class BookingServiceImpl implements BookingService{
             throw new IllegalStateException("Booking has already expired");
         }
 
-        return "";
+        String sessionUrl = checkoutService.getCheckoutSession(booking,
+                frontendUrl+"/payments/success",
+                frontendUrl+"/payments/failure"
+        );
+
+        booking.setBookingStatus(BookingStatus.PAYMENT_PENDING);
+        bookingRepository.save(booking);
+        return sessionUrl;
     }
 
     public boolean hasBookingExpired(Booking booking){

@@ -34,7 +34,7 @@ public class HotelBookingController {
     @PostMapping("/{bookingId}/payments")
     public ResponseEntity<BookingDto> initiatePayment(@PathVariable Long bookingId){
         String sessionUrl = bookingService.inintiatePayments(bookingId);
-        return ResponseEntity.ok(Map.of("sessionUrl",sessionUrl));
+        return ResponseEntity.ok((BookingDto) Map.of("sessionUrl",sessionUrl));
     }
 
 
