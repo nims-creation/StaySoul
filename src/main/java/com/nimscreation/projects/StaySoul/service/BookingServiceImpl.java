@@ -31,6 +31,7 @@ public class BookingServiceImpl implements BookingService{
     private final RoomRepository roomRepository;
     private final InventoryRepository inventoryRepository;
     private final ModelMapper modelMapper;
+    private final CheckoutService checkoutService;
 
     @Override
     @Transactional
