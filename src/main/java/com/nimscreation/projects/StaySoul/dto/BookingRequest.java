@@ -11,6 +11,5 @@ public class BookingRequest {
     private LocalDate checkInDate;
     private LocalDate checkOutDate;
     private Integer roomsCount;
-
 }
 

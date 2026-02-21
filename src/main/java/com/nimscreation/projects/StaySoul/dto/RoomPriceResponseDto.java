@@ -7,6 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BookingPaymentInitResponseDto {
-    private String sessionUrl;
+public class RoomPriceResponseDto {
+    private Long id;
+    private String type;
+    private String[] photos;
+    private String[] amenities;
+    private Double price;
 }

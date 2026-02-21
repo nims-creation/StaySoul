@@ -69,4 +69,7 @@ public class Booking {
     @Column(unique = true)
     private String paymentSessionId;
 
+    public int getRoomsCount() {
+        return 1;
+    }
 }
