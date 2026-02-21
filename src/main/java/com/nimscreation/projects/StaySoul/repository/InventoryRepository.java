@@ -1,5 +1,6 @@
 package com.nimscreation.projects.StaySoul.repository;
 
+import com.nimscreation.projects.StaySoul.dto.RoomPriceDto;
 import com.nimscreation.projects.StaySoul.entity.Hotel;
 import com.nimscreation.projects.StaySoul.entity.Inventory;
 import com.nimscreation.projects.StaySoul.entity.Room;
@@ -142,7 +143,7 @@ public interface InventoryRepository extends JpaRepository<Inventory, Long> {
                          @Param("startDate") LocalDate startDate,
                          @Param("endDate") LocalDate endDate,
                          @Param("closed") boolean closed,
-                         @Param("surgeFactor") BigDecimal surgeFactor);
+                         @Param("surgeFactor")BigDecimal surgeFactor);
 
     @Query("""
        SELECT new com.codingshuttle.projects.airBnbApp.dto.RoomPriceDto(

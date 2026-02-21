@@ -3,6 +3,7 @@ package com.nimscreation.projects.StaySoul.service;
 import com.nimscreation.projects.StaySoul.dto.BookingDto;
 import com.nimscreation.projects.StaySoul.dto.BookingRequest;
 import com.nimscreation.projects.StaySoul.dto.GuestDto;
+import com.nimscreation.projects.StaySoul.dto.HotelReportDto;
 import com.nimscreation.projects.StaySoul.entity.enums.BookingStatus;
 import com.stripe.model.Event;
 
