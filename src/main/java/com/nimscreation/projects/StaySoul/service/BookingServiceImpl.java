@@ -8,6 +8,8 @@ import com.nimscreation.projects.StaySoul.entity.enums.BookingStatus;
 import com.nimscreation.projects.StaySoul.exception.ResourceNotFoundException;
 import com.nimscreation.projects.StaySoul.exception.UnAuthorisedException;
 import com.nimscreation.projects.StaySoul.repository.*;
+import com.stripe.model.Event;
+import com.stripe.model.checkout.Session;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -125,6 +127,7 @@ public class BookingServiceImpl implements BookingService{
     }
 
     @Override
+    @Transactional
     public String inintiatePayments(Long bookingId) {
         Booking booking = bookingRepository.findById(bookingId).orElseThrow(
                 ()-> new ResourceNotFoundException("booking not found with this id: "+bookingId)
@@ -149,6 +152,34 @@ public class BookingServiceImpl implements BookingService{
         bookingRepository.save(booking);
         return sessionUrl;
     }
+
+    @Override
+    @Transactional
+    public void capturePayment(Event event) {
+        if ("checkout.session.completed".equals(event.getType())) {
+            Session session = (Session) event.getDataObjectDeserializer().getObject().orElse(null);
+            if (session == null) return;
+
+            String sessionId = session.getId();
+            Booking booking =
+                    bookingRepository.findByPaymentSessionId(sessionId).orElseThrow(() ->
+                            new ResourceNotFoundException("Booking not found for session ID: "+sessionId));
+
+            booking.setBookingStatus(BookingStatus.CONFIRMED);
+            bookingRepository.save(booking);
+
+            inventoryRepository.findAndLockReservedInventory(booking.getRoom().getId(), booking.getCheckInDate(),
+                    booking.getCheckOutDate(), booking.getRoomsCount());
+
+            inventoryRepository.confirmBooking(booking.getRoom().getId(), booking.getCheckInDate(),
+                    booking.getCheckOutDate(), booking.getRoomsCount());
+
+            log.info("Successfully confirmed the booking for Booking ID: {}", booking.getId());
+        } else {
+            log.warn("Unhandled event type: {}", event.getType());
+        }
+    }
+
 
     public boolean hasBookingExpired(Booking booking){
         return booking.getCreatedAt().plusMinutes(10).isBefore(LocalDateTime.now());

@@ -3,6 +3,7 @@ package com.nimscreation.projects.StaySoul.service;
 import com.nimscreation.projects.StaySoul.dto.BookingDto;
 import com.nimscreation.projects.StaySoul.dto.BookingRequest;
 import com.nimscreation.projects.StaySoul.dto.GuestDto;
+import com.stripe.model.Event;
 
 import java.util.List;
 
@@ -13,4 +14,6 @@ public interface BookingService {
     BookingDto addGuests(Long bookingId, List<GuestDto> guestDtoList);
 
     String inintiatePayments(Long bookingId);
+
+    void capturePayment(Event event);
 }
