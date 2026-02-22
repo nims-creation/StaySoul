@@ -71,18 +71,18 @@ The inspiration for StaySoul stemmed from observing the growing demand for vacat
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                        StaySoul Architecture                     │
+│                        StaySoul Architecture                    │
 ├─────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│   ┌──────────────┐     ┌──────────────┐     ┌──────────────┐   │
-│   │   CONTROLLER │────▶│   SERVICE    │────▶│  REPOSITORY  │   │
-│   └──────────────┘     └──────────────┘     └──────────────┘   │
-│          │                    │                    │             │
-│          │                    │                    │             │
-│   ┌──────────────┐     ┌──────────────┐     ┌──────────────┐   │
-│   │      DTO     │     │   STRATEGY   │     │   ENTITY     │   │
-│   └──────────────┘     └──────────────┘     └──────────────┘   │
-│                                                                  │
+│                                                                 │
+│   ┌──────────────┐     ┌──────────────┐     ┌──────────────┐    │
+│   │   CONTROLLER │────▶│   SERVICE    │────▶│  REPOSITORY │    │
+│   └──────────────┘     └──────────────┘     └──────────────┘    │
+│          │                    │                    │            │
+│          │                    │                    │            │
+│   ┌──────────────┐     ┌──────────────┐     ┌──────────────┐    │
+│   │      DTO     │     │   STRATEGY   │     │   ENTITY     │    │
+│   └──────────────┘     └──────────────┘     └──────────────┘    │
+│                                                                 │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
@@ -342,12 +342,12 @@ The application will start on `http://localhost:8080`
 ### Stripe Integration Flow
 
 ```
-┌─────────┐    ┌───────────┐    ┌────────────┐    ┌─────────┐
+┌─────────┐     ┌───────────┐     ┌────────────┐     ┌─────────┐
 │  User   │───▶│  Backend   │───▶│   Stripe   │───▶│ Webhook │
-└─────────┘    └───────────┘    └────────────┘    └─────────┘
-     │              │                 │               │
-     │  1. Book     │  2. Create     │  3. Payment  │  4. Confirm
-     │              │     Payment    │    Intent    │    Booking
+└─────────┘     └───────────┘     └────────────┘     └─────────┘
+     │              │                │               │
+     │  1. Book     │  2. Create     │  3. Payment   │  4. Confirm
+     │              │     Payment    │    Intent     │    Booking
 ```
 
 ### Configuration
@@ -372,11 +372,11 @@ stripe.webhook.secret=whsec_your_webhook_secret
 ├──────────────┤       ├──────────────┤
 │ id           │       │ id           │
 │ email        │       │ owner_id     │◀────┐
-│ password     │       │ name         │     │
-│ first_name   │       │ location     │     │
-│ last_name    │       │ description  │     │
-│ role         │       │ amenities    │     │
-└──────────────┘       └──────────────┘     │
+│ password     │       │ name         │      │
+│ first_name   │       │ location     │      │
+│ last_name    │       │ description  │      │
+│ role         │       │ amenities    │      │
+└──────────────┘       └──────────────┘      │
                               │              │
                               │ 1:N          │ 1:N
                               ▼              ▼
