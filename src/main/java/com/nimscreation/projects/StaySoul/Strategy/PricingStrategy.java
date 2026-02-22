@@ -8,7 +8,4 @@ public interface PricingStrategy {
 
     BigDecimal calculatePrice(Inventory inventory);
 
-
-
-
 }
