@@ -33,6 +33,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.nimscreation.projects.StaySoul.util.AppUtils.getCurrentUser;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
