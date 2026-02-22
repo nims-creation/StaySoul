@@ -29,24 +29,22 @@ import java.util.stream.Collectors;
 @Transactional
 public class PricingUpdateService {
 
-    // Scheduler to update the inventory and HotelMinPrice every hour
+    // Scheduler to update the inventory and HotelMinPrice tables every hour
 
     private final HotelRepository hotelRepository;
-    private final HotelMinPriceRepository hotelMinPriceRepository;
     private final InventoryRepository inventoryRepository;
+    private final HotelMinPriceRepository hotelMinPriceRepository;
     private final PricingService pricingService;
 
-
+    //    @Scheduled(cron = "*/5 * * * * *")
     @Scheduled(cron = "0 0 * * * *")
-
-    public void updatePrice(){
+    public void updatePrices() {
         int page = 0;
         int batchSize = 100;
 
-        while(true){
+        while(true) {
             Page<Hotel> hotelPage = hotelRepository.findAll(PageRequest.of(page, batchSize));
-
-            if(hotelPage.isEmpty()){
+            if(hotelPage.isEmpty()) {
                 break;
             }
             hotelPage.getContent().forEach(this::updateHotelPrices);
@@ -55,47 +53,47 @@ public class PricingUpdateService {
         }
     }
 
-    private void updateHotelPrices(Hotel hotel){
-        log.info("Updating Hotel prices for hotel ID: {}",hotel.getId());
+    private void updateHotelPrices(Hotel hotel) {
+        log.info("Updating hotel prices for hotel ID: {}", hotel.getId());
         LocalDate startDate = LocalDate.now();
         LocalDate endDate = LocalDate.now().plusYears(1);
 
         List<Inventory> inventoryList = inventoryRepository.findByHotelAndDateBetween(hotel, startDate, endDate);
+
         updateInventoryPrices(inventoryList);
-        updateHotelMinPrices(hotel,inventoryList, startDate,endDate);
+
+        updateHotelMinPrice(hotel, inventoryList, startDate, endDate);
     }
 
-    private void updateHotelMinPrices(Hotel hotel, List<Inventory> inventoryList, LocalDate startDate, LocalDate endDate) {
-        // Compute the minimum price per day for the hotel
-
+    private void updateHotelMinPrice(Hotel hotel, List<Inventory> inventoryList, LocalDate startDate, LocalDate endDate) {
+        // Compute minimum price per day for the hotel
         Map<LocalDate, BigDecimal> dailyMinPrices = inventoryList.stream()
                 .collect(Collectors.groupingBy(
-                Inventory::getDate,
-                Collectors.mapping(Inventory::getPrice, Collectors.minBy(Comparator.naturalOrder()))
-        ))
+                        Inventory::getDate,
+                        Collectors.mapping(Inventory::getPrice, Collectors.minBy(Comparator.naturalOrder()))
+                ))
                 .entrySet().stream()
-                .collect(Collectors
-                        .toMap(Map.Entry::getKey, e->e.getValue()
-                                .orElse(BigDecimal.ZERO)));
+                .collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().orElse(BigDecimal.ZERO)));
 
-        // Prepare Hotel price entities in bulk
-
+        // Prepare HotelPrice entities in bulk
         List<HotelMinPrice> hotelPrices = new ArrayList<>();
-        dailyMinPrices.forEach((date, price)->{
-            HotelMinPrice hotelPrice = hotelMinPriceRepository.findHotelAndDate(hotel, date)
+        dailyMinPrices.forEach((date, price) -> {
+            HotelMinPrice hotelPrice = hotelMinPriceRepository.findByHotelAndDate(hotel, date)
                     .orElse(new HotelMinPrice(hotel, date));
             hotelPrice.setPrice(price);
             hotelPrices.add(hotelPrice);
         });
+
+        // Save all HotelPrice entities in bulk
         hotelMinPriceRepository.saveAll(hotelPrices);
     }
 
-    private void updateInventoryPrices(List<Inventory> inventoryList){
+    private void updateInventoryPrices(List<Inventory> inventoryList) {
         inventoryList.forEach(inventory -> {
             BigDecimal dynamicPrice = pricingService.calculateDynamicPricing(inventory);
             inventory.setPrice(dynamicPrice);
         });
         inventoryRepository.saveAll(inventoryList);
-
     }
+
 }

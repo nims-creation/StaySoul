@@ -2,6 +2,7 @@ package com.nimscreation.projects.StaySoul.service;
 
 import com.nimscreation.projects.StaySoul.dto.HotelDto;
 import com.nimscreation.projects.StaySoul.dto.HotelInfoDto;
+import com.nimscreation.projects.StaySoul.dto.HotelInfoRequestDto;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ public interface HotelService {
 
     void activateHotel(Long hotelId);
 
-    HotelInfoDto getHotelInfoById(Long hotelId);
+    HotelInfoDto getHotelInfoById(Long hotelId, HotelInfoRequestDto hotelInfoRequestDto);
 
     List<HotelDto> getAllHotels();
 }

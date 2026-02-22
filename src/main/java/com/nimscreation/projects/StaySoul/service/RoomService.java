@@ -14,7 +14,5 @@ public interface RoomService {
 
     void deleteRoomById(Long roomId);
 
-    HotelInfoDto getHotelInfoById(Long hotelId);
-
-     RoomDto updateRoomById(Long hotelId, Long roomId, RoomDto roomDto);
+    RoomDto updateRoomById(Long hotelId, Long roomId, RoomDto roomDto);
 }
