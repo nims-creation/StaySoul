@@ -160,6 +160,7 @@ public interface InventoryRepository extends JpaRepository<Inventory, Long> {
              AND i.closed = false
        GROUP BY i.room
        """)
+
     List<RoomPriceDto> findRoomAveragePrice(
             @Param("hotelId") Long hotelId,
             @Param("startDate") LocalDate startDate,
