@@ -33,7 +33,7 @@ public class Inventory {
     private Hotel hotel;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "room_id", nullable = false)
+    @JoinColumn(name= "room_id", nullable = false)
     private Room room;
 
     @Column(nullable = false)
@@ -44,7 +44,6 @@ public class Inventory {
 
     @Column(nullable = false, columnDefinition = "INTEGER DEFAULT 0")
     private Integer reservedCount;
-
 
     @Column(nullable = false)
     private Integer totalCount;

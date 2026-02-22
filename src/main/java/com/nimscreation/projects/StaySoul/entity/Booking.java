@@ -17,8 +17,8 @@ import java.util.Set;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class Booking {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,7 +28,7 @@ public class Booking {
     private Hotel hotel;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "room_id", nullable = false)
+    @JoinColumn(name= "room_id", nullable = false)
     private Room room;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -36,7 +36,7 @@ public class Booking {
     private User user;
 
     @Column(nullable = false)
-    private  Integer roomsCount;
+    private Integer roomsCount;
 
     @Column(nullable = false)
     private LocalDate checkInDate;
@@ -48,7 +48,7 @@ public class Booking {
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
-    private LocalDateTime UpdatedAt;
+    private LocalDateTime updatedAt;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -59,7 +59,6 @@ public class Booking {
             name = "booking_guest",
             joinColumns = @JoinColumn(name = "booking_id"),
             inverseJoinColumns = @JoinColumn(name = "guest_id")
-
     )
     private Set<Guest> guests;
 
@@ -69,7 +68,4 @@ public class Booking {
     @Column(unique = true)
     private String paymentSessionId;
 
-    public int getRoomsCount() {
-        return 1;
-    }
 }

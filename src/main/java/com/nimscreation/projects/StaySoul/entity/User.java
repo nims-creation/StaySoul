@@ -20,8 +20,8 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @Table(name = "app_user")
-
 public class User implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -36,7 +36,7 @@ public class User implements UserDetails {
 
     private LocalDate dateOfBirth;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private Gender gender;
 
     @ElementCollection(fetch = FetchType.EAGER)
@@ -46,31 +46,24 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles.stream()
-                .map(role -> new SimpleGrantedAuthority("Role"+role.name()))
+                .map(role -> new SimpleGrantedAuthority("ROLE_"+role.name()))
                 .collect(Collectors.toSet());
     }
 
     @Override
     public String getUsername() {
-
         return email;
     }
 
     @Override
-    public boolean equals(Object o){
-        if(this == o){
-            return true;
-        }
-
-        if(!(o instanceof User user)){
-            return false;
-        }
-
-        return Objects.equals(getId(),user.getId());
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User user)) return false;
+        return Objects.equals(getId(), user.getId());
     }
 
     @Override
-    public int hashCode(){
+    public int hashCode() {
         return Objects.hashCode(getId());
     }
 }
