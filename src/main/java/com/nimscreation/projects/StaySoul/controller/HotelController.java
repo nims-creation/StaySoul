@@ -2,6 +2,7 @@ package com.nimscreation.projects.StaySoul.controller;
 
 import com.nimscreation.projects.StaySoul.dto.BookingDto;
 import com.nimscreation.projects.StaySoul.dto.HotelDto;
+import com.nimscreation.projects.StaySoul.dto.HotelReportDto;
 import com.nimscreation.projects.StaySoul.service.BookingService;
 import com.nimscreation.projects.StaySoul.service.HotelService;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -61,6 +63,19 @@ public class HotelController {
     public ResponseEntity<List<BookingDto>> getAllBookingsByHotelId(@PathVariable Long hotelId) {
         return ResponseEntity.ok(bookingService.getAllBookingsByHotelId(hotelId));
     }
+
+    @GetMapping("/{hotelId}/reports")
+    public ResponseEntity<HotelReportDto> getHotelReport(@PathVariable Long hotelId,
+                                                         @RequestParam(required = false)LocalDate startDate,
+                                                         @RequestParam(required = false)LocalDate endDate) {
+
+        if(startDate == null ) startDate = LocalDate.now().minusMonths(1);
+        if(endDate == null ) endDate = LocalDate.now();
+
+        return ResponseEntity.ok(bookingService.getHotelReport(hotelId, startDate, endDate));
+    }
+
+
 }
 
 

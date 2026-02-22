@@ -233,8 +233,9 @@ public class BookingServiceImpl implements BookingService{
 
     @Override
     public List<BookingDto> getAllBookingsByHotelId(Long hotelId) {
-        Hotel hotel = hotelRepository.findById(hotelId).orElseThrow(() -> new ResourceNotFoundException("Hotel not " +
-                "found with ID: "+hotelId));
+        Hotel hotel = hotelRepository.findById(hotelId)
+                .orElseThrow(() -> new ResourceNotFoundException("Hotel not " + "found with ID: "+hotelId));
+
         User user = getCurrentUser();
 
         log.info("Getting all booking for the hotel with ID: {}", hotelId);
