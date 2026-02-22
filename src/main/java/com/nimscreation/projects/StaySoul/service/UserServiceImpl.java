@@ -1,11 +1,14 @@
 package com.nimscreation.projects.StaySoul.service;
 
 import com.nimscreation.projects.StaySoul.dto.ProfileUpdateRequestDto;
+import com.nimscreation.projects.StaySoul.dto.UserDto;
 import com.nimscreation.projects.StaySoul.entity.User;
 import com.nimscreation.projects.StaySoul.exception.ResourceNotFoundException;
 import com.nimscreation.projects.StaySoul.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,11 +16,13 @@ import org.springframework.stereotype.Service;
 
 import static com.nimscreation.projects.StaySoul.util.AppUtils.getCurrentUser;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepository userRepository;
+    private final ModelMapper modelMapper;
 
     @Override
     public User getUserById(Long id) {
@@ -38,5 +43,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByEmail(username).orElse(null);
+    }
+
+    @Override
+    public UserDto getMyProfile() {
+        User user = getCurrentUser();
+        log.info("Getting the profile for user with id: {}", user.getId());
+        return modelMapper.map(user, UserDto.class);
     }
 }

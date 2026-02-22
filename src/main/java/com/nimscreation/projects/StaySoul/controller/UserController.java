@@ -2,6 +2,7 @@ package com.nimscreation.projects.StaySoul.controller;
 
 import com.nimscreation.projects.StaySoul.dto.BookingDto;
 import com.nimscreation.projects.StaySoul.dto.ProfileUpdateRequestDto;
+import com.nimscreation.projects.StaySoul.dto.UserDto;
 import com.nimscreation.projects.StaySoul.service.BookingService;
 import com.nimscreation.projects.StaySoul.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -30,4 +31,11 @@ public class UserController {
     public ResponseEntity<List<BookingDto>> getMyBookings() {
         return ResponseEntity.ok(bookingService.getMyBookings());
     }
+
+    @GetMapping("/profile")
+    public ResponseEntity<UserDto> getMyProfile() {
+        return ResponseEntity.ok(userService.getMyProfile());
+    }
+
+    
 }
