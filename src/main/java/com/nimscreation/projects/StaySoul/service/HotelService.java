@@ -1,8 +1,7 @@
 package com.nimscreation.projects.StaySoul.service;
 
-import com.nimscreation.projects.StaySoul.controller.HotelInfoDto;
 import com.nimscreation.projects.StaySoul.dto.HotelDto;
-import org.jspecify.annotations.Nullable;
+import com.nimscreation.projects.StaySoul.dto.HotelInfoDto;
 
 import java.util.List;
 
