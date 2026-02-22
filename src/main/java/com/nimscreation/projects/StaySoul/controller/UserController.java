@@ -5,6 +5,7 @@ import com.nimscreation.projects.StaySoul.dto.GuestDto;
 import com.nimscreation.projects.StaySoul.dto.ProfileUpdateRequestDto;
 import com.nimscreation.projects.StaySoul.dto.UserDto;
 import com.nimscreation.projects.StaySoul.service.BookingService;
+import com.nimscreation.projects.StaySoul.service.GuestService;
 import com.nimscreation.projects.StaySoul.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
