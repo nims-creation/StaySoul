@@ -1,30 +1,38 @@
 package com.nimscreation.projects.StaySoul.service;
 
-import com.nimscreation.projects.StaySoul.dto.HotelDto;
-import com.nimscreation.projects.StaySoul.dto.HotelPriceDto;
-import com.nimscreation.projects.StaySoul.dto.HotelSearchRequest;
+import com.nimscreation.projects.StaySoul.dto.*;
 import com.nimscreation.projects.StaySoul.entity.Hotel;
 import com.nimscreation.projects.StaySoul.entity.Inventory;
 import com.nimscreation.projects.StaySoul.entity.Room;
+import com.nimscreation.projects.StaySoul.entity.User;
+import com.nimscreation.projects.StaySoul.exception.ResourceNotFoundException;
 import com.nimscreation.projects.StaySoul.repository.HotelMinPriceRepository;
 import com.nimscreation.projects.StaySoul.repository.InventoryRepository;
+import com.nimscreation.projects.StaySoul.repository.RoomRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.nimscreation.projects.StaySoul.util.AppUtils.getCurrentUser;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class InventoryServiceImpl implements InventoryService {
+    private final RoomRepository roomRepository;
 
     private  final InventoryRepository inventoryRepository;
     private final HotelMinPriceRepository hotelMinPriceRepository;
@@ -75,5 +83,19 @@ public class InventoryServiceImpl implements InventoryService {
         return hotelPage;
     }
 
+    @Override
+    public List<InventoryDto> getAllInventoryByRoom(Long roomId) {
+        log.info("Getting All inventory by room for room with id: {}", roomId);
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(() -> new ResourceNotFoundException("Room not found with id: "+roomId));
+
+        User user = getCurrentUser();
+        if(!user.equals(room.getHotel().getOwner())) throw new AccessDeniedException("You are not the owner of room with id: "+roomId);
+
+        return inventoryRepository.findByRoomOrderByDate(room).stream()
+                .map((element) -> modelMapper.map(element,
+                        InventoryDto.class))
+                .collect(Collectors.toList());
+    }
 
 }
