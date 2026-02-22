@@ -98,4 +98,27 @@ public class RoomServiceImpl implements RoomService{
     public HotelInfoDto getHotelInfoById(Long hotelId){
         return null;
     }
+
+    @Override
+    @Transactional
+    public RoomDto updateRoomById(Long hotelId, Long roomId, RoomDto roomDto) {
+        log.info("Updating the room with ID: {}",roomId);
+        Hotel hotel = hotelRepository
+                .findById(hotelId)
+                .orElseThrow(()->new ResourceNotFoundException("Hotel not found with ID: {}"+hotelId));
+
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(!user.equals(hotel.getOwner())){
+            throw new UnAuthorisedException("User does not own this hotel with id:"+hotelId);
+        }
+
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(()->new ResourceNotFoundException("Room not found with ID: "+roomId));
+
+        modelMapper.map(roomDto, room);
+        room.setId(roomId);
+
+        room = roomRepository.save(room);
+        return modelMapper.map(room, RoomDto.class);
+    }
 }

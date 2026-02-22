@@ -1,8 +1,6 @@
 package com.nimscreation.projects.StaySoul.controller;
 
-import com.nimscreation.projects.StaySoul.dto.BookingDto;
-import com.nimscreation.projects.StaySoul.dto.BookingRequest;
-import com.nimscreation.projects.StaySoul.dto.GuestDto;
+import com.nimscreation.projects.StaySoul.dto.*;
 import com.nimscreation.projects.StaySoul.service.BookingService;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;

@@ -4,7 +4,7 @@ public enum BookingStatus {
     RESERVED,
     CONFIRMED,
     GUESTS_ADDED,
-    PAYMENT_PENDING,
+    PAYMENTS_PENDING,
     CANCELLED,
     EXPIRED
 }
