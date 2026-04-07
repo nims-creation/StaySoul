@@ -1,5 +1,6 @@
 import React from 'react';
 import { Heart, Star } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const PropertyCard = ({ property }) => {
   // If property is from backend, map its fields, otherwise use mock field structure
@@ -13,7 +14,7 @@ const PropertyCard = ({ property }) => {
   const rating = property.rating || "New";
 
   return (
-    <div className="flex flex-col cursor-pointer group">
+    <Link to={`/hotel/${property.id}`} className="flex flex-col cursor-pointer group">
       {/* Image Container */}
       <div className="relative aspect-square overflow-hidden rounded-xl bg-grayBg mb-3">
         <img 
@@ -51,7 +52,7 @@ const PropertyCard = ({ property }) => {
           <span className="text-[15px] font-light text-dark">{rating}</span>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

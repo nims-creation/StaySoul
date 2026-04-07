@@ -1,17 +1,20 @@
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import CategoryFilters from './components/CategoryFilters';
-import PropertyGrid from './components/PropertyGrid';
+import Home from './pages/Home';
+import PropertyDetails from './pages/PropertyDetails';
 
 function App() {
   return (
-    <div className="min-h-screen bg-white">
-      <Navbar />
-      <CategoryFilters />
-      <main>
-        <PropertyGrid />
-      </main>
-    </div>
+    <Router>
+      <div className="min-h-screen bg-white">
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/hotel/:id" element={<PropertyDetails />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

@@ -1,0 +1,124 @@
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { hotelApi } from '../api/apiClient';
+import { mockProperties } from '../data/mockProperties';
+import { Star, Share, Heart, MapPin, Wifi, Car, Coffee, Tv } from 'lucide-react';
+import BookingCard from '../components/BookingCard';
+
+const PropertyDetails = () => {
+  const { id } = useParams();
+  const [property, setProperty] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchDetails = async () => {
+      try {
+        setIsLoading(true);
+        // The API returns HotelInfoDto
+        const data = await hotelApi.getHotelInfo(id);
+        setProperty({
+          ...data.hotel, // map core details out of the DTO
+          price: data.hotel.price || 250, // if no default price
+          rating: 4.9 // placeholder as backend doesn't have rating
+        });
+      } catch (err) {
+        console.error("Failed to fetch specific hotel, falling back to mock", err);
+        // Fallback to mock data by ID
+        const mockProp = mockProperties.find(p => p.id === parseInt(id)) || mockProperties[0];
+        setProperty(mockProp);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchDetails();
+    window.scrollTo(0, 0); // scroll to top on mount
+  }, [id]);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen pt-24 pb-12 flex justify-center">
+         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+
+  if (!property) return <div className="pt-24 text-center">Property not found.</div>;
+
+  const title = property.name || property.title;
+  const location = property.city || property.location;
+  const host = property.host || property.contactInfo?.email || "Superhost";
+  const images = property.photos && property.photos.length > 0 ? property.photos : [property.imageUrl, property.imageUrl, property.imageUrl, property.imageUrl, property.imageUrl];
+  // Ensure we have 5 images for the grid layout
+  while(images.length < 5) images.push(images[0]);
+
+  return (
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+      
+      {/* Title & Header Metadata */}
+      <div>
+        <h1 className="text-[26px] font-semibold text-dark mb-1">{title}</h1>
+        <div className="flex justify-between items-center text-sm">
+          <div className="flex items-center space-x-4">
+            <span className="flex items-center text-dark font-medium"><Star size={14} className="mr-1 fill-dark" /> {property.rating}</span>
+            <span className="font-semibold underline">124 reviews</span>
+            <span className="flex items-center text-gray-600"><MapPin size={14} className="mr-1" /> {location}</span>
+          </div>
+          <div className="flex space-x-4">
+            <button className="flex items-center underline font-medium hover:bg-grayBg p-2 rounded-lg transition-colors"><Share size={16} className="mr-2" /> Share</button>
+            <button className="flex items-center underline font-medium hover:bg-grayBg p-2 rounded-lg transition-colors"><Heart size={16} className="mr-2" /> Save</button>
+          </div>
+        </div>
+      </div>
+
+      {/* Image Gallery */}
+      <div className="grid grid-cols-4 grid-rows-2 gap-2 mt-6 h-[400px] md:h-[500px] rounded-2xl overflow-hidden mb-12">
+        <div className="col-span-2 row-span-2 cursor-pointer relative group">
+          <img src={images[0]} alt="main" className="w-full h-full object-cover group-hover:brightness-90 transition-all" />
+        </div>
+        <div className="cursor-pointer group"><img src={images[1]} alt="img1" className="w-full h-full object-cover group-hover:brightness-90 transition-all" /></div>
+        <div className="cursor-pointer group"><img src={images[2]} alt="img2" className="w-full h-full object-cover group-hover:brightness-90 transition-all" /></div>
+        <div className="cursor-pointer group"><img src={images[3]} alt="img3" className="w-full h-full object-cover group-hover:brightness-90 transition-all" /></div>
+        <div className="cursor-pointer group"><img src={images[4]} alt="img4" className="w-full h-full object-cover group-hover:brightness-90 transition-all" /></div>
+      </div>
+
+      {/* Content Layout */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        
+        {/* Left Info Column */}
+        <div className="lg:col-span-2">
+           <div className="flex justify-between items-center pb-6 border-b border-lightGray">
+              <div>
+                 <h2 className="text-2xl font-semibold mb-1">Entire place hosted by {host}</h2>
+                 <p className="text-dark">4 guests · 2 bedrooms · 2 beds · 1 bath</p>
+              </div>
+           </div>
+
+           {/* Amenities */}
+           <div className="py-8 border-b border-lightGray">
+              <h3 className="text-xl font-semibold mb-6">What this place offers</h3>
+              <div className="grid grid-cols-2 gap-4 text-dark text-[15px]">
+                  {property.amenities ? property.amenities.map(a => <div key={a} className="flex items-center"><Wifi size={24} className="mr-4 text-gray-500 font-light" /> {a}</div>) : (
+                    <>
+                      <div className="flex items-center"><Wifi size={26} className="mr-4 font-light text-gray-600" /> Fast Wifi</div>
+                      <div className="flex items-center"><Car size={26} className="mr-4 font-light text-gray-600" /> Free parking on premises</div>
+                      <div className="flex items-center"><Tv size={26} className="mr-4 font-light text-gray-600" /> 55" HDTV with Netflix</div>
+                      <div className="flex items-center"><Coffee size={26} className="mr-4 font-light text-gray-600" /> Dedicated workspace</div>
+                    </>
+                  )}
+              </div>
+           </div>
+        </div>
+
+        {/* Right Sticky Booking Card */}
+        <div className="lg:col-span-1 relative">
+           <BookingCard price={property.price || 150} rating={property.rating} />
+        </div>
+
+      </div>
+
+    </div>
+  );
+};
+
+export default PropertyDetails;
