@@ -19,7 +19,7 @@ public class HotelBrowseController {
     private final InventoryService inventoryService;
     private final HotelService hotelService;
 
-    @GetMapping("/search")
+    @PostMapping("/search")
     @Operation(summary = "Search hotels", tags = {"Browse Hotels"})
     public ResponseEntity<Page<HotelPriceResponseDto>> searchHotels(@RequestBody HotelSearchRequest hotelSearchRequest) {
 

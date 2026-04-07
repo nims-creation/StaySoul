@@ -2,13 +2,23 @@ import React from 'react';
 import { Heart, Star } from 'lucide-react';
 
 const PropertyCard = ({ property }) => {
+  // If property is from backend, map its fields, otherwise use mock field structure
+  const title = property.name || property.title;
+  const location = property.city || property.location;
+  const imageUrl = (property.photos && property.photos.length > 0) ? property.photos[0] : property.imageUrl;
+  // Fallbacks for data not returned directly on search card DTO yet
+  const host = property.host || property.contactInfo?.phoneNumber || "New Listing";
+  const dates = property.dates || "Check availability";
+  const price = property.price || 0;
+  const rating = property.rating || "New";
+
   return (
     <div className="flex flex-col cursor-pointer group">
       {/* Image Container */}
       <div className="relative aspect-square overflow-hidden rounded-xl bg-grayBg mb-3">
         <img 
-          src={property.imageUrl} 
-          alt={property.title}
+          src={imageUrl} 
+          alt={title}
           className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
         />
         
@@ -25,12 +35,12 @@ const PropertyCard = ({ property }) => {
       <div className="flex justify-between items-start">
         <div>
           <h3 className="font-semibold text-dark text-[15px] leading-tight truncate max-w-[220px]">
-            {property.location}
+            {location} • {title}
           </h3>
-          <p className="text-gray-500 text-[15px] mt-0.5">{property.host}</p>
-          <p className="text-gray-500 text-[15px]">{property.dates}</p>
+          <p className="text-gray-500 text-[15px] mt-0.5">{host}</p>
+          <p className="text-gray-500 text-[15px]">{dates}</p>
           <div className="mt-1 flex items-baseline space-x-1">
-            <span className="font-semibold text-dark text-[15px]">${property.price}</span>
+            <span className="font-semibold text-dark text-[15px]">${price}</span>
             <span className="text-dark text-[15px] font-normal">night</span>
           </div>
         </div>
@@ -38,7 +48,7 @@ const PropertyCard = ({ property }) => {
         {/* Rating */}
         <div className="flex items-center space-x-1 mt-0.5">
           <Star size={14} className="fill-dark text-dark" />
-          <span className="text-[15px] font-light text-dark">{property.rating}</span>
+          <span className="text-[15px] font-light text-dark">{rating}</span>
         </div>
       </div>
     </div>
