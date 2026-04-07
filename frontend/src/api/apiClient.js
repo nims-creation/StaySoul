@@ -35,3 +35,25 @@ export const hotelApi = {
     return response.data;
   }
 };
+
+export const authApi = {
+  login: async (email, password) => {
+    const response = await apiClient.post('/auth/login', { username: email, password });
+    return response.data; // Expecting JWT token
+  },
+  signup: async (name, email, password) => {
+    // Assuming AuthDto takes name, username(email), and password based on typical setup.
+    // If backend requires other fields, we adjust here.
+    const response = await apiClient.post('/auth/signup', { name, username: email, password });
+    return response.data;
+  }
+};
+
+// Add a request interceptor to dynamically inject the token if present
+apiClient.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    config.headers['Authorization'] = `Bearer ${token}`;
+  }
+  return config;
+}, (error) => Promise.reject(error));
