@@ -65,6 +65,48 @@ export const bookingApi = {
   initiatePayment: async (bookingId) => {
     const response = await apiClient.post(`/bookings/${bookingId}/payments`);
     return response.data; // Expects BookingPaymentInitResponseDto { sessionUrl: "..." }
+  },
+
+  getUserBookings: async () => {
+    const response = await apiClient.get('/bookings/user');
+    return response.data;
+  },
+
+  getBookingDetails: async (bookingId) => {
+    const response = await apiClient.get(`/bookings/${bookingId}`);
+    return response.data;
+  }
+};
+
+export const adminApi = {
+  getOwnedHotels: async () => {
+    const response = await apiClient.get('/hotels/all'); // Backend might filter by owner if token is present
+    return response.data;
+  },
+
+  createHotel: async (hotelData) => {
+    const response = await apiClient.post('/hotels', hotelData);
+    return response.data;
+  },
+
+  updateHotel: async (hotelId, hotelData) => {
+    const response = await apiClient.put(`/hotels/${hotelId}`, hotelData);
+    return response.data;
+  },
+
+  deleteHotel: async (hotelId) => {
+    const response = await apiClient.delete(`/hotels/${hotelId}`);
+    return response.data;
+  },
+
+  addRoom: async (roomData) => {
+    const response = await apiClient.post('/rooms', roomData);
+    return response.data;
+  },
+
+  updateInventory: async (inventoryData) => {
+    const response = await apiClient.post('/inventory', inventoryData);
+    return response.data;
   }
 };
 
