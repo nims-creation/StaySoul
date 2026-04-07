@@ -7,6 +7,7 @@
   <img src="https://img.shields.io/badge/JWT-Authentication-orange?style=for-the-badge&logo=json-webtokens" alt="JWT">
   <img src="https://img.shields.io/badge/Stripe-Payment-blueviolet?style=for-the-badge&logo=stripe" alt="Stripe">
   <img src="https://img.shields.io/badge/License-MIT-success?style=for-the-badge" alt="License">
+  <a href="http://localhost:8080/api/v1/swagger-ui.html"><img src="https://img.shields.io/badge/-Swagger%20UI-85EA2D?style=for-the-badge&logo=swagger&logoColor=black" alt="Swagger UI"></a>
 </p>
 
 > A comprehensive hotel management backend system inspired by Airbnb, built with Spring Boot, featuring dynamic pricing, secure authentication, and seamless payment integration.
