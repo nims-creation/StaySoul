@@ -112,7 +112,12 @@ const PropertyDetails = () => {
 
         {/* Right Sticky Booking Card */}
         <div className="lg:col-span-1 relative">
-           <BookingCard price={property.price || 150} rating={property.rating} />
+           <BookingCard 
+              price={property.price || 150} 
+              rating={property.rating} 
+              roomId={property.rooms && property.rooms.length > 0 ? property.rooms[0].id : 1}
+              hotelName={title}
+           />
         </div>
 
       </div>

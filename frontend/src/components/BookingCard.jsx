@@ -1,6 +1,50 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useAuth } from '../context/AuthContext';
+import { bookingApi } from '../api/apiClient';
 
-const BookingCard = ({ price, rating, dates, maxGuests }) => {
+const BookingCard = ({ price, rating, dates, maxGuests, roomId, hotelName }) => {
+  const { isAuthenticated, setIsAuthModalOpen } = useAuth();
+  const [isReserving, setIsReserving] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleReserve = async () => {
+    if (!isAuthenticated) {
+      setIsAuthModalOpen(true);
+      return;
+    }
+
+    if (!roomId) {
+      setError("No available rooms to book at this time.");
+      return;
+    }
+
+    try {
+      setIsReserving(true);
+      setError('');
+      // Step 1: Initiate Booking (Assuming 5 days default for mockup)
+      const checkInDate = new Date().toISOString().split('T')[0];
+      const checkOutDate = new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+      
+      const booking = await bookingApi.initiateBooking(roomId, checkInDate, checkOutDate, 1);
+      
+      // Step 2: Get Stripe Session URL
+      const paymentResponse = await bookingApi.initiatePayment(booking.id);
+      
+      // Step 3: Redirect
+      if (paymentResponse.sessionUrl) {
+        window.location.href = paymentResponse.sessionUrl;
+      } else {
+         setError("Failed to locate Stripe payment URL.");
+      }
+
+    } catch (err) {
+      console.error(err);
+      setError("Failed to initiate booking. Please try again later.");
+    } finally {
+      setIsReserving(false);
+    }
+  };
+
   return (
     <div className="bg-white border text-dark border-lightGray rounded-xl p-6 shadow-xl sticky top-28">
       <div className="flex justify-between items-baseline mb-4">
@@ -14,11 +58,11 @@ const BookingCard = ({ price, rating, dates, maxGuests }) => {
         <div className="flex border-b border-lightGray">
           <div className="flex-1 p-3 border-r border-lightGray">
             <label className="block text-[10px] font-bold uppercase track-wide">Check-in</label>
-            <div className="text-sm">Add date</div>
+            <div className="text-sm">Today</div>
           </div>
           <div className="flex-1 p-3">
             <label className="block text-[10px] font-bold uppercase track-wide">Checkout</label>
-            <div className="text-sm">Add date</div>
+            <div className="text-sm">5 days from now</div>
           </div>
         </div>
         <div className="p-3">
@@ -27,8 +71,14 @@ const BookingCard = ({ price, rating, dates, maxGuests }) => {
         </div>
       </div>
 
-      <button className="w-full bg-primary hover:bg-primary-hover text-white font-semibold py-3.5 rounded-lg transition-colors text-lg">
-        Reserve
+      {error && <div className="text-red-500 text-sm mb-3 font-medium bg-red-50 p-2 rounded">{error}</div>}
+
+      <button 
+        onClick={handleReserve}
+        disabled={isReserving}
+        className="w-full bg-primary hover:bg-primary-hover text-white font-semibold py-3.5 rounded-lg transition-colors flex justify-center items-center text-lg"
+      >
+        {isReserving ? <div className="h-5 w-5 border-2 border-white border-t-transparent animate-spin rounded-full"></div> : 'Reserve'}
       </button>
 
       <div className="text-center text-sm text-gray-500 mt-4 font-medium mb-4">

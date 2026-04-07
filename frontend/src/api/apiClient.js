@@ -49,6 +49,25 @@ export const authApi = {
   }
 };
 
+export const bookingApi = {
+  initiateBooking: async (roomId, checkInDate, checkOutDate, roomsCount = 1) => {
+    // Requires a BookingRequest Payload
+    const requestBody = {
+      roomId,
+      checkInDate,
+      checkOutDate,
+      roomsCount
+    };
+    const response = await apiClient.post('/bookings/init', requestBody);
+    return response.data; // Expects BookingDto
+  },
+
+  initiatePayment: async (bookingId) => {
+    const response = await apiClient.post(`/bookings/${bookingId}/payments`);
+    return response.data; // Expects BookingPaymentInitResponseDto { sessionUrl: "..." }
+  }
+};
+
 // Add a request interceptor to dynamically inject the token if present
 apiClient.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
