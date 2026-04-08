@@ -12,6 +12,9 @@ public class HotelSearchRequest {
     private LocalDate endDate;
     private Integer roomsCount;
 
+    private Double minPrice;
+    private Double maxPrice;
+
     private Integer page = 0;
     private Integer size = 10;
 }

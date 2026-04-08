@@ -20,7 +20,9 @@ public interface HotelMinPriceRepository extends JpaRepository<HotelMinPrice, Lo
             WHERE i.hotel.city = :city
                 AND i.date BETWEEN :startDate AND :endDate
                 AND i.hotel.active = true
-           GROUP BY i.hotel
+            GROUP BY i.hotel
+            HAVING (:minPrice IS NULL OR AVG(i.price) >= :minPrice)
+                AND (:maxPrice IS NULL OR AVG(i.price) <= :maxPrice)
            """)
     Page<HotelPriceDto> findHotelsWithAvailableInventory(
             @Param("city") String city,
@@ -28,6 +30,8 @@ public interface HotelMinPriceRepository extends JpaRepository<HotelMinPrice, Lo
             @Param("endDate") LocalDate endDate,
             @Param("roomsCount") Integer roomsCount,
             @Param("dateCount") Long dateCount,
+            @Param("minPrice") Double minPrice,
+            @Param("maxPrice") Double maxPrice,
             Pageable pageable
     );
 

@@ -7,7 +7,10 @@ export const SearchProvider = ({ children }) => {
     location: '',
     startDate: '',
     endDate: '',
-    guests: 1
+    guests: 1,
+    minPrice: null,
+    maxPrice: null,
+    category: 'all'
   });
 
   const updateSearch = (newParams) => {
@@ -19,7 +22,10 @@ export const SearchProvider = ({ children }) => {
       location: '',
       startDate: '',
       endDate: '',
-      guests: 1
+      guests: 1,
+      minPrice: null,
+      maxPrice: null,
+      category: 'all'
     });
   };
 
