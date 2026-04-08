@@ -199,13 +199,46 @@ const ManageProperty = () => {
                         placeholder="What makes this place unique?"
                       />
                    </div>
-                   <div className="md:col-span-2 space-y-4">
-                      <label className="text-xs font-black text-gray-400 uppercase tracking-widest">Property Photos</label>
-                      <ImageUpload 
-                        onUploadSuccess={(urls) => setFormData(prev => ({ ...prev, photos: urls }))}
-                        currentPhotos={formData.photos}
-                      />
-                   </div>
+                    <div className="md:col-span-2 space-y-4">
+                       <label className="text-xs font-black text-gray-400 uppercase tracking-widest pl-1">Property Tags / Categories</label>
+                       <div className="flex flex-wrap gap-2">
+                          {[
+                            { id: 'beachfront', label: 'Beachfront' },
+                            { id: 'pool', label: 'Amazing Pools' },
+                            { id: 'nature', label: 'Nature' },
+                            { id: 'modern', label: 'Modern' },
+                            { id: 'wifi', label: 'WiFi Included' },
+                            { id: 'gym', label: 'Fitness' },
+                            { id: 'spa', label: 'Wellness' },
+                            { id: 'breakfast', label: 'Breakfast' }
+                          ].map((tag) => (
+                            <button
+                              key={tag.id}
+                              type="button"
+                              onClick={() => {
+                                const newAmenities = formData.amenities.includes(tag.id)
+                                  ? formData.amenities.filter(a => a !== tag.id)
+                                  : [...formData.amenities, tag.id];
+                                setFormData({ ...formData, amenities: newAmenities });
+                              }}
+                              className={`px-6 py-3 rounded-2xl text-xs font-bold transition-all border-2 ${
+                                formData.amenities.includes(tag.id)
+                                  ? 'bg-primary border-primary text-white shadow-lg'
+                                  : 'bg-white border-lightGray text-gray-400 hover:border-gray-300'
+                              }`}
+                            >
+                              {tag.label}
+                            </button>
+                          ))}
+                       </div>
+                    </div>
+                    <div className="md:col-span-2 space-y-4">
+                       <label className="text-xs font-black text-gray-400 uppercase tracking-widest pl-1">Property Photos</label>
+                       <ImageUpload 
+                         onUploadSuccess={(urls) => setFormData(prev => ({ ...prev, photos: urls }))}
+                         currentPhotos={formData.photos}
+                       />
+                    </div>
                 </div>
 
                 <div className="pt-8 border-t border-lightGray flex justify-end">
@@ -259,12 +292,13 @@ const ManageProperty = () => {
                         />
                       </div>
                       <div>
-                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-1 mb-2 block">Price / Night ($)</label>
+                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-1 mb-2 block">Price / Night (₹)</label>
                         <input 
                           type="number" 
                           value={room.basePrice}
                           onChange={(e) => updateRoom(index, 'basePrice', parseInt(e.target.value))}
                           className="w-full p-4 bg-white border border-lightGray rounded-2xl focus:ring-2 focus:ring-primary outline-none"
+                          placeholder="e.g. 5000"
                         />
                       </div>
                       <div>

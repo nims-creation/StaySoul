@@ -6,6 +6,7 @@ import { Star, Share, Heart, MapPin, Wifi, Car, Coffee, Tv } from 'lucide-react'
 import BookingCard from '../components/BookingCard';
 import ReviewSection from '../components/ReviewSection';
 import ReviewForm from '../components/ReviewForm';
+import { formatCurrency } from '../utils/currencyUtils';
 
 const PropertyDetails = () => {
   const { id } = useParams();

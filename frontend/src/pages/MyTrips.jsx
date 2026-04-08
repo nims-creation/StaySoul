@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { bookingApi } from '../api/apiClient';
 import { Calendar, MapPin, CheckCircle, Clock, XCircle, CreditCard, ChevronRight, AlertTriangle, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { formatCurrency } from '../utils/currencyUtils';
 
 const MyTrips = () => {
   const [bookings, setBookings] = useState([]);

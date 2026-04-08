@@ -1,27 +1,43 @@
-import React, { useState, useEffect } from 'react';
 import { adminApi } from '../api/apiClient';
-import { Plus, Hotel, Bed, Trash2, Edit3, Settings, TrendingUp, Users, Calendar } from 'lucide-react';
+import { seedPremiumProperties } from '../utils/seedData';
+import { Plus, Hotel, Bed, Trash2, Edit3, Settings, TrendingUp, Users, Calendar, MapPin, Database } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const AdminDashboard = () => {
   const [hotels, setHotels] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isSeeding, setIsSeeding] = useState(false);
   const navigate = useNavigate();
 
+  const fetchHotels = async () => {
+    try {
+      setIsLoading(true);
+      const data = await adminApi.getOwnedHotels();
+      setHotels(data || []);
+    } catch (err) {
+      console.error("Failed to fetch owned hotels", err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchHotels = async () => {
-      try {
-        setIsLoading(true);
-        const data = await adminApi.getOwnedHotels();
-        setHotels(data || []);
-      } catch (err) {
-        console.error("Failed to fetch owned hotels", err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
     fetchHotels();
   }, []);
+
+  const handleSeed = async () => {
+    try {
+      setIsSeeding(true);
+      await seedPremiumProperties();
+      await fetchHotels(); // Refresh list
+      alert('Demo properties seeded successfully!');
+    } catch (err) {
+      console.error(err);
+      alert('Failed to seed properties. Make sure you are logged in.');
+    } finally {
+      setIsSeeding(false);
+    }
+  };
 
   if (isLoading) {
     return (
@@ -38,13 +54,23 @@ const AdminDashboard = () => {
            <h1 className="text-3xl font-bold text-dark mb-2">Host Dashboard</h1>
            <p className="text-gray-500">Manage your properties, bookings and revenue from one place.</p>
         </div>
-        <button 
-           onClick={() => navigate('/admin/manage')}
-           className="flex items-center gap-2 px-6 py-3 bg-primary text-white font-bold rounded-xl hover:bg-primary-hover shadow-lg transition-all"
-        >
-          <Plus size={20} />
-          <span>Add New Property</span>
-        </button>
+        <div className="flex gap-4">
+          <button 
+             onClick={handleSeed}
+             disabled={isSeeding}
+             className="flex items-center gap-2 px-6 py-3 border border-lightGray text-gray-600 font-bold rounded-xl hover:bg-grayBg transition-all disabled:opacity-50"
+          >
+            {isSeeding ? <div className="h-5 w-5 border-2 border-gray-400 border-t-transparent animate-spin rounded-full"></div> : <Database size={20} />}
+            <span>Seed Demo Data</span>
+          </button>
+          <button 
+             onClick={() => navigate('/admin/manage')}
+             className="flex items-center gap-2 px-6 py-3 bg-primary text-white font-bold rounded-xl hover:bg-primary-hover shadow-lg transition-all"
+          >
+            <Plus size={20} />
+            <span>Add New Property</span>
+          </button>
+        </div>
       </div>
 
       {/* Stats Overview */}
@@ -70,7 +96,7 @@ const AdminDashboard = () => {
          })}
       </div>
 
-      <h2 className="text-xl font-bold text-dark mb-6">Your Listings</h2>
+       <h2 className="text-xl font-bold text-dark mb-6">Your Listings</h2>
       
       {hotels.length === 0 ? (
         <div className="bg-white border-2 border-dashed border-lightGray rounded-3xl py-20 text-center">
@@ -87,24 +113,63 @@ const AdminDashboard = () => {
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     alt="hotel"
                   />
+                  <div className="absolute top-4 right-4">
+                     <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${hotel.active ? 'bg-green-100 text-green-600' : 'bg-amber-100 text-amber-600'}`}>
+                        {hotel.active ? 'Active' : 'Draft'}
+                     </span>
+                  </div>
                   <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
-                     <button className="p-3 bg-white rounded-full text-dark hover:text-primary transition-colors hover:scale-110"><Edit3 size={20} /></button>
-                     <button className="p-3 bg-white rounded-full text-red-500 hover:bg-red-50 transition-colors hover:scale-110"><Trash2 size={20} /></button>
+                     <button 
+                       onClick={() => navigate(`/admin/manage?id=${hotel.id}`)}
+                       className="p-3 bg-white rounded-full text-dark hover:text-primary transition-colors hover:scale-110"
+                     >
+                       <Edit3 size={20} />
+                     </button>
+                     <button 
+                       onClick={async () => {
+                         if(confirm('Delete this property?')) {
+                            await adminApi.deleteHotel(hotel.id);
+                            setHotels(h => h.filter(x => x.id !== hotel.id));
+                         }
+                       }}
+                       className="p-3 bg-white rounded-full text-red-500 hover:bg-red-50 transition-colors hover:scale-110"
+                     >
+                        <Trash2 size={20} />
+                     </button>
                   </div>
                 </div>
                 <div className="p-5">
                    <h3 className="font-bold text-dark text-lg mb-1">{hotel.name}</h3>
                    <p className="text-gray-500 text-sm mb-4 flex items-center gap-1">
-                      <Hotel size={14} /> {hotel.city}, {hotel.active ? 'Active' : 'Inactive'}
+                      <MapPin size={14} /> {hotel.city}
                    </p>
                    <div className="flex justify-between items-center pt-4 border-t border-lightGray">
                       <div className="flex items-center gap-2 text-dark font-medium">
                          <Bed size={16} />
-                         <span>{hotel.rooms?.length || 0} Rooms</span>
+                         <span>{(hotel.rooms || []).length} Rooms</span>
                       </div>
-                      <button className="text-sm font-bold text-primary hover:underline flex items-center gap-1">
-                         <Settings size={14} /> Manage
-                      </button>
+                      {!hotel.active ? (
+                        <button 
+                          onClick={async () => {
+                             try {
+                               await adminApi.activateHotel(hotel.id);
+                               setHotels(h => h.map(x => x.id === hotel.id ? {...x, active: true} : x));
+                             } catch (err) {
+                               alert('Failed to activate. Make sure you have added rooms.');
+                             }
+                          }}
+                          className="text-sm font-bold text-primary px-3 py-1 border border-primary rounded-lg hover:bg-primary hover:text-white transition-all"
+                        >
+                          Activate
+                        </button>
+                      ) : (
+                        <button 
+                          onClick={() => navigate(`/admin/manage?id=${hotel.id}`)}
+                          className="text-sm font-bold text-gray-500 hover:text-dark flex items-center gap-1"
+                        >
+                           <Settings size={14} /> Manage
+                        </button>
+                      )}
                    </div>
                 </div>
              </div>

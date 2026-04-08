@@ -21,17 +21,26 @@ const Home = () => {
     try {
       setIsLoading(true);
       const city = searchParams.location || 'Mumbai';
-      const data = await hotelApi.searchHotels(city, 0, 20, searchParams.minPrice, searchParams.maxPrice); 
+      const category = (searchParams.category === 'all' || !searchParams.category) ? null : searchParams.category;
+      
+      const data = await hotelApi.searchHotels(city, 0, 20, searchParams.minPrice, searchParams.maxPrice, category); 
       setProperties(data.content || []);
       setError(null);
     } catch (err) {
       console.error("Backend fetch failed, using mock data", err);
-      setError("Cloud sync failed. Using offline data.");
-      const filteredMock = mockProperties.filter(p => 
-        !searchParams.location || 
-        p.location?.toLowerCase().includes(searchParams.location.toLowerCase()) ||
-        p.city?.toLowerCase().includes(searchParams.location.toLowerCase())
-      );
+      setError("Browsing offline mode.");
+      
+      const filteredMock = mockProperties.filter(p => {
+        const matchesLocation = !searchParams.location || 
+          p.location?.toLowerCase().includes(searchParams.location.toLowerCase()) ||
+          p.city?.toLowerCase().includes(searchParams.location.toLowerCase());
+          
+        const categoryFilter = searchParams.category || 'all';
+        const matchesCategory = categoryFilter === 'all' || 
+          (p.amenities && p.amenities.includes(categoryFilter));
+          
+        return matchesLocation && matchesCategory;
+      });
       setProperties(filteredMock); 
     } finally {
       setIsLoading(false);
