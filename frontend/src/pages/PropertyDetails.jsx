@@ -48,9 +48,34 @@ const PropertyDetails = () => {
   const title = property.name || property.title;
   const location = property.city || property.location;
   const host = property.host || property.contactInfo?.email || "Superhost";
-  const images = property.photos && property.photos.length > 0 ? property.photos : [property.imageUrl, property.imageUrl, property.imageUrl, property.imageUrl, property.imageUrl];
-  // Ensure we have 5 images for the grid layout
-  while(images.length < 5) images.push(images[0]);
+  
+  // High-end Gallery Logic
+  const getImages = () => {
+    let list = [];
+    if (property.photos && property.photos.length > 0) {
+      list = [...property.photos];
+    } else if (property.imageUrl) {
+      list = [property.imageUrl];
+    }
+    
+    // Fill up to 5 images for the grid look
+    const fallbacks = [
+      "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1582719478250-c89cae4df85b?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=800&q=80"
+    ];
+    
+    let i = 0;
+    while(list.length < 5) {
+      list.push(fallbacks[i % fallbacks.length]);
+      i++;
+    }
+    return list;
+  };
+
+  const images = getImages();
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
@@ -115,6 +140,7 @@ const PropertyDetails = () => {
            <BookingCard 
               price={property.price || 150} 
               rating={property.rating} 
+              hotelId={id}
               roomId={property.rooms && property.rooms.length > 0 ? property.rooms[0].id : 1}
               hotelName={title}
            />

@@ -15,5 +15,7 @@ public class HotelPriceResponseDto {
     private String[] photos;
     private String[] amenities;
     private HotelContactInfo contactInfo;
+    private Double lat;
+    private Double lng;
     private Double price;
 }
