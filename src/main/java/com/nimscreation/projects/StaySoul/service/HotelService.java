@@ -2,8 +2,8 @@ package com.nimscreation.projects.StaySoul.service;
 
 import com.nimscreation.projects.StaySoul.dto.HotelDto;
 import com.nimscreation.projects.StaySoul.dto.HotelInfoDto;
-import com.nimscreation.projects.StaySoul.dto.HotelInfoRequestDto;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface HotelService {
@@ -18,7 +18,7 @@ public interface HotelService {
 
     void activateHotel(Long hotelId);
 
-    HotelInfoDto getHotelInfoById(Long hotelId, HotelInfoRequestDto hotelInfoRequestDto);
+    HotelInfoDto getHotelInfoById(Long hotelId, LocalDate startDate, LocalDate endDate);
 
     List<HotelDto> getAllHotels();
 }

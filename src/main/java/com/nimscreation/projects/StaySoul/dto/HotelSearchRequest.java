@@ -14,6 +14,7 @@ public class HotelSearchRequest {
 
     private Double minPrice;
     private Double maxPrice;
+    private String category;
 
     private Integer page = 0;
     private Integer size = 10;

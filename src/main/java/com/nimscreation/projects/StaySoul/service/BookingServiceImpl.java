@@ -48,6 +48,7 @@ public class BookingServiceImpl implements BookingService{
     private final InventoryRepository inventoryRepository;
     private final CheckoutService checkoutService;
     private final PricingService pricingService;
+    private final EmailService emailService;
 
     @Value("${frontend.url}")
     private String frontendUrl;
@@ -174,7 +175,8 @@ public class BookingServiceImpl implements BookingService{
             inventoryRepository.confirmBooking(booking.getRoom().getId(), booking.getCheckInDate(),
                     booking.getCheckOutDate(), booking.getRoomsCount());
 
-            log.info("Successfully confirmed the booking for Booking ID: {}", booking.getId());
+            emailService.sendBookingConfirmation(booking);
+            log.info("Successfully confirmed the booking and sent email for Booking ID: {}", booking.getId());
         } else {
             log.warn("Unhandled event type: {}", event.getType());
         }
@@ -204,6 +206,7 @@ public class BookingServiceImpl implements BookingService{
         inventoryRepository.cancelBooking(booking.getRoom().getId(), booking.getCheckInDate(),
                 booking.getCheckOutDate(), booking.getRoomsCount());
 
+        emailService.sendCancellationNotice(booking);
         // handle the refund
 
         try {

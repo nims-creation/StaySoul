@@ -16,6 +16,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -133,25 +134,36 @@ public class HotelServiceImpl implements HotelService{
     }
 
     @Override
-    public HotelInfoDto getHotelInfoById(Long hotelId, HotelInfoRequestDto hotelInfoRequestDto) {
+    public HotelInfoDto getHotelInfoById(Long hotelId, LocalDate startDate, LocalDate endDate) {
         Hotel hotel = hotelRepository
                 .findById(hotelId)
                 .orElseThrow(() -> new ResourceNotFoundException("Hotel not found with ID: "+hotelId));
 
-        long daysCount = ChronoUnit.DAYS.between(hotelInfoRequestDto.getStartDate(), hotelInfoRequestDto.getEndDate())+1;
+        List<RoomPriceResponseDto> rooms;
 
-        List<RoomPriceDto> roomPriceDtoList = inventoryRepository.findRoomAveragePrice(hotelId,
-                hotelInfoRequestDto.getStartDate(), hotelInfoRequestDto.getEndDate(),
-                hotelInfoRequestDto.getRoomsCount(), daysCount);
+        if (startDate != null && endDate != null) {
+            long daysCount = ChronoUnit.DAYS.between(startDate, endDate) + 1;
+            List<RoomPriceDto> roomPriceDtoList = inventoryRepository.findRoomAveragePrice(hotelId,
+                    startDate, endDate, 1L, daysCount);
 
-        List<RoomPriceResponseDto> rooms = roomPriceDtoList.stream()
-                .map(roomPriceDto -> {
-                    RoomPriceResponseDto roomPriceResponseDto = modelMapper.map(roomPriceDto.getRoom(),
-                            RoomPriceResponseDto.class);
-                    roomPriceResponseDto.setPrice(roomPriceDto.getPrice());
-                    return roomPriceResponseDto;
-                })
-                .collect(Collectors.toList());
+            rooms = roomPriceDtoList.stream()
+                    .map(roomPriceDto -> {
+                        RoomPriceResponseDto roomPriceResponseDto = modelMapper.map(roomPriceDto.getRoom(),
+                                RoomPriceResponseDto.class);
+                        roomPriceResponseDto.setPrice(roomPriceDto.getPrice());
+                        return roomPriceResponseDto;
+                    })
+                    .collect(Collectors.toList());
+        } else {
+            // Fallback to base prices from the Room table
+            rooms = hotel.getRooms().stream()
+                    .map(room -> {
+                        RoomPriceResponseDto dto = modelMapper.map(room, RoomPriceResponseDto.class);
+                        dto.setPrice(room.getBasePrice().doubleValue());
+                        return dto;
+                    })
+                    .collect(Collectors.toList());
+        }
 
         return new HotelInfoDto(modelMapper.map(hotel, HotelDto.class), rooms);
     }

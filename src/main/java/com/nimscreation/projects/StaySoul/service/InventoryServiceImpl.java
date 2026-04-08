@@ -20,7 +20,6 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -67,21 +66,29 @@ public class InventoryServiceImpl implements InventoryService{
     public Page<HotelPriceResponseDto> searchHotels(HotelSearchRequest hotelSearchRequest) {
         log.info("Searching hotels for {} city, from {} to {}", hotelSearchRequest.getCity(), hotelSearchRequest.getStartDate(), hotelSearchRequest.getEndDate());
         Pageable pageable = PageRequest.of(hotelSearchRequest.getPage(), hotelSearchRequest.getSize());
-        long dateCount =
-                ChronoUnit.DAYS.between(hotelSearchRequest.getStartDate(), hotelSearchRequest.getEndDate()) + 1;
 
-        // business logic - 90 days
-        Page<HotelPriceDto> hotelPage =
-                hotelMinPriceRepository.findHotelsWithAvailableInventory(hotelSearchRequest.getCity(),
-                        hotelSearchRequest.getStartDate(), hotelSearchRequest.getEndDate(), hotelSearchRequest.getRoomsCount(),
-                        dateCount, pageable);
+        Page<Object[]> hotelPage =
+                hotelMinPriceRepository.findHotelsWithAvailableInventoryNative(
+                        hotelSearchRequest.getCity(),
+                        hotelSearchRequest.getStartDate(),
+                        hotelSearchRequest.getEndDate(),
+                        hotelSearchRequest.getCategory(),
+                        hotelSearchRequest.getMinPrice(),
+                        hotelSearchRequest.getMaxPrice(),
+                        pageable);
 
-        return hotelPage.map(hotelPriceDto -> {
-            HotelPriceResponseDto hotelPriceResponseDto = modelMapper.map(hotelPriceDto.getHotel(), HotelPriceResponseDto.class);
-            hotelPriceResponseDto.setPrice(hotelPriceDto.getPrice());
-            return hotelPriceResponseDto;
+        return hotelPage.map(result -> {
+            Long hotelId = ((Number) result[0]).longValue();
+            Double avgPrice = ((Number) result[1]).doubleValue();
+            
+            var hotel = hotelMinPriceRepository.findById(hotelId)
+                    .map(hmp -> hmp.getHotel())
+                    .orElseThrow(() -> new ResourceNotFoundException("Hotel not found"));
+                    
+            HotelPriceResponseDto dto = modelMapper.map(hotel, HotelPriceResponseDto.class);
+            dto.setPrice(avgPrice);
+            return dto;
         });
-
     }
 
     @Override

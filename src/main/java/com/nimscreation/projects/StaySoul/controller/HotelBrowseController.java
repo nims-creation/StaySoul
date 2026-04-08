@@ -9,7 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/hotels")
@@ -29,8 +29,10 @@ public class HotelBrowseController {
 
     @GetMapping("/{hotelId}/info")
     @Operation(summary = "Get a hotel info by hotelId", tags = {"Browse Hotels"})
-    public ResponseEntity<HotelInfoDto> getHotelInfo(@PathVariable Long hotelId, @RequestBody HotelInfoRequestDto hotelInfoRequestDto) {
-        return ResponseEntity.ok(hotelService.getHotelInfoById(hotelId, hotelInfoRequestDto));
+    public ResponseEntity<HotelInfoDto> getHotelInfo(@PathVariable Long hotelId, 
+                                                   @RequestParam(required = false) LocalDate startDate,
+                                                   @RequestParam(required = false) LocalDate endDate) {
+        return ResponseEntity.ok(hotelService.getHotelInfoById(hotelId, startDate, endDate));
     }
 
 }
