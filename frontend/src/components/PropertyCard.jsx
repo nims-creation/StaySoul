@@ -1,6 +1,7 @@
 import React from 'react';
 import { Heart, Star } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { formatCurrency } from '../utils/currencyUtils';
 
 const PropertyCard = ({ property }) => {
   // If property is from backend, map its fields, otherwise use mock field structure
@@ -41,9 +42,9 @@ const PropertyCard = ({ property }) => {
           </h3>
           <p className="text-gray-500 text-[15px] mt-0.5">{host}</p>
           <p className="text-gray-500 text-[15px]">{dates}</p>
-          <div className="mt-1 flex items-baseline space-x-1">
-            <span className="font-semibold text-dark text-[15px]">${price}</span>
-            <span className="text-dark text-[15px] font-normal">night</span>
+          <div className="flex items-center gap-1 mt-1 font-semibold">
+            <span className="text-dark">{formatCurrency(price)}</span>
+            <span className="text-gray-500 font-normal">night</span>
           </div>
         </div>
         

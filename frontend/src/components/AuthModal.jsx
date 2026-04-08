@@ -126,6 +126,24 @@ const AuthModal = () => {
             
           </form>
 
+          <div className="mt-6 flex items-center gap-4">
+             <div className="flex-1 h-[1px] bg-lightGray"></div>
+             <span className="text-xs text-gray-400 uppercase font-bold">or</span>
+             <div className="flex-1 h-[1px] bg-lightGray"></div>
+          </div>
+
+          <button 
+            onClick={() => window.location.href = 'http://localhost:8080/api/v1/oauth2/authorization/google'}
+            className="mt-6 w-full flex items-center justify-center gap-3 border border-lightGray hover:bg-grayBg py-4 rounded-2xl transition-all font-bold text-dark active:scale-[0.98]"
+          >
+             <img 
+               src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png" 
+               className="w-6 h-6" 
+               alt="google"
+             />
+             <span>Continue with Google</span>
+          </button>
+
           <div className="mt-8 flex items-center justify-center gap-2 text-sm">
             <span className="text-gray-500">
               {isLoginMode ? "First time using StaySoul?" : "Already have an account?"}

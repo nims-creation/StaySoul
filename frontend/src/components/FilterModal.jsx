@@ -55,7 +55,7 @@ const FilterModal = ({ isOpen, onClose, onApply, currentFilters }) => {
                 <div className="flex-1 border-2 border-lightGray rounded-2xl p-4 focus-within:border-dark transition-all">
                    <label className="block text-[10px] font-black uppercase text-gray-400 mb-1">Minimum</label>
                    <div className="flex items-center">
-                      <span className="text-gray-500 font-bold mr-1">$</span>
+                      <span className="text-gray-500 font-bold mr-1">₹</span>
                       <input 
                         type="number"
                         placeholder="0"
@@ -71,10 +71,10 @@ const FilterModal = ({ isOpen, onClose, onApply, currentFilters }) => {
                 <div className="flex-1 border-2 border-lightGray rounded-2xl p-4 focus-within:border-dark transition-all">
                    <label className="block text-[10px] font-black uppercase text-gray-400 mb-1">Maximum</label>
                    <div className="flex items-center">
-                      <span className="text-gray-500 font-bold mr-1">$</span>
+                      <span className="text-gray-500 font-bold mr-1">₹</span>
                       <input 
                         type="number"
-                        placeholder="1000+"
+                        placeholder="1,00,000+"
                         value={maxPrice}
                         onChange={(e) => setMaxPrice(e.target.value)}
                         className="w-full bg-transparent focus:outline-none text-dark font-black text-lg"

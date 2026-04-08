@@ -2,10 +2,20 @@ import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { bookingApi } from '../api/apiClient';
 
-const BookingCard = ({ price, rating, dates, maxGuests, hotelId, roomId, hotelName }) => {
+const BookingCard = ({ price: initialPrice, rating, dates, maxGuests, hotelId, roomId: initialRoomId, hotelName, rooms }) => {
   const { isAuthenticated, setIsAuthModalOpen } = useAuth();
   const [isReserving, setIsReserving] = useState(false);
   const [error, setError] = useState('');
+  
+  // Multi-Room State
+  const [selectedRoomIdx, setSelectedRoomIdx] = useState(0);
+  const selectedRoom = rooms && rooms.length > 0 ? rooms[selectedRoomIdx] : null;
+  
+  // Safe price calculation
+  const rawPrice = selectedRoom ? selectedRoom.price : initialPrice;
+  const price = typeof rawPrice === 'number' ? rawPrice : 0;
+  
+  const roomId = selectedRoom ? selectedRoom.id : initialRoomId;
 
   const handleReserve = async () => {
     if (!isAuthenticated) {
@@ -51,7 +61,7 @@ const BookingCard = ({ price, rating, dates, maxGuests, hotelId, roomId, hotelNa
     <div className="bg-white border text-dark border-lightGray rounded-xl p-6 shadow-xl sticky top-28">
       <div className="flex justify-between items-baseline mb-4">
         <div className="flex items-baseline space-x-1">
-          <span className="text-2xl font-bold">${price}</span>
+          <span className="text-2xl font-bold">{formatCurrency(price)}</span>
           <span className="text-gray-500 font-medium">night</span>
         </div>
       </div>
