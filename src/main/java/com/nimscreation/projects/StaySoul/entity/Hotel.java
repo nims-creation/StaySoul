@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.Formula;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,6 +28,12 @@ public class Hotel {
 
     private Double lat;
     private Double lng;
+
+    @Formula("(SELECT COALESCE(AVG(r.rating), 0) FROM review r WHERE r.hotel_id = id)")
+    private Double averageRating;
+
+    @Formula("(SELECT COUNT(*) FROM review r WHERE r.hotel_id = id)")
+    private Long reviewCount;
 
     @Column(columnDefinition = "TEXT[]")
     private String[] photos;

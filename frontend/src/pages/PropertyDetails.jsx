@@ -4,6 +4,8 @@ import { hotelApi } from '../api/apiClient';
 import { mockProperties } from '../data/mockProperties';
 import { Star, Share, Heart, MapPin, Wifi, Car, Coffee, Tv } from 'lucide-react';
 import BookingCard from '../components/BookingCard';
+import ReviewSection from '../components/ReviewSection';
+import ReviewForm from '../components/ReviewForm';
 
 const PropertyDetails = () => {
   const { id } = useParams();
@@ -18,8 +20,9 @@ const PropertyDetails = () => {
         const data = await hotelApi.getHotelInfo(id);
         setProperty({
           ...data.hotel, // map core details out of the DTO
-          price: data.hotel.price || 250, // if no default price
-          rating: 4.9 // placeholder as backend doesn't have rating
+          price: data.hotel.price || 250, 
+          rating: data.hotel.averageRating ? data.hotel.averageRating.toFixed(1) : "New",
+          reviewCount: data.hotel.reviewCount || 0
         });
       } catch (err) {
         console.error("Failed to fetch specific hotel, falling back to mock", err);

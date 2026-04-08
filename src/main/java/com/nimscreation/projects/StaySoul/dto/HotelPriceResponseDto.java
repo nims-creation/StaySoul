@@ -17,5 +17,7 @@ public class HotelPriceResponseDto {
     private HotelContactInfo contactInfo;
     private Double lat;
     private Double lng;
+    private Double averageRating;
+    private Long reviewCount;
     private Double price;
 }

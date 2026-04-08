@@ -11,7 +11,8 @@ const PropertyCard = ({ property }) => {
   const host = property.host || property.contactInfo?.phoneNumber || "New Listing";
   const dates = property.dates || "Check availability";
   const price = property.price || 0;
-  const rating = property.rating || "New";
+  const rating = property.averageRating ? property.averageRating.toFixed(1) : "New";
+  const reviewCount = property.reviewCount || 0;
 
   return (
     <Link to={`/hotel/${property.id}`} className="flex flex-col cursor-pointer group">

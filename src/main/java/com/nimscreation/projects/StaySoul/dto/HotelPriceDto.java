@@ -11,4 +11,6 @@ import lombok.NoArgsConstructor;
 public class HotelPriceDto {
     private Hotel hotel;
     private Double price;
+    private Double avgRating;
+    private Long reviewCount;
 }
