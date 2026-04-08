@@ -61,7 +61,8 @@ public class WebSecurityConfig {
                                 "/v3/api-docs/**",
                                 "/v3/api-docs",
                                 "/swagger-resources/**",
-                                "/webjars/**"
+                                "/webjars/**",
+                                "/webhook/**"
                         ).permitAll()
                         .anyRequest().permitAll()
 

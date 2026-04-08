@@ -6,6 +6,7 @@ import com.stripe.model.Event;
 import com.stripe.net.Webhook;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/webhook")
 @RequiredArgsConstructor
+@Slf4j
 public class WebhookController {
 
     private final BookingService bookingService;
@@ -22,13 +24,17 @@ public class WebhookController {
 
     @PostMapping("/payment")
     @Operation(summary = "Capture the payments", tags = {"Webhook"})
-    public ResponseEntity<Void> capturePayments(@RequestBody String payload, @RequestHeader("Stripe-Signature") String sigHeader) {
+    public ResponseEntity<String> capturePayments(@RequestBody String payload, @RequestHeader("Stripe-Signature") String sigHeader) {
         try {
             Event event = Webhook.constructEvent(payload, sigHeader, endpointSecret);
             bookingService.capturePayment(event);
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.ok("Success");
         } catch (SignatureVerificationException e) {
-            throw new RuntimeException(e);
+            log.error("Stripe signature verification failed: {}", e.getMessage());
+            return ResponseEntity.status(400).body("Invalid signature");
+        } catch (Exception e) {
+            log.error("Error processing webhook: {}", e.getMessage());
+            return ResponseEntity.status(500).body("Internal server error");
         }
     }
 }
