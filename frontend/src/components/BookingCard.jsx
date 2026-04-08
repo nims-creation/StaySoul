@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { bookingApi } from '../api/apiClient';
 
-const BookingCard = ({ price, rating, dates, maxGuests, roomId, hotelName }) => {
+const BookingCard = ({ price, rating, dates, maxGuests, hotelId, roomId, hotelName }) => {
   const { isAuthenticated, setIsAuthModalOpen } = useAuth();
   const [isReserving, setIsReserving] = useState(false);
   const [error, setError] = useState('');
@@ -21,11 +21,13 @@ const BookingCard = ({ price, rating, dates, maxGuests, roomId, hotelName }) => 
     try {
       setIsReserving(true);
       setError('');
-      // Step 1: Initiate Booking (Assuming 5 days default for mockup)
+      
+      // Step 1: Initiate Booking
+      // Note: In a real app, these would come from a date picker
       const checkInDate = new Date().toISOString().split('T')[0];
       const checkOutDate = new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
       
-      const booking = await bookingApi.initiateBooking(roomId, checkInDate, checkOutDate, 1);
+      const booking = await bookingApi.initiateBooking(hotelId, roomId, checkInDate, checkOutDate, 1);
       
       // Step 2: Get Stripe Session URL
       const paymentResponse = await bookingApi.initiatePayment(booking.id);
@@ -34,12 +36,12 @@ const BookingCard = ({ price, rating, dates, maxGuests, roomId, hotelName }) => 
       if (paymentResponse.sessionUrl) {
         window.location.href = paymentResponse.sessionUrl;
       } else {
-         setError("Failed to locate Stripe payment URL.");
+         setError("Stripe payment session could not be established.");
       }
 
     } catch (err) {
-      console.error(err);
-      setError("Failed to initiate booking. Please try again later.");
+      console.error("Booking Error:", err);
+      setError(err.response?.data?.message || "Failed to initiate booking. Please try again.");
     } finally {
       setIsReserving(false);
     }
@@ -53,6 +55,24 @@ const BookingCard = ({ price, rating, dates, maxGuests, roomId, hotelName }) => 
           <span className="text-gray-500 font-medium">night</span>
         </div>
       </div>
+
+      {/* Room Selection Dropdown */}
+      {rooms && rooms.length > 1 && (
+        <div className="mb-4">
+          <label className="block text-[10px] font-black uppercase tracking-wider text-gray-400 mb-1.5 ml-1">Select Room Type</label>
+          <select 
+            value={selectedRoomIdx}
+            onChange={(e) => setSelectedRoomIdx(parseInt(e.target.value))}
+            className="w-full p-3 bg-grayBg/30 border border-lightGray rounded-xl text-sm font-semibold outline-none focus:ring-2 focus:ring-primary transition-all"
+          >
+            {rooms.map((room, idx) => (
+              <option key={room.id} value={idx}>
+                {room.type} - ${room.price}/night
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
 
       <div className="border border-lightGray rounded-lg mb-4 flex flex-col">
         <div className="flex border-b border-lightGray">

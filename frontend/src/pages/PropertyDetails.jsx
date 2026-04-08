@@ -10,6 +10,7 @@ import ReviewForm from '../components/ReviewForm';
 const PropertyDetails = () => {
   const { id } = useParams();
   const [property, setProperty] = useState(null);
+  const [rooms, setRooms] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -20,15 +21,17 @@ const PropertyDetails = () => {
         const data = await hotelApi.getHotelInfo(id);
         setProperty({
           ...data.hotel, // map core details out of the DTO
-          price: data.hotel.price || 250, 
+          price: data.hotel.price || (data.rooms && data.rooms.length > 0 ? data.rooms[0].price : 250), 
           rating: data.hotel.averageRating ? data.hotel.averageRating.toFixed(1) : "New",
           reviewCount: data.hotel.reviewCount || 0
         });
+        setRooms(data.rooms || []);
       } catch (err) {
         console.error("Failed to fetch specific hotel, falling back to mock", err);
         // Fallback to mock data by ID
         const mockProp = mockProperties.find(p => p.id === parseInt(id)) || mockProperties[0];
         setProperty(mockProp);
+        setRooms([]);
       } finally {
         setIsLoading(false);
       }

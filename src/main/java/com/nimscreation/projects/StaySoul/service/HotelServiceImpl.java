@@ -34,17 +34,27 @@ public class HotelServiceImpl implements HotelService{
     private final InventoryRepository inventoryRepository;
 
     @Override
+    @Transactional
     public HotelDto createNewHotel(HotelDto hotelDto) {
         log.info("Creating a new hotel with name: {}", hotelDto.getName());
         Hotel hotel = modelMapper.map(hotelDto, Hotel.class);
         hotel.setActive(false);
 
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = getCurrentUser();
         hotel.setOwner(user);
 
-        hotel = hotelRepository.save(hotel);
-        log.info("Created a new hotel with ID: {}", hotelDto.getId());
-        return modelMapper.map(hotel, HotelDto.class);
+        Hotel savedHotel = hotelRepository.save(hotel);
+        log.info("Created a new hotel with ID: {}", savedHotel.getId());
+
+        if (hotelDto.getRooms() != null && !hotelDto.getRooms().isEmpty()) {
+            for (RoomDto roomDto : hotelDto.getRooms()) {
+                Room room = modelMapper.map(roomDto, Room.class);
+                room.setHotel(savedHotel);
+                roomRepository.save(room);
+            }
+        }
+
+        return modelMapper.map(savedHotel, HotelDto.class);
     }
 
     @Override
