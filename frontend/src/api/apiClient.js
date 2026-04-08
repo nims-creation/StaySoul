@@ -10,7 +10,7 @@ export const apiClient = axios.create({
 });
 
 export const hotelApi = {
-  searchHotels: async (city = 'Mumbai', page = 0, size = 10, minPrice = null, maxPrice = null) => {
+  searchHotels: async (city = 'Mumbai', page = 0, size = 10, minPrice = null, maxPrice = null, category = null) => {
     // Current backend requires a body for search.
     const requestBody = {
       city: city,
@@ -19,6 +19,7 @@ export const hotelApi = {
       roomsCount: 1,
       minPrice: minPrice,
       maxPrice: maxPrice,
+      category: category,
       page: page,
       size: size
     };
