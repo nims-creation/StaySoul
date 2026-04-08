@@ -1,0 +1,32 @@
+package com.nimscreation.projects.StaySoul.util;
+
+import com.nimscreation.projects.StaySoul.entity.User;
+import com.nimscreation.projects.StaySoul.entity.enums.Roles;
+import com.nimscreation.projects.StaySoul.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
+
+import java.util.Set;
+
+@Component
+@RequiredArgsConstructor
+public class InitialDataSeeder implements CommandLineRunner {
+
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    @Override
+    public void run(String... args) throws Exception {
+        if (userRepository.findByEmail("admin@gmail.com").isEmpty()) {
+            User admin = new User();
+            admin.setEmail("admin@gmail.com");
+            admin.setPassword(passwordEncoder.encode("password"));
+            admin.setName("Admin User");
+            admin.setRoles(Set.of(Roles.HOTEL_MANAGER));
+            userRepository.save(admin);
+            System.out.println("Seeded admin user: admin@gmail.com / password");
+        }
+    }
+}
