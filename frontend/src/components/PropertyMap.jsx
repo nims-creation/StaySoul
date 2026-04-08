@@ -4,13 +4,40 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useNavigate } from 'react-router-dom';
 
-// Fix for default marker icons in React Leaflet
+// Custom styling for the price tag markers
+const createPriceIcon = (price) => {
+  return L.divIcon({
+    className: 'custom-price-marker',
+    html: `
+      <div class="bg-white px-3 py-1.5 rounded-full shadow-lg border border-gray-200 hover:bg-dark hover:text-white transition-all transform hover:scale-110 flex items-center justify-center">
+        <span class="text-xs font-blackTracking leading-none">$${Math.round(price)}</span>
+      </div>
+    `,
+    iconSize: [60, 30],
+    iconAnchor: [30, 15],
+  });
+};
+
+// Fix for default marker icons (fallback)
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon-2x.png',
   iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
   shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png',
 });
+
+// Component to force map to recalculate its size (fixes gray background/partial tiles)
+const MapSizer = () => {
+  const map = useMap();
+  useEffect(() => {
+    // Small timeout ensures the container has finished its transition or rendering
+    const timer = setTimeout(() => {
+      map.invalidateSize();
+    }, 250);
+    return () => clearTimeout(timer);
+  }, [map]);
+  return null;
+};
 
 // Custom component to update map view when properties change
 const RecenterMap = ({ properties }) => {
@@ -21,7 +48,8 @@ const RecenterMap = ({ properties }) => {
         p.lat || 19.0760 + (p.id % 20) * 0.01, 
         p.lng || 72.8777 + (p.id % 20) * 0.01
       ]));
-      map.fitBounds(bounds, { padding: [50, 50] });
+      // Use maxZoom to prevent zooming in too much on a single point
+      map.fitBounds(bounds, { padding: [50, 50], maxZoom: 15 });
     }
   }, [properties, map]);
   return null;
@@ -49,9 +77,12 @@ const PropertyMap = ({ properties }) => {
       <MapContainer 
         center={[19.0760, 72.8777]} 
         zoom={12} 
-        style={{ height: '100%', width: '100%' }}
+        minZoom={3}
+        maxZoom={18}
+        style={{ height: '100%', width: '100%', borderRadius: '32px' }}
         scrollWheelZoom={true}
       >
+        <MapSizer />
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -59,18 +90,21 @@ const PropertyMap = ({ properties }) => {
         
         {properties.map((p) => {
           const coords = getCoords(p);
+          const icon = createPriceIcon(p.price || 0);
           return (
-            <Marker key={p.id} position={coords}>
-              <Popup>
-                <div className="w-48 p-1 flex flex-col gap-2 cursor-pointer" onClick={() => navigate(`/hotel/${p.id}`)}>
-                  <img 
-                    src={p.photos?.[0] || "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=300&q=80"} 
-                    alt={p.name} 
-                    className="w-full h-24 object-cover rounded-xl"
-                  />
-                  <div>
-                    <h4 className="font-black text-dark text-sm truncate">{p.name}</h4>
-                    <p className="text-primary font-bold text-base mt-1">${p.price?.toFixed(2)} <span className="text-gray-400 text-[10px] font-medium">night</span></p>
+            <Marker key={p.id} position={coords} icon={icon}>
+              <Popup closeButton={false} className="custom-map-popup">
+                <div className="w-48 p-0 flex flex-col gap-2 cursor-pointer" onClick={() => navigate(`/hotel/${p.id}`)}>
+                  <div className="relative h-24 w-full">
+                    <img 
+                      src={p.photos?.[0] || "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=300&q=80"} 
+                      alt={p.name} 
+                      className="w-full h-full object-cover rounded-t-xl"
+                    />
+                  </div>
+                  <div className="px-3 pb-3">
+                    <h4 className="font-bold text-dark text-sm truncate">{p.name}</h4>
+                    <p className="text-primary font-black text-sm mt-0.5">${p.price?.toFixed(0)} <span className="text-gray-400 text-[10px] font-medium">night</span></p>
                   </div>
                 </div>
               </Popup>

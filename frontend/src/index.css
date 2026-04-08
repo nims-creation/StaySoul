@@ -7,3 +7,52 @@
     @apply text-dark bg-white font-sans antialiased;
   }
 }
+
+/* Leaflet Fixes & Customizations */
+.leaflet-container {
+  background: #f8fafc !important; /* light gray background instead of default blue/gray */
+  outline: none;
+  font-family: inherit;
+}
+
+.custom-map-popup .leaflet-popup-content-wrapper {
+  padding: 0;
+  overflow: hidden;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+}
+
+.custom-map-popup .leaflet-popup-content {
+  margin: 0;
+  width: 200px !important;
+}
+
+.custom-map-popup .leaflet-popup-tip-container {
+  display: none;
+}
+
+/* Fix for the square gray screen issue (attribution/controls) */
+.leaflet-control-attribution {
+  background: rgba(255, 255, 255, 0.7) !important;
+  font-size: 9px !important;
+}
+
+.leaflet-control-zoom {
+  border: none !important;
+  margin-top: 20px !important;
+  margin-left: 20px !important;
+}
+
+.leaflet-control-zoom a {
+  background-color: white !important;
+  color: #1a1a1a !important;
+  border-radius: 12px !important;
+  border: 1px solid #e5e7eb !important;
+  margin-bottom: 4px !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+}
+
+.custom-price-marker {
+  background: transparent !important;
+  border: none !important;
+}
