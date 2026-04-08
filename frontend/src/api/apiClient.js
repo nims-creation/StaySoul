@@ -10,18 +10,19 @@ export const apiClient = axios.create({
 });
 
 export const hotelApi = {
-  searchHotels: async (city = 'Mumbai', page = 0, size = 10) => {
-    // Current backend requires a body for search. We default to common values to ensure we get a response if any exist.
+  searchHotels: async (city = 'Mumbai', page = 0, size = 10, minPrice = null, maxPrice = null) => {
+    // Current backend requires a body for search.
     const requestBody = {
       city: city,
       startDate: new Date().toISOString().split('T')[0], // Today
       endDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // 5 days from now
       roomsCount: 1,
+      minPrice: minPrice,
+      maxPrice: maxPrice,
       page: page,
       size: size
     };
     
-    // We changed this to POST in the backend to adhere to HTTP standards since it has a body
     const response = await apiClient.post('/hotels/search', requestBody);
     return response.data;
   },
@@ -38,21 +39,21 @@ export const hotelApi = {
 
 export const authApi = {
   login: async (email, password) => {
-    const response = await apiClient.post('/auth/login', { username: email, password });
+    const response = await apiClient.post('/auth/login', { email, password });
     return response.data; // Expecting JWT token
   },
   signup: async (name, email, password) => {
-    // Assuming AuthDto takes name, username(email), and password based on typical setup.
-    // If backend requires other fields, we adjust here.
-    const response = await apiClient.post('/auth/signup', { name, username: email, password });
+    // Correctly mapping to SignUpRequestDto { email, name, password }
+    const response = await apiClient.post('/auth/signup', { name, email, password });
     return response.data;
   }
 };
 
 export const bookingApi = {
-  initiateBooking: async (roomId, checkInDate, checkOutDate, roomsCount = 1) => {
+  initiateBooking: async (hotelId, roomId, checkInDate, checkOutDate, roomsCount = 1) => {
     // Requires a BookingRequest Payload
     const requestBody = {
+      hotelId,
       roomId,
       checkInDate,
       checkOutDate,
@@ -68,44 +69,66 @@ export const bookingApi = {
   },
 
   getUserBookings: async () => {
-    const response = await apiClient.get('/bookings/user');
+    const response = await apiClient.get('/bookings/me');
     return response.data;
   },
 
   getBookingDetails: async (bookingId) => {
     const response = await apiClient.get(`/bookings/${bookingId}`);
     return response.data;
+  },
+
+  getBookingStatus: async (bookingId) => {
+    const response = await apiClient.get(`/bookings/${bookingId}/status`);
+    return response.data;
   }
 };
 
 export const adminApi = {
   getOwnedHotels: async () => {
-    const response = await apiClient.get('/hotels/all'); // Backend might filter by owner if token is present
+    const response = await apiClient.get('/admin/hotels');
     return response.data;
   },
 
   createHotel: async (hotelData) => {
-    const response = await apiClient.post('/hotels', hotelData);
+    const response = await apiClient.post('/admin/hotels', hotelData);
     return response.data;
   },
 
   updateHotel: async (hotelId, hotelData) => {
-    const response = await apiClient.put(`/hotels/${hotelId}`, hotelData);
+    const response = await apiClient.put(`/admin/hotels/${hotelId}`, hotelData);
     return response.data;
   },
 
   deleteHotel: async (hotelId) => {
-    const response = await apiClient.delete(`/hotels/${hotelId}`);
+    const response = await apiClient.delete(`/admin/hotels/${hotelId}`);
     return response.data;
   },
 
-  addRoom: async (roomData) => {
-    const response = await apiClient.post('/rooms', roomData);
+  activateHotel: async (hotelId) => {
+    const response = await apiClient.patch(`/admin/hotels/${hotelId}/activate`);
     return response.data;
   },
 
-  updateInventory: async (inventoryData) => {
-    const response = await apiClient.post('/inventory', inventoryData);
+  getRooms: async (hotelId) => {
+    const response = await apiClient.get(`/admin/hotels/${hotelId}/rooms`);
+    return response.data;
+  },
+
+  addRoom: async (hotelId, roomData) => {
+    const response = await apiClient.post(`/admin/hotels/${hotelId}/rooms`, roomData);
+    return response.data;
+  },
+
+  deleteRoom: async (hotelId, roomId) => {
+    const response = await apiClient.delete(`/admin/hotels/${hotelId}/rooms/${roomId}`);
+    return response.data;
+  },
+
+  getReport: async (hotelId, startDate, endDate) => {
+    const response = await apiClient.get(`/admin/hotels/${hotelId}/reports`, {
+      params: { startDate, endDate }
+    });
     return response.data;
   }
 };
