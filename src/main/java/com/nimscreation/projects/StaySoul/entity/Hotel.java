@@ -25,6 +25,9 @@ public class Hotel {
 
     private String city;
 
+    private Double lat;
+    private Double lng;
+
     @Column(columnDefinition = "TEXT[]")
     private String[] photos;
 
