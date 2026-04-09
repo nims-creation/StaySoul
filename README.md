@@ -46,7 +46,7 @@ graph TD;
     Client[Web Browser / Mobile] -->|HTTPS| Frontend[React / Vite SPA - Hosted on Vercel]
     Frontend -->|JWT Secured REST APIs| API_Filter[Security & Rate Limiting Filter]
     
-    subgraph Spring Boot Backend (Hosted on Railway)
+    subgraph Backend[Spring Boot Backend - Hosted on Railway]
         API_Filter --> Controllers[Spring MVC Controllers]
         Controllers --> Services[Business Logic / JWT Service]
         Services --> Pricing[Dynamic Pricing Strategy Module]
@@ -55,7 +55,7 @@ graph TD;
 
     Repositories <--> DB[(PostgreSQL Database)]
 
-    subgraph External Integrations
+    subgraph External[External Integrations]
         Controllers <-->|OAuth2 Flows| Google[Google Identity / Cloud Console]
         Controllers -->|Session Init| Stripe[Stripe API]
         Stripe -->|Webhooks| Controllers 
