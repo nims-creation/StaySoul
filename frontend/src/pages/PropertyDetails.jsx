@@ -93,7 +93,7 @@ const PropertyDetails = () => {
         <div className="flex justify-between items-center text-sm">
           <div className="flex items-center space-x-4">
             <span className="flex items-center text-dark font-medium"><Star size={14} className="mr-1 fill-dark" /> {property.rating}</span>
-            <span className="font-semibold underline">124 reviews</span>
+            <span className="font-semibold underline">{property.reviewCount > 0 ? `${property.reviewCount} reviews` : 'No reviews yet'}</span>
             <span className="flex items-center text-gray-600"><MapPin size={14} className="mr-1" /> {location}</span>
           </div>
           <div className="flex space-x-4">

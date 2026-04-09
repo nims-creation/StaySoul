@@ -15,25 +15,48 @@ const OAuth2Callback = () => {
 
     if (token) {
       try {
-        // Decode token to get user info
         const decoded = jwtDecode(token);
+        console.log('OAuth2 decoded JWT:', decoded);
+
+        // Check token is not already expired
+        const now = Math.floor(Date.now() / 1000);
+        if (decoded.exp && decoded.exp < now) {
+          console.error('OAuth2 token is already expired');
+          navigate('/', { replace: true });
+          return;
+        }
+
+        // JWT claims from JWTService:
+        //   sub    → user id (Long as string)
+        //   email  → user's email
+        //   roles  → "[GUEST]" or "[HOTEL_MANAGER]" (string from Set.toString())
+        const email = decoded.email || '';
+        const rawRoles = decoded.roles || '';
+
+        // Parse "[GUEST]" → ["GUEST"]
+        const roles = typeof rawRoles === 'string'
+          ? rawRoles.replace(/[\[\]]/g, '').split(',').map(r => r.trim()).filter(Boolean)
+          : Array.isArray(rawRoles) ? rawRoles : [];
+
+        // Derive a display name from the email (before the @)
+        const name = email.split('@')[0] || 'User';
+
         const userData = {
           id: decoded.sub,
-          email: decoded.email,
-          name: decoded.email.split('@')[0], // Fallback name if missing
-          roles: decoded.roles
+          email,
+          name,
+          roles,
         };
 
-        // Complete login
         login(token, userData);
-        
-        // Redirect to home or intended page
         navigate('/', { replace: true });
       } catch (error) {
-        console.error("Failed to decode OAuth2 token", error);
+        console.error('Failed to process OAuth2 token:', error);
         navigate('/', { replace: true });
       }
     } else {
+      // No token — possibly user denied Google access or an error occurred
+      console.warn('OAuth2 callback received without a token');
       navigate('/', { replace: true });
     }
   }, [location, login, navigate]);

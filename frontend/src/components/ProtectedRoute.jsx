@@ -12,8 +12,8 @@ const ProtectedRoute = ({ children, adminOnly = false }) => {
     return <Navigate to="/" state={{ from: location }} replace />;
   }
 
-  if (adminOnly && user?.role !== 'ADMIN') {
-     // If user is not admin but page requires admin, redirect to home
+  if (adminOnly && !user?.roles?.includes('HOTEL_MANAGER')) {
+     // If user is not HOTEL_MANAGER but page requires admin, redirect to home
      return <Navigate to="/" replace />;
   }
 

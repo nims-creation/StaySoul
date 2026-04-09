@@ -32,3 +32,20 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Environment & Secret Files ###
+.env
+.env.*
+*.env
+application-production.properties
+application-local.properties
+
+### Log Files ###
+*.log
+backend.log
+startup.log
+push.log
+push_error.log
+push_error.txt
+maven_log.txt
+maven_ascii.log

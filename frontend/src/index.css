@@ -15,6 +15,34 @@
   font-family: inherit;
 }
 
+/* ─── Grey Tile / Pixel Break Fix ─────────────────────────────────────────────
+ * Leaflet uses CSS transforms on .leaflet-tile-pane to animate zoom.
+ * Applying will-change:transform lets the GPU composite the layer without
+ * triggering a repaint, eliminating grey flashes and broken pixels on zoom.
+ * overflow:visible ensures tiles that extend slightly outside the pane
+ * boundary are not clipped during the transform animation.
+ * ──────────────────────────────────────────────────────────────────────────── */
+.leaflet-tile-pane {
+  will-change: transform;
+  overflow: visible !important;
+}
+
+.leaflet-tile {
+  will-change: transform;
+  /* Prevent sub-pixel gaps between adjacent tiles */
+  image-rendering: auto;
+}
+
+/* Ensure the whole map pane stack doesn't clip animated tiles */
+.leaflet-map-pane {
+  overflow: visible !important;
+}
+
+.leaflet-map-root {
+  /* No border-radius here — it's applied by the outer wrapper shell only */
+  border-radius: 0 !important;
+}
+
 .custom-map-popup .leaflet-popup-content-wrapper {
   padding: 0;
   overflow: hidden;

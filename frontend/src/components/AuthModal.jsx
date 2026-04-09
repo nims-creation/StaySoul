@@ -3,6 +3,9 @@ import { useAuth } from '../context/AuthContext';
 import { authApi } from '../api/apiClient';
 import { X, Mail, Lock, User, AlertCircle } from 'lucide-react';
 
+// Use same base URL as the REST API client so this works in both dev and production
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api/v1';
+
 const AuthModal = () => {
   const { isAuthModalOpen, setIsAuthModalOpen, login } = useAuth();
   const [isLoginMode, setIsLoginMode] = useState(true);
@@ -136,7 +139,7 @@ const AuthModal = () => {
           </div>
 
           <button 
-            onClick={() => window.location.href = 'http://localhost:8080/api/v1/oauth2/authorization/google'}
+            onClick={() => window.location.href = `${API_BASE_URL}/oauth2/authorization/google`}
             className="mt-6 w-full flex items-center justify-center gap-3 border border-lightGray hover:bg-grayBg py-4 rounded-2xl transition-all font-bold text-dark active:scale-[0.98]"
           >
              <img 
