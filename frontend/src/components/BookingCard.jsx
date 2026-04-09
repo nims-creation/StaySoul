@@ -43,8 +43,9 @@ const BookingCard = ({ price: initialPrice, rating, dates, maxGuests, hotelId, r
       // Step 2: Get Stripe Session URL
       const paymentResponse = await bookingApi.initiatePayment(booking.id);
       
-      // Step 3: Redirect
+      // Step 3: Save bookingId so BookingSuccess page can redirect to live status
       if (paymentResponse.sessionUrl) {
+        sessionStorage.setItem('pendingBookingId', booking.id);
         window.location.href = paymentResponse.sessionUrl;
       } else {
          setError("Stripe payment session could not be established.");

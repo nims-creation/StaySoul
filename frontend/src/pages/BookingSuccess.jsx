@@ -1,45 +1,45 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { CheckCircle, Calendar, Home } from 'lucide-react';
+import React, { useEffect } from 'react';
+import { useSearchParams, useNavigate } from 'react-router-dom';
+import { Loader2 } from 'lucide-react';
 
+/**
+ * BookingSuccess is the Stripe success redirect landing page.
+ * Since the success URL is /booking/success (Stripe doesn't support dynamic URLs easily),
+ * this page reads the bookingId stored in sessionStorage during the payment initiation
+ * and immediately redirects to the live PaymentStatus polling page.
+ */
 const BookingSuccess = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    // Try to get bookingId from query param or sessionStorage
+    const bookingIdFromParam = searchParams.get('bookingId');
+    const bookingIdFromStorage = sessionStorage.getItem('pendingBookingId');
+    const bookingId = bookingIdFromParam || bookingIdFromStorage;
+
+    if (bookingId) {
+      // Clean up storage
+      sessionStorage.removeItem('pendingBookingId');
+      // Redirect to live payment status poller
+      navigate(`/payments/${bookingId}/status`, { replace: true });
+    } else {
+      // Fallback: no bookingId found, go to trips page
+      navigate('/trips', { replace: true });
+    }
+  }, [navigate, searchParams]);
 
   return (
-    <div className="min-h-screen pt-32 pb-12 bg-gray-50 flex items-center justify-center px-4">
-      <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 text-center animate-in fade-in zoom-in duration-500">
-        <div className="flex justify-center mb-6">
-          <div className="bg-green-100 p-4 rounded-full">
-            <CheckCircle className="text-green-600" size={48} />
+    <div className="min-h-screen flex items-center justify-center bg-grayBg/30">
+      <div className="text-center space-y-4">
+        <div className="relative mx-auto w-16 h-16">
+          <div className="absolute inset-0 rounded-full border-4 border-primary/20"></div>
+          <div className="absolute inset-0 rounded-full border-4 border-primary border-t-transparent animate-spin"></div>
+          <div className="absolute inset-0 flex items-center justify-center">
+            <Loader2 className="text-primary" size={24} />
           </div>
         </div>
-        
-        <h1 className="text-3xl font-bold text-dark mb-4">Booking Confirmed!</h1>
-        <p className="text-gray-600 mb-8 leading-relaxed">
-          Your stay has been successfully reserved. We've sent the confirmation details and receipt to your email address.
-        </p>
-
-        <div className="space-y-4">
-          <button 
-            onClick={() => navigate('/trips')}
-            className="w-full bg-primary text-white font-semibold py-3 rounded-xl hover:bg-primary-hover transition-colors flex items-center justify-center gap-2"
-          >
-            <Calendar size={18} />
-            View My Trips
-          </button>
-          
-          <button 
-            onClick={() => navigate('/')}
-            className="w-full bg-white text-dark border border-lightGray font-semibold py-3 rounded-xl hover:bg-grayBg transition-colors flex items-center justify-center gap-2"
-          >
-            <Home size={18} />
-            Back to Home
-          </button>
-        </div>
-
-        <p className="mt-8 text-sm text-gray-400">
-          Need help? <span className="underline cursor-pointer">Contact Support</span>
-        </p>
+        <p className="text-gray-500 font-semibold">Confirming your booking...</p>
       </div>
     </div>
   );

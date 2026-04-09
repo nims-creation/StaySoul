@@ -82,6 +82,11 @@ export const bookingApi = {
   getBookingStatus: async (bookingId) => {
     const response = await apiClient.get(`/bookings/${bookingId}/status`);
     return response.data;
+  },
+
+  cancelBooking: async (bookingId) => {
+    const response = await apiClient.post(`/bookings/${bookingId}/cancel`);
+    return response.data;
   }
 };
 
@@ -103,6 +108,11 @@ export const adminApi = {
 
   deleteHotel: async (hotelId) => {
     const response = await apiClient.delete(`/admin/hotels/${hotelId}`);
+    return response.data;
+  },
+
+  getHotelById: async (hotelId) => {
+    const response = await apiClient.get(`/admin/hotels/${hotelId}`);
     return response.data;
   },
 
