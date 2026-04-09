@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { bookingApi } from '../api/apiClient';
 import { Calendar, MapPin, CheckCircle, Clock, XCircle, CreditCard, ChevronRight, AlertTriangle, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -160,7 +160,7 @@ const MyTrips = () => {
                      </div>
                      <div className="flex flex-col gap-1 col-span-2 md:col-span-1 border-t md:border-t-0 pt-6 md:pt-0">
                         <span className="text-[10px] uppercase font-black text-gray-400 tracking-widest">Booking Ref</span>
-                        <span className="text-base font-mono font-bold text-dark">#{booking.id.toString().padStart(6, '0')}</span>
+                        <span className="text-base font-mono font-bold text-dark">#{(booking.id?.toString() || '0').padStart(6, '0')}</span>
                      </div>
                   </div>
                 </div>
@@ -206,3 +206,4 @@ const MyTrips = () => {
 };
 
 export default MyTrips;
+

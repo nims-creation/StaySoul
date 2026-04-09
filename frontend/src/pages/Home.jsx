@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import FilterBar from '../components/FilterBar';
 import FilterModal from '../components/FilterModal';
 import PropertyGrid from '../components/PropertyGrid';
@@ -9,7 +9,7 @@ import { mockProperties } from '../data/mockProperties';
 import { Map as MapIcon, List as ListIcon } from 'lucide-react';
 
 const Home = () => {
-  const { searchParams, updateSearch } = useSearch();
+  const { searchParams, updateSearch, resetSearch } = useSearch();
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [showMap, setShowMap] = useState(false);
   
@@ -46,6 +46,13 @@ const Home = () => {
       setIsLoading(false);
     }
   };
+
+  // Reset stale location filter when landing on home page fresh
+  useEffect(() => {
+    if (searchParams.location) {
+      updateSearch({ location: '' });
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     const timer = setTimeout(fetchHotels, 500);
@@ -99,3 +106,4 @@ const Home = () => {
 };
 
 export default Home;
+
