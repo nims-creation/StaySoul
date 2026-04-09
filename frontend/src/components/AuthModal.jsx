@@ -23,12 +23,15 @@ const AuthModal = () => {
         // Login flow
         const data = await authApi.login(formData.email, formData.password);
         // data expected: { accessToken: "...", user: { id, name, email, role } }
-        login(data.accessToken || data.token || data, data.user || { email: formData.email, name: formData.email.split('@')[0] });
+        const tokenStr = typeof data === 'string' ? data : (data?.accessToken || data?.token || data?.jwt || data?.data?.accessToken);
+        login(tokenStr, data?.user || { email: formData.email, name: formData.name });
       } else {
         // Signup flow
-        const data = await authApi.signup(formData.name, formData.email, formData.password);
-        // data expected: { accessToken: "...", user: { id, name, email, role } }
-        login(data.accessToken || data.token || data, data.user || { email: formData.email, name: formData.name });
+        await authApi.signup(formData.name, formData.email, formData.password);
+        // Auto login after signup
+        const data = await authApi.login(formData.email, formData.password);
+        const tokenStr = typeof data === 'string' ? data : (data?.accessToken || data?.token || data?.jwt || data?.data?.accessToken);
+        login(tokenStr, data?.user || { email: formData.email, name: formData.name });
       }
       setIsAuthModalOpen(false);
       setFormData({ name: '', email: '', password: '' });

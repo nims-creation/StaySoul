@@ -172,7 +172,7 @@ const MyTrips = () => {
                       </div>
                       <div>
                          <div className="text-xs font-bold text-gray-400 uppercase tracking-widest">Amount Paid</div>
-                         <div className="text-xl font-black text-dark">${booking.amount?.toFixed(2)}</div>
+                         <div className="text-xl font-black text-dark">{formatCurrency(booking.amount || 0)}</div>
                       </div>
                    </div>
                    

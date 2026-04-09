@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { bookingApi } from '../api/apiClient';
+import { formatCurrency } from '../utils/currencyUtils';
 
 const BookingCard = ({ price: initialPrice, rating, dates, maxGuests, hotelId, roomId: initialRoomId, hotelName, rooms }) => {
   const { isAuthenticated, setIsAuthModalOpen } = useAuth();
@@ -77,7 +78,7 @@ const BookingCard = ({ price: initialPrice, rating, dates, maxGuests, hotelId, r
           >
             {rooms.map((room, idx) => (
               <option key={room.id} value={idx}>
-                {room.type} - ${room.price}/night
+                {room.type} - {formatCurrency(room.price)}/night
               </option>
             ))}
           </select>
@@ -117,7 +118,7 @@ const BookingCard = ({ price: initialPrice, rating, dates, maxGuests, hotelId, r
 
       <div className="border-t border-lightGray pt-4 flex justify-between font-semibold text-lg">
         <span>Total before taxes</span>
-        <span>${price * 5}</span>
+        <span>{formatCurrency(price * 5)}</span>
       </div>
     </div>
   );

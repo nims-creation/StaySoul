@@ -1,5 +1,5 @@
 import React from 'react';
-import { Instagram, Twitter, Facebook, Globe, DollarSign } from 'lucide-react';
+import { Instagram, Twitter, Facebook, Globe, IndianRupee } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -66,8 +66,8 @@ const Footer = () => {
               <span>English (IN)</span>
             </button>
             <button className="flex items-center gap-1 hover:bg-grayBg p-2 rounded-lg transition-colors">
-              <DollarSign size={16} />
-              <span>USD</span>
+              <IndianRupee size={16} />
+              <span>INR</span>
             </button>
           </div>
         </div>

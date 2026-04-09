@@ -28,5 +28,14 @@ public class InitialDataSeeder implements CommandLineRunner {
             userRepository.save(admin);
             System.out.println("Seeded admin user: admin@gmail.com / password");
         }
+        if (userRepository.findByEmail("admin2@gmail.com").isEmpty()) {
+            User admin2 = new User();
+            admin2.setEmail("admin2@gmail.com");
+            admin2.setPassword(passwordEncoder.encode("password"));
+            admin2.setName("Admin2 User");
+            admin2.setRoles(Set.of(Roles.HOTEL_MANAGER));
+            userRepository.save(admin2);
+            System.out.println("Seeded admin2 user: admin2@gmail.com / password");
+        }
     }
 }

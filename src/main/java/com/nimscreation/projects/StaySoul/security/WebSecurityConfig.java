@@ -62,9 +62,11 @@ public class WebSecurityConfig {
                                 "/v3/api-docs",
                                 "/swagger-resources/**",
                                 "/webjars/**",
-                                "/webhook/**"
+                                "/webhook/**",
+                                "/auth/**",
+                                "/hotels/**"
                         ).permitAll()
-                        .anyRequest().permitAll()
+                        .anyRequest().authenticated()
 
                 )
                 // OAuth2 Google Login

@@ -2,6 +2,7 @@ import { adminApi } from '../api/apiClient';
 import { seedPremiumProperties } from '../utils/seedData';
 import { Plus, Hotel, Bed, Trash2, Edit3, Settings, TrendingUp, Users, Calendar, MapPin, Database } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { formatCurrency } from '../utils/currencyUtils';
 
 const AdminDashboard = () => {
   const [hotels, setHotels] = useState([]);
@@ -76,7 +77,7 @@ const AdminDashboard = () => {
       {/* Stats Overview */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
          {[
-           { label: 'Total Revenue', value: '$12,450', icon: TrendingUp, color: 'text-green-600', bg: 'bg-green-50' },
+           { label: 'Total Revenue', value: formatCurrency(12450), icon: TrendingUp, color: 'text-green-600', bg: 'bg-green-50' },
            { label: 'Active Listings', value: hotels.length.toString(), icon: Hotel, color: 'text-blue-600', bg: 'bg-blue-50' },
            { label: 'Bookings (30d)', value: '24', icon: Calendar, color: 'text-purple-600', bg: 'bg-purple-50' },
            { label: 'Avg Occupancy', value: '78%', icon: Users, color: 'text-amber-600', bg: 'bg-amber-50' }
