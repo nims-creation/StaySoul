@@ -90,6 +90,13 @@ export const bookingApi = {
   }
 };
 
+export const userApi = {
+  getProfile: async () => {
+    const response = await apiClient.get('/users/profile');
+    return response.data;
+  }
+};
+
 export const adminApi = {
   getOwnedHotels: async () => {
     const response = await apiClient.get('/admin/hotels');

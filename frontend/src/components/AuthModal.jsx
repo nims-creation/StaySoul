@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { authApi } from '../api/apiClient';
+import { authApi, userApi, apiClient } from '../api/apiClient';
 import { X, Mail, Lock, User, AlertCircle } from 'lucide-react';
 
 // Use same base URL as the REST API client so this works in both dev and production
@@ -27,14 +27,28 @@ const AuthModal = () => {
         const data = await authApi.login(formData.email, formData.password);
         // data expected: { accessToken: "...", user: { id, name, email, role } }
         const tokenStr = typeof data === 'string' ? data : (data?.accessToken || data?.token || data?.jwt || data?.data?.accessToken);
-        login(tokenStr, data?.user || { email: formData.email, name: formData.name });
+        apiClient.defaults.headers.common['Authorization'] = `Bearer ${tokenStr}`;
+        let userProfile = data?.user || { email: formData.email, name: formData.name };
+        try {
+           userProfile = await userApi.getProfile();
+        } catch(e) {
+           console.log("Failed to fetch full profile.", e);
+        }
+        login(tokenStr, userProfile);
       } else {
         // Signup flow
         await authApi.signup(formData.name, formData.email, formData.password);
         // Auto login after signup
         const data = await authApi.login(formData.email, formData.password);
         const tokenStr = typeof data === 'string' ? data : (data?.accessToken || data?.token || data?.jwt || data?.data?.accessToken);
-        login(tokenStr, data?.user || { email: formData.email, name: formData.name });
+        apiClient.defaults.headers.common['Authorization'] = `Bearer ${tokenStr}`;
+        let userProfile = data?.user || { email: formData.email, name: formData.name };
+        try {
+           userProfile = await userApi.getProfile();
+        } catch(e) {
+           console.log("Failed to fetch full profile.", e);
+        }
+        login(tokenStr, userProfile);
       }
       setIsAuthModalOpen(false);
       setFormData({ name: '', email: '', password: '' });
