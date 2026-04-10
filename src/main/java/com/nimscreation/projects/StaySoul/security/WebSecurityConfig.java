@@ -109,7 +109,9 @@ public class WebSecurityConfig {
         configuration.setAllowedOrigins(Arrays.asList(
                 "http://localhost:5173",
                 "http://localhost:3000",
-                frontendUrl
+                frontendUrl,
+                "https://stay-soul.vercel.app",
+                "https://stay-soul-3vvbcjynf-nitesh-mishras-projects-fdfac849.vercel.app"
         ));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Accept", "x-no-retry"));
