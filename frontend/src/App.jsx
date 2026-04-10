@@ -1,20 +1,29 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { SearchProvider } from './context/SearchContext';
 import Navbar from './components/Navbar';
-import Home from './pages/Home';
-import PropertyDetails from './pages/PropertyDetails';
-import BookingSuccess from './pages/BookingSuccess';
-import BookingCancel from './pages/BookingCancel';
-import MyTrips from './pages/MyTrips';
-import AdminDashboard from './pages/AdminDashboard';
-import ManageProperty from './pages/ManageProperty';
-import PaymentStatus from './pages/PaymentStatus';
-import OAuth2Callback from './pages/OAuth2Callback';
-import AuthModal from './components/AuthModal';
 import ProtectedRoute from './components/ProtectedRoute';
+import AuthModal from './components/AuthModal';
 import MobileBottomNav from './components/MobileBottomNav';
+
+const Home = lazy(() => import('./pages/Home'));
+const PropertyDetails = lazy(() => import('./pages/PropertyDetails'));
+const BookingSuccess = lazy(() => import('./pages/BookingSuccess'));
+const BookingCancel = lazy(() => import('./pages/BookingCancel'));
+const MyTrips = lazy(() => import('./pages/MyTrips'));
+const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
+const ManageProperty = lazy(() => import('./pages/ManageProperty'));
+const PaymentStatus = lazy(() => import('./pages/PaymentStatus'));
+const OAuth2Callback = lazy(() => import('./pages/OAuth2Callback'));
+
+
+const LoadingFallback = () => (
+  <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-4">
+    <div className="w-12 h-12 border-4 border-red-500 border-t-transparent rounded-full animate-spin"></div>
+    <p className="text-gray-500 font-medium tracking-wide">Readying the perfect stay...</p>
+  </div>
+);
 
 function App() {
   return (
@@ -25,18 +34,20 @@ function App() {
             <AuthModal />
             <Navbar />
             <main className="flex-grow">
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/hotel/:id" element={<PropertyDetails />} />
-                <Route path="/booking/success" element={<BookingSuccess />} />
-                <Route path="/booking/cancel" element={<BookingCancel />} />
-                <Route path="/oauth2/callback" element={<OAuth2Callback />} />
-                <Route path="/trips" element={<ProtectedRoute><MyTrips /></ProtectedRoute>} />
-                <Route path="/admin" element={<ProtectedRoute adminOnly={true}><AdminDashboard /></ProtectedRoute>} />
-                <Route path="/admin/manage" element={<ProtectedRoute adminOnly={true}><ManageProperty /></ProtectedRoute>} />
-                <Route path="/payments/:bookingId/status" element={<ProtectedRoute><PaymentStatus /></ProtectedRoute>} />
-                <Route path="*" element={<Navigate to="/" />} />
-              </Routes>
+              <Suspense fallback={<LoadingFallback />}>
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/hotel/:id" element={<PropertyDetails />} />
+                  <Route path="/booking/success" element={<BookingSuccess />} />
+                  <Route path="/booking/cancel" element={<BookingCancel />} />
+                  <Route path="/oauth2/callback" element={<OAuth2Callback />} />
+                  <Route path="/trips" element={<ProtectedRoute><MyTrips /></ProtectedRoute>} />
+                  <Route path="/admin" element={<ProtectedRoute adminOnly={true}><AdminDashboard /></ProtectedRoute>} />
+                  <Route path="/admin/manage" element={<ProtectedRoute adminOnly={true}><ManageProperty /></ProtectedRoute>} />
+                  <Route path="/payments/:bookingId/status" element={<ProtectedRoute><PaymentStatus /></ProtectedRoute>} />
+                  <Route path="*" element={<Navigate to="/" />} />
+                </Routes>
+              </Suspense>
             </main>
             <MobileBottomNav />
             {/* <Footer /> */}
