@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @RestController
 @RequestMapping("/hotels")
@@ -20,11 +21,22 @@ public class HotelBrowseController {
     private final InventoryService inventoryService;
     private final HotelService hotelService;
     private final PricingUpdateService pricingUpdateService;
+    private final AtomicBoolean isUpdating = new AtomicBoolean(false);
 
     @GetMapping("/force-update-prices")
     public ResponseEntity<String> forceUpdate() {
-        pricingUpdateService.updatePrices();
-        return ResponseEntity.ok("Successfully forced pricing updates!");
+        if (isUpdating.compareAndSet(false, true)) {
+            new Thread(() -> {
+                try {
+                    pricingUpdateService.updatePrices();
+                } finally {
+                    isUpdating.set(false);
+                }
+            }).start();
+            return ResponseEntity.ok("Pricing updates started in the background. Please wait 1-2 minutes for properties to appear.");
+        } else {
+            return ResponseEntity.status(429).body("Update is already running in the background. Please wait.");
+        }
     }
 
     @PostMapping("/search")

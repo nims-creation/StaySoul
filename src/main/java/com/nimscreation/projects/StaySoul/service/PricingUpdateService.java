@@ -26,7 +26,6 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-@Transactional
 public class PricingUpdateService {
 
     // Scheduler to update the inventory and HotelMinPrice tables every hour
