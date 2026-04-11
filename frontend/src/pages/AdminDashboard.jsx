@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import { adminApi } from '../api/apiClient';
 import { seedPremiumProperties } from '../utils/seedData';
 import { Plus, Hotel, Bed, Trash2, Edit3, Settings, TrendingUp, Users, Calendar, MapPin, Database } from 'lucide-react';
