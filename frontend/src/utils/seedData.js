@@ -108,6 +108,244 @@ export const seedPremiumProperties = async () => {
         { type: "Sunset Cliff Room", basePrice: 550, totalCount: 8, capacity: 2 },
         { type: "Caldera View Villa", basePrice: 1100, totalCount: 4, capacity: 3 }
       ]
+    },
+    {
+      hotel: {
+        name: "Parisian Elegance Hotel",
+        city: "Paris",
+        photos: [
+          "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=800&q=80",
+          "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&w=800&q=80"
+        ],
+        amenities: ["wifi", "restaurant", "spa", "gym"],
+        lat: 48.8566,
+        lng: 2.3522
+      },
+      rooms: [
+        { type: "Classic Room", basePrice: 400, totalCount: 15, capacity: 2 },
+        { type: "Eiffel View Suite", basePrice: 900, totalCount: 4, capacity: 2 }
+      ]
+    },
+    {
+      hotel: {
+        name: "Kyoto Zen Gardens",
+        city: "Kyoto",
+        photos: [
+          "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=800&q=80",
+          "https://images.unsplash.com/photo-1545569341-9eb8b30979d9?auto=format&fit=crop&w=800&q=80"
+        ],
+        amenities: ["spa", "wifi", "restaurant", "parking"],
+        lat: 35.0116,
+        lng: 135.7681
+      },
+      rooms: [
+        { type: "Serenity Room", basePrice: 300, totalCount: 10, capacity: 2 },
+        { type: "Garden View Suite", basePrice: 700, totalCount: 3, capacity: 4 }
+      ]
+    },
+    {
+      hotel: {
+        name: "Swiss Alps Retreat",
+        city: "St. Moritz",
+        photos: [
+          "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=800&q=80",
+          "https://images.unsplash.com/photo-1506520141644-8cdce0e0ea79?auto=format&fit=crop&w=800&q=80"
+        ],
+        amenities: ["ski", "spa", "pool", "wifi", "fireplace"],
+        lat: 46.4908,
+        lng: 9.8355
+      },
+      rooms: [
+        { type: "Mountain View Room", basePrice: 500, totalCount: 12, capacity: 2 },
+        { type: "Luxury Chalet", basePrice: 1200, totalCount: 2, capacity: 6 }
+      ]
+    },
+    {
+      hotel: {
+        name: "Dubai Desert Oasis",
+        city: "Dubai",
+        photos: [
+          "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=800&q=80",
+          "https://images.unsplash.com/photo-1582647509711-c8aa8a8bda71?auto=format&fit=crop&w=800&q=80"
+        ],
+        amenities: ["pool", "spa", "gym", "wifi", "restaurant"],
+        lat: 25.2048,
+        lng: 55.2708
+      },
+      rooms: [
+        { type: "Oasis Room", basePrice: 350, totalCount: 20, capacity: 2 },
+        { type: "Royal Desert Suite", basePrice: 1500, totalCount: 4, capacity: 4 }
+      ]
+    },
+    {
+      hotel: {
+        name: "Amalfi Coast Villa",
+        city: "Amalfi",
+        photos: [
+          "https://images.unsplash.com/photo-1533090161767-e6f6631ad0c9?auto=format&fit=crop&w=800&q=80",
+          "https://images.unsplash.com/photo-1498307833015-e7b400441eb8?auto=format&fit=crop&w=800&q=80"
+        ],
+        amenities: ["beach", "pool", "wifi", "restaurant"],
+        lat: 40.6333,
+        lng: 14.6029
+      },
+      rooms: [
+        { type: "Sea View Room", basePrice: 450, totalCount: 8, capacity: 2 },
+        { type: "Cliffside Suite", basePrice: 950, totalCount: 3, capacity: 3 }
+      ]
+    },
+    {
+      hotel: {
+        name: "Sydney Harbour Suites",
+        city: "Sydney",
+        photos: [
+          "https://images.unsplash.com/photo-1506973035872-a4e21a8dff6a?auto=format&fit=crop&w=800&q=80",
+          "https://images.unsplash.com/photo-1523428461295-d1ce4999f7d2?auto=format&fit=crop&w=800&q=80"
+        ],
+        amenities: ["pool", "gym", "wifi", "restaurant", "parking"],
+        lat: -33.8688,
+        lng: 151.2093
+      },
+      rooms: [
+        { type: "Harbour View Room", basePrice: 300, totalCount: 15, capacity: 2 },
+        { type: "Opera Suite", basePrice: 850, totalCount: 2, capacity: 4 }
+      ]
+    },
+    {
+      hotel: {
+        name: "London Royal Boutique",
+        city: "London",
+        photos: [
+          "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=800&q=80",
+          "https://images.unsplash.com/photo-1529655683826-aba9b3e77383?auto=format&fit=crop&w=800&q=80"
+        ],
+        amenities: ["wifi", "restaurant", "gym", "spa"],
+        lat: 51.5074,
+        lng: -0.1278
+      },
+      rooms: [
+        { type: "Classic British Room", basePrice: 380, totalCount: 12, capacity: 2 },
+        { type: "Regent Suite", basePrice: 800, totalCount: 3, capacity: 3 }
+      ]
+    },
+    {
+      hotel: {
+        name: "Rome Historic Palace",
+        city: "Rome",
+        photos: [
+          "https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=800&q=80",
+          "https://images.unsplash.com/photo-1515542622106-78b28af7815d?auto=format&fit=crop&w=800&q=80"
+        ],
+        amenities: ["wifi", "restaurant", "parking"],
+        lat: 41.9028,
+        lng: 12.4964
+      },
+      rooms: [
+        { type: "Piazza Room", basePrice: 320, totalCount: 10, capacity: 2 },
+        { type: "Emperor Suite", basePrice: 750, totalCount: 4, capacity: 4 }
+      ]
+    },
+    {
+      hotel: {
+        name: "Maldives Overwater Paradise",
+        city: "Maldives",
+        photos: [
+          "https://images.unsplash.com/photo-1439066615861-d1af74d74000?auto=format&fit=crop&w=800&q=80",
+          "https://images.unsplash.com/photo-1506456044701-d64dfad96525?auto=format&fit=crop&w=800&q=80"
+        ],
+        amenities: ["beach", "pool", "spa", "wifi"],
+        lat: 3.2028,
+        lng: 73.2207
+      },
+      rooms: [
+        { type: "Lagoon Villa", basePrice: 1100, totalCount: 6, capacity: 2 },
+        { type: "Overwater Bungalow", basePrice: 1800, totalCount: 4, capacity: 2 }
+      ]
+    },
+    {
+      hotel: {
+        name: "Cape Town Ocean View",
+        city: "Cape Town",
+        photos: [
+          "https://images.unsplash.com/photo-1580060839134-75a5edca2e99?auto=format&fit=crop&w=800&q=80",
+          "https://images.unsplash.com/photo-1575881476617-64dfd2365fd1?auto=format&fit=crop&w=800&q=80"
+        ],
+        amenities: ["pool", "wifi", "restaurant", "beach"],
+        lat: -33.9249,
+        lng: 18.4241
+      },
+      rooms: [
+        { type: "Bay View Room", basePrice: 280, totalCount: 14, capacity: 2 },
+        { type: "Atlantic Suite", basePrice: 650, totalCount: 3, capacity: 4 }
+      ]
+    },
+    {
+      hotel: {
+        name: "Tokyo Tower Hotel",
+        city: "Tokyo",
+        photos: [
+          "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=800&q=80",
+          "https://images.unsplash.com/photo-1536098561742-ca998e48cbcc?auto=format&fit=crop&w=800&q=80"
+        ],
+        amenities: ["gym", "wifi", "restaurant", "spa"],
+        lat: 35.6762,
+        lng: 139.6503
+      },
+      rooms: [
+        { type: "City Lights Room", basePrice: 350, totalCount: 20, capacity: 2 },
+        { type: "Skyline Suite", basePrice: 900, totalCount: 5, capacity: 3 }
+      ]
+    },
+    {
+      hotel: {
+        name: "Hawaii Volcano Lodge",
+        city: "Hawaii",
+        photos: [
+          "https://images.unsplash.com/photo-1542259009477-d625272157b7?auto=format&fit=crop&w=800&q=80",
+          "https://images.unsplash.com/photo-1598471158656-baf44b586cc8?auto=format&fit=crop&w=800&q=80"
+        ],
+        amenities: ["beach", "pool", "wifi", "nature"],
+        lat: 19.8968,
+        lng: -155.5828
+      },
+      rooms: [
+        { type: "Jungle Cabin", basePrice: 290, totalCount: 10, capacity: 2 },
+        { type: "Oceanfront Villa", basePrice: 850, totalCount: 4, capacity: 5 }
+      ]
+    },
+    {
+      hotel: {
+        name: "Venice Canal Palace",
+        city: "Venice",
+        photos: [
+          "https://images.unsplash.com/photo-1514890547357-a9ee288728e0?auto=format&fit=crop&w=800&q=80",
+          "https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?auto=format&fit=crop&w=800&q=80"
+        ],
+        amenities: ["wifi", "restaurant"],
+        lat: 45.4408,
+        lng: 12.3155
+      },
+      rooms: [
+        { type: "Gondola View Room", basePrice: 420, totalCount: 8, capacity: 2 },
+        { type: "Grand Canal Suite", basePrice: 1050, totalCount: 2, capacity: 3 }
+      ]
+    },
+    {
+      hotel: {
+        name: "Rio Copacabana Resort",
+        city: "Rio de Janeiro",
+        photos: [
+          "https://images.unsplash.com/photo-1483729558449-99ef09a8c325?auto=format&fit=crop&w=800&q=80",
+          "https://images.unsplash.com/photo-1518639192441-8fce0a366e2e?auto=format&fit=crop&w=800&q=80"
+        ],
+        amenities: ["beach", "pool", "gym", "wifi", "restaurant"],
+        lat: -22.9068,
+        lng: -43.1729
+      },
+      rooms: [
+        { type: "Beachfront Room", basePrice: 310, totalCount: 15, capacity: 2 },
+        { type: "Carnival Suite", basePrice: 780, totalCount: 3, capacity: 4 }
+      ]
     }
   ];
 
