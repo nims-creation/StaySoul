@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Search, Globe, Menu, UserCircle, LogOut } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useSearch } from '../context/SearchContext';
@@ -8,7 +8,20 @@ const Navbar = () => {
   const { isAuthenticated, user, setIsAuthModalOpen, logout } = useAuth();
   const { searchParams, updateSearch } = useSearch();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleSearchChange = (e) => {
     const { name, value } = e.target;
@@ -20,7 +33,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="fixed w-full bg-white z-50 border-b border-lightGray shadow-sm">
+    <nav className="fixed w-full bg-white z-[9999] border-b border-lightGray shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           
@@ -61,7 +74,7 @@ const Navbar = () => {
           </div>
 
           {/* Right Menu */}
-          <div className="flex items-center justify-end space-x-1 relative">
+          <div className="flex items-center justify-end space-x-1 relative" ref={dropdownRef}>
             <button 
               onClick={() => navigate('/admin')}
               className="hidden lg:block text-sm font-semibold hover:bg-grayBg px-4 py-2 rounded-full transition-colors"
