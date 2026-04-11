@@ -17,7 +17,7 @@ public interface HotelMinPriceRepository extends JpaRepository<HotelMinPrice, Lo
             SELECT DISTINCT h.id as hotel_id, AVG(hmp.price) as avg_price
             FROM hotel_min_price hmp
             JOIN hotel h ON hmp.hotel_id = h.id
-            WHERE h.city = :city
+            WHERE (:city IS NULL OR :city = '' OR LOWER(h.city) LIKE LOWER(CONCAT('%', :city, '%')))
                 AND hmp.date BETWEEN :startDate AND :endDate
                 AND h.active = true
                 AND (:category IS NULL OR :category = '' OR :category = ANY(h.amenities))
@@ -29,7 +29,7 @@ public interface HotelMinPriceRepository extends JpaRepository<HotelMinPrice, Lo
             SELECT COUNT(DISTINCT h.id)
             FROM hotel_min_price hmp
             JOIN hotel h ON hmp.hotel_id = h.id
-            WHERE h.city = :city
+            WHERE (:city IS NULL OR :city = '' OR LOWER(h.city) LIKE LOWER(CONCAT('%', :city, '%')))
                 AND hmp.date BETWEEN :startDate AND :endDate
                 AND h.active = true
                 AND (:category IS NULL OR :category = '' OR :category = ANY(h.amenities))

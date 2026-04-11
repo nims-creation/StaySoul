@@ -34,6 +34,7 @@ public class InventoryServiceImpl implements InventoryService{
 
     private final InventoryRepository inventoryRepository;
     private final HotelMinPriceRepository hotelMinPriceRepository;
+    private final com.nimscreation.projects.StaySoul.repository.HotelRepository hotelRepository;
 
     @Override
     public void initializeRoomForAYear(Room room) {
@@ -81,8 +82,7 @@ public class InventoryServiceImpl implements InventoryService{
             Long hotelId = ((Number) result[0]).longValue();
             Double avgPrice = ((Number) result[1]).doubleValue();
             
-            var hotel = hotelMinPriceRepository.findById(hotelId)
-                    .map(hmp -> hmp.getHotel())
+            var hotel = hotelRepository.findById(hotelId)
                     .orElseThrow(() -> new ResourceNotFoundException("Hotel not found"));
                     
             HotelPriceResponseDto dto = modelMapper.map(hotel, HotelPriceResponseDto.class);
