@@ -134,6 +134,7 @@ public class HotelServiceImpl implements HotelService{
     }
 
     @Override
+    @Transactional
     public HotelInfoDto getHotelInfoById(Long hotelId, LocalDate startDate, LocalDate endDate) {
         Hotel hotel = hotelRepository
                 .findById(hotelId)
@@ -169,6 +170,7 @@ public class HotelServiceImpl implements HotelService{
     }
 
     @Override
+    @Transactional
     public List<HotelDto> getAllHotels() {
         User user = getCurrentUser();
         log.info("Getting all hotels for the admin user with ID: {}", user.getId());
