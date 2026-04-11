@@ -39,9 +39,11 @@ public class AuthController {
                                                  HttpServletResponse httpServletResponse)
     {
         String[] tokens = authService.login(loginDto);
-
-        Cookie cookie = new Cookie("refreshToken", tokens[0]);
+        // tokens[0] = accessToken, tokens[1] = refreshToken
+        Cookie cookie = new Cookie("refreshToken", tokens[1]);
         cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(60 * 60 * 24 * 30); // 30 days
 
         httpServletResponse.addCookie(cookie);
         return ResponseEntity.ok(new LoginResponseDto(tokens[0]));

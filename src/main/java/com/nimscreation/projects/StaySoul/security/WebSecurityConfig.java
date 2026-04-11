@@ -105,13 +105,13 @@ public class WebSecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        // Always allow localhost for dev; also allow production frontend from env variable
-        configuration.setAllowedOrigins(Arrays.asList(
+        // Use allowedOriginPatterns (not allowedOrigins) so that wildcard *.vercel.app works
+        // with allowCredentials=true. This covers all Vercel preview deployments automatically.
+        configuration.setAllowedOriginPatterns(Arrays.asList(
                 "http://localhost:5173",
                 "http://localhost:3000",
-                frontendUrl,
-                "https://stay-soul.vercel.app",
-                "https://stay-soul-3vvbcjynf-nitesh-mishras-projects-fdfac849.vercel.app"
+                "https://*.vercel.app",
+                frontendUrl
         ));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Accept", "x-no-retry"));

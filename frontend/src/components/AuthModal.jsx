@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { authApi, userApi, apiClient } from '../api/apiClient';
+import { jwtDecode } from 'jwt-decode';
 import { X, Mail, Lock, User, AlertCircle } from 'lucide-react';
 
 // Use same base URL as the REST API client so this works in both dev and production
@@ -25,14 +26,29 @@ const AuthModal = () => {
       if (isLoginMode) {
         // Login flow
         const data = await authApi.login(formData.email, formData.password);
-        // data expected: { accessToken: "...", user: { id, name, email, role } }
-        const tokenStr = typeof data === 'string' ? data : (data?.accessToken || data?.token || data?.jwt || data?.data?.accessToken);
-        apiClient.defaults.headers.common['Authorization'] = `Bearer ${tokenStr}`;
-        let userProfile = data?.user || { email: formData.email, name: formData.name };
+        const tokenStr = typeof data === 'string' ? data : (data?.accessToken || data?.token || data?.jwt);
+        
+        if (!tokenStr) {
+          throw new Error('Server returned an invalid response. Please try again.');
+        }
+
+        // Decode JWT to extract roles (UserDto from /profile doesn't include roles)
+        let roles = [];
         try {
-           userProfile = await userApi.getProfile();
+          const decoded = jwtDecode(tokenStr);
+          const rawRoles = decoded.roles || '';
+          roles = typeof rawRoles === 'string'
+            ? rawRoles.replace(/[\[\]]/g, '').split(',').map(r => r.trim()).filter(Boolean)
+            : Array.isArray(rawRoles) ? rawRoles : [];
+        } catch(e) { console.warn('Could not decode JWT for roles', e); }
+
+        apiClient.defaults.headers.common['Authorization'] = `Bearer ${tokenStr}`;
+        let userProfile = { email: formData.email, roles };
+        try {
+           const profileData = await userApi.getProfile();
+           userProfile = { ...profileData, roles }; // Merge roles from JWT with profile data
         } catch(e) {
-           console.log("Failed to fetch full profile.", e);
+           console.log('Failed to fetch full profile, using JWT data.', e);
         }
         login(tokenStr, userProfile);
       } else {
@@ -40,13 +56,28 @@ const AuthModal = () => {
         await authApi.signup(formData.name, formData.email, formData.password);
         // Auto login after signup
         const data = await authApi.login(formData.email, formData.password);
-        const tokenStr = typeof data === 'string' ? data : (data?.accessToken || data?.token || data?.jwt || data?.data?.accessToken);
-        apiClient.defaults.headers.common['Authorization'] = `Bearer ${tokenStr}`;
-        let userProfile = data?.user || { email: formData.email, name: formData.name };
+        const tokenStr = typeof data === 'string' ? data : (data?.accessToken || data?.token || data?.jwt);
+        
+        if (!tokenStr) {
+          throw new Error('Signup succeeded but login failed. Please log in manually.');
+        }
+
+        let roles = [];
         try {
-           userProfile = await userApi.getProfile();
+          const decoded = jwtDecode(tokenStr);
+          const rawRoles = decoded.roles || '';
+          roles = typeof rawRoles === 'string'
+            ? rawRoles.replace(/[\[\]]/g, '').split(',').map(r => r.trim()).filter(Boolean)
+            : Array.isArray(rawRoles) ? rawRoles : [];
+        } catch(e) { console.warn('Could not decode JWT for roles', e); }
+
+        apiClient.defaults.headers.common['Authorization'] = `Bearer ${tokenStr}`;
+        let userProfile = { email: formData.email, name: formData.name, roles };
+        try {
+           const profileData = await userApi.getProfile();
+           userProfile = { ...profileData, roles };
         } catch(e) {
-           console.log("Failed to fetch full profile.", e);
+           console.log('Failed to fetch full profile.', e);
         }
         login(tokenStr, userProfile);
       }

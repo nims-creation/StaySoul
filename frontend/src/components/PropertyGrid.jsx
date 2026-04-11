@@ -23,9 +23,7 @@ const PropertyGrid = ({ properties, isLoading, error, isSplitView }) => {
         </div>
         <h2 className="text-2xl font-black text-dark mb-2 tracking-tight">No stays found</h2>
         <p className="text-gray-500 max-w-md font-medium leading-relaxed">
-          {error 
-            ? "Server is resting. Please try again in 30 seconds."
-            : "Try adjusting your filters or searching for another location."}
+          Try adjusting your filters or searching for another location.
         </p>
       </div>
     );
@@ -34,8 +32,8 @@ const PropertyGrid = ({ properties, isLoading, error, isSplitView }) => {
   return (
     <div className={`flex-1 ${isSplitView ? 'px-4 overflow-y-auto max-h-[calc(100vh-160px)] no-scrollbar pt-6' : 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-20'}`}>
       {error && !isLoading && properties.length > 0 && (
-        <div className="bg-red-50 text-red-500 p-4 rounded-2xl mb-8 text-sm font-bold flex items-center border border-red-100 shadow-sm">
-           ⚠️ {error} - Showing matching mock data instead.
+        <div className="col-span-full bg-amber-50 border border-amber-200 text-amber-800 p-4 rounded-2xl mb-6 text-sm font-medium flex items-center gap-2">
+          ⏳ {error}
         </div>
       )}
       

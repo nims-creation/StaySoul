@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import FilterBar from '../components/FilterBar';
 import FilterModal from '../components/FilterModal';
 import PropertyGrid from '../components/PropertyGrid';
@@ -28,36 +28,35 @@ const Home = () => {
       setError(null);
     } catch (err) {
       console.error("Backend fetch failed, using mock data", err);
-      setError("Browsing offline mode.");
-      
-      const filteredMock = mockProperties.filter(p => {
-        const matchesLocation = !searchParams.location || 
-          p.location?.toLowerCase().includes(searchParams.location.toLowerCase()) ||
-          p.city?.toLowerCase().includes(searchParams.location.toLowerCase());
-          
-        const categoryFilter = searchParams.category || 'all';
-        const matchesCategory = categoryFilter === 'all' || 
-          (p.amenities && p.amenities.includes(categoryFilter));
-          
-        return matchesLocation && matchesCategory;
-      });
-      setProperties(filteredMock); 
+      setError("Server warming up. Showing demo data — refresh in ~30 seconds for live results.");
+      // Always show ALL mock data on error so the page is never blank
+      setProperties(mockProperties);
     } finally {
       setIsLoading(false);
     }
   };
 
-  // Reset stale location filter when landing on home page fresh
+  // Use a ref to track first mount and prevent double-fetch race condition
+  const isMounted = useRef(false);
+
+  // On first mount: reset stale location, then fetch
   useEffect(() => {
+    isMounted.current = true;
     if (searchParams.location) {
+      // Clear stale location — searchParams change will trigger the effect below
       updateSearch({ location: '' });
+    } else {
+      fetchHotels();
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // Re-fetch on every subsequent searchParams change (debounced)
   useEffect(() => {
+    if (!isMounted.current) return;
     const timer = setTimeout(fetchHotels, 500);
     return () => clearTimeout(timer);
-  }, [searchParams]);
+  }, [searchParams]); // eslint-disable-line react-hooks/exhaustive-deps
+
 
   return (
     <div className="bg-white min-h-screen relative">
