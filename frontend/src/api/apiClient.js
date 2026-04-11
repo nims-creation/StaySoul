@@ -159,3 +159,15 @@ apiClient.interceptors.request.use((config) => {
   }
   return config;
 }, (error) => Promise.reject(error));
+
+// Add a response interceptor to unwrap the global backend response wrapper
+apiClient.interceptors.response.use((response) => {
+  if (response.data && typeof response.data === 'object' && 
+      response.data.hasOwnProperty('timeStamp') && 
+      response.data.hasOwnProperty('error') && 
+      response.data.hasOwnProperty('data')) {
+    // Replace the axios data payload with the inner API data object
+    response.data = response.data.data;
+  }
+  return response;
+}, (error) => Promise.reject(error));
