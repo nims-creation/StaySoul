@@ -3,6 +3,7 @@ package com.nimscreation.projects.StaySoul.controller;
 import com.nimscreation.projects.StaySoul.dto.*;
 import com.nimscreation.projects.StaySoul.service.HotelService;
 import com.nimscreation.projects.StaySoul.service.InventoryService;
+import com.nimscreation.projects.StaySoul.service.PricingUpdateService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -18,6 +19,13 @@ public class HotelBrowseController {
 
     private final InventoryService inventoryService;
     private final HotelService hotelService;
+    private final PricingUpdateService pricingUpdateService;
+
+    @GetMapping("/force-update-prices")
+    public ResponseEntity<String> forceUpdate() {
+        pricingUpdateService.updatePrices();
+        return ResponseEntity.ok("Successfully forced pricing updates!");
+    }
 
     @PostMapping("/search")
     @Operation(summary = "Search hotels", tags = {"Browse Hotels"})

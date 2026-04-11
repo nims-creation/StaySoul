@@ -33,6 +33,7 @@ public class HotelServiceImpl implements HotelService{
     private final InventoryService inventoryService;
     private final RoomRepository roomRepository;
     private final InventoryRepository inventoryRepository;
+    private final PricingUpdateService pricingUpdateService;
 
     @Override
     @Transactional
@@ -131,6 +132,8 @@ public class HotelServiceImpl implements HotelService{
         for(Room room: hotel.getRooms()) {
             inventoryService.initializeRoomForAYear(room);
         }
+        
+        pricingUpdateService.updateHotelPrices(hotel);
     }
 
     @Override
