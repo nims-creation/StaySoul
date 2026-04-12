@@ -14,6 +14,7 @@ const AuthModal = () => {
   const [formData, setFormData] = useState({ name: '', email: '', password: '' });
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isHostSignUp, setIsHostSignUp] = useState(false);
 
   if (!isAuthModalOpen) return null;
 
@@ -53,7 +54,7 @@ const AuthModal = () => {
         login(tokenStr, userProfile);
       } else {
         // Signup flow
-        await authApi.signup(formData.name, formData.email, formData.password);
+        await authApi.signup(formData.name, formData.email, formData.password, isHostSignUp);
         // Auto login after signup
         const data = await authApi.login(formData.email, formData.password);
         const tokenStr = typeof data === 'string' ? data : (data?.accessToken || data?.token || data?.jwt);
@@ -165,6 +166,25 @@ const AuthModal = () => {
                   required
                 />
               </div>
+
+              {!isLoginMode && (
+                 <div className="flex bg-gray-100 p-1.5 rounded-2xl mt-4">
+                    <button 
+                       type="button"
+                       onClick={() => setIsHostSignUp(false)}
+                       className={`flex-1 py-2.5 text-sm font-bold rounded-xl transition-all ${!isHostSignUp ? 'bg-white shadow-sm text-dark' : 'text-gray-500 hover:text-dark'}`}
+                    >
+                       Book Stays
+                    </button>
+                    <button 
+                       type="button"
+                       onClick={() => setIsHostSignUp(true)}
+                       className={`flex-1 py-2.5 text-sm font-bold rounded-xl transition-all ${isHostSignUp ? 'bg-white shadow-sm text-dark' : 'text-gray-500 hover:text-dark'}`}
+                    >
+                       Host Properties
+                    </button>
+                 </div>
+              )}
             </div>
 
             <button 

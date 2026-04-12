@@ -43,9 +43,9 @@ export const authApi = {
     const response = await apiClient.post('/auth/login', { email, password });
     return response.data; // Expecting JWT token
   },
-  signup: async (name, email, password) => {
-    // Correctly mapping to SignUpRequestDto { email, name, password }
-    const response = await apiClient.post('/auth/signup', { name, email, password });
+  signup: async (name, email, password, isHost = false) => {
+    // Correctly mapping to SignUpRequestDto { email, name, password, isHost }
+    const response = await apiClient.post('/auth/signup', { name, email, password, isHost });
     return response.data;
   }
 };
