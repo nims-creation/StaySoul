@@ -20,7 +20,7 @@ const Home = () => {
   const fetchHotels = async () => {
     try {
       setIsLoading(true);
-      const city = searchParams.location || 'Mumbai';
+      const city = searchParams.location || '';
       const category = (searchParams.category === 'all' || !searchParams.category) ? null : searchParams.category;
       
       const data = await hotelApi.searchHotels(city, 0, 20, searchParams.minPrice, searchParams.maxPrice, category); 
