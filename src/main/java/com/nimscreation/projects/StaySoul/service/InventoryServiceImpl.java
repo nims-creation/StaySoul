@@ -39,7 +39,7 @@ public class InventoryServiceImpl implements InventoryService{
     @Override
     public void initializeRoomForAYear(Room room) {
         LocalDate today = LocalDate.now();
-        LocalDate endDate = today.plusYears(1);
+        LocalDate endDate = today.plusDays(90);
         List<Inventory> inventoryList = new java.util.ArrayList<>();
         for (; !today.isAfter(endDate); today=today.plusDays(1)) {
             Inventory inventory = Inventory.builder()

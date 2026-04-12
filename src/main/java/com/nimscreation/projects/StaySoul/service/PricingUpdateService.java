@@ -55,7 +55,7 @@ public class PricingUpdateService {
     public void updateHotelPrices(Hotel hotel) {
         log.info("Updating hotel prices for hotel ID: {}", hotel.getId());
         LocalDate startDate = LocalDate.now();
-        LocalDate endDate = LocalDate.now().plusYears(1);
+        LocalDate endDate = LocalDate.now().plusDays(90);
 
         List<Inventory> inventoryList = inventoryRepository.findByHotelAndDateBetween(hotel, startDate, endDate);
 
