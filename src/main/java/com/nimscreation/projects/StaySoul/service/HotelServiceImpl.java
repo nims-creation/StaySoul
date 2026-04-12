@@ -86,10 +86,35 @@ public class HotelServiceImpl implements HotelService{
             throw new UnAuthorisedException("This user does not own this hotel with id: "+id);
         }
 
+        // Prevent model mapper from overwriting the persistent rooms collection directly
+        List<RoomDto> roomsDtoList = hotelDto.getRooms();
+        hotelDto.setRooms(null);
+
         modelMapper.map(hotelDto, hotel);
         hotel.setId(id);
         hotel = hotelRepository.save(hotel);
-        return modelMapper.map(hotel, HotelDto.class);
+
+        // Restore and manually process rooms
+        if (roomsDtoList != null && !roomsDtoList.isEmpty()) {
+            for (RoomDto roomDto : roomsDtoList) {
+                if (roomDto.getId() != null) {
+                    Room existingRoom = roomRepository.findById(roomDto.getId()).orElse(null);
+                    if (existingRoom != null) {
+                        modelMapper.map(roomDto, existingRoom);
+                        existingRoom.setHotel(hotel);
+                        roomRepository.save(existingRoom);
+                    }
+                } else {
+                    Room newRoom = modelMapper.map(roomDto, Room.class);
+                    newRoom.setHotel(hotel);
+                    roomRepository.save(newRoom);
+                }
+            }
+        }
+        
+        hotelDto.setRooms(roomsDtoList);
+        hotelDto.setId(hotel.getId());
+        return hotelDto;
     }
 
     @Override
