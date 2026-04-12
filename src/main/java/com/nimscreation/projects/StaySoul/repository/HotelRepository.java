@@ -7,7 +7,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 @Repository
 public interface HotelRepository extends JpaRepository<Hotel, Long> {
-    List<Hotel> findByOwner(User user);
+    Page<Hotel> findByOwner(User user, Pageable pageable);
 }

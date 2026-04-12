@@ -203,15 +203,12 @@ public class HotelServiceImpl implements HotelService{
 
     @Override
     @Transactional
-    public List<HotelDto> getAllHotels() {
+    public org.springframework.data.domain.Page<HotelDto> getAllHotels(org.springframework.data.domain.Pageable pageable) {
         User user = getCurrentUser();
         log.info("Getting all hotels for the admin user with ID: {}", user.getId());
-        List<Hotel> hotels = hotelRepository.findByOwner(user);
+        org.springframework.data.domain.Page<Hotel> hotelPage = hotelRepository.findByOwner(user, pageable);
 
-        return hotels
-                .stream()
-                .map((element) -> modelMapper.map(element, HotelDto.class))
-                .collect(Collectors.toList());
+        return hotelPage.map(element -> modelMapper.map(element, HotelDto.class));
     }
 
 

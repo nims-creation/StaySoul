@@ -6,6 +6,9 @@ import com.nimscreation.projects.StaySoul.dto.HotelInfoDto;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 public interface HotelService {
 
     HotelDto createNewHotel(HotelDto hotelDto);
@@ -20,5 +23,5 @@ public interface HotelService {
 
     HotelInfoDto getHotelInfoById(Long hotelId, LocalDate startDate, LocalDate endDate);
 
-    List<HotelDto> getAllHotels();
+    Page<HotelDto> getAllHotels(Pageable pageable);
 }

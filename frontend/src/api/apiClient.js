@@ -104,7 +104,7 @@ export const userApi = {
 export const adminApi = {
   getOwnedHotels: async () => {
     const response = await apiClient.get('/admin/hotels');
-    return response.data;
+    return response.data.content !== undefined ? response.data.content : response.data;
   },
 
   createHotel: async (hotelData) => {

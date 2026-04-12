@@ -61,9 +61,12 @@ public class HotelController {
     }
 
     @GetMapping
-    @Operation(summary = "Get all hotels owned by admin", tags = {"Admin Hotel"})
-    public ResponseEntity<List<HotelDto>> getAllHotels() {
-        return ResponseEntity.ok(hotelService.getAllHotels());
+    @Operation(summary = "Get all hotels owned by admin (Paginated)", tags = {"Admin Hotel"})
+    public ResponseEntity<org.springframework.data.domain.Page<HotelDto>> getAllHotels(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        org.springframework.data.domain.Pageable pageable = org.springframework.data.domain.PageRequest.of(page, size);
+        return ResponseEntity.ok(hotelService.getAllHotels(pageable));
     }
 
     @GetMapping("/{hotelId}/bookings")
