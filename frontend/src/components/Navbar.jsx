@@ -3,6 +3,7 @@ import { Search, Globe, Menu, UserCircle, LogOut } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useSearch } from '../context/SearchContext';
 import { useNavigate } from 'react-router-dom';
+import { userApi } from '../api/apiClient';
 
 const Navbar = () => {
   const { isAuthenticated, user, setIsAuthModalOpen, logout } = useAuth();
@@ -30,6 +31,29 @@ const Navbar = () => {
 
   const handleLogoClick = () => {
     navigate('/');
+  };
+
+  const handleBecomeHostClick = async () => {
+    if (!isAuthenticated) {
+      setIsAuthModalOpen(true);
+      setIsDropdownOpen(false);
+      return;
+    }
+    if (user?.roles?.includes('HOTEL_MANAGER')) {
+      navigate('/admin');
+      setIsDropdownOpen(false);
+      return;
+    }
+    if (window.confirm("Would you like to upgrade your account to a Host so you can start listing properties?")) {
+      try {
+        await userApi.upgradeToHost();
+        alert("Success! You are now a Host. Please log out and log back in to access the Host Dashboard.");
+        setIsDropdownOpen(false);
+      } catch (err) {
+        console.error("Upgrade failed:", err);
+        alert("Failed to upgrade account. Please try again later.");
+      }
+    }
   };
 
   return (
@@ -76,7 +100,7 @@ const Navbar = () => {
           {/* Right Menu */}
           <div className="flex items-center justify-end space-x-1 relative" ref={dropdownRef}>
             <button 
-              onClick={() => navigate('/admin')}
+              onClick={handleBecomeHostClick}
               className="hidden lg:block text-sm font-semibold hover:bg-grayBg px-4 py-2 rounded-full transition-colors"
             >
               StaySoul your home
@@ -131,7 +155,7 @@ const Navbar = () => {
                     </button>
                     <div className="h-[1px] bg-lightGray my-1"></div>
                     <button 
-                      onClick={() => { navigate('/admin'); setIsDropdownOpen(false); }}
+                      onClick={handleBecomeHostClick}
                       className="text-left px-4 py-2.5 text-sm hover:bg-grayBg transition-colors text-dark cursor-pointer"
                     >
                       StaySoul your home

@@ -50,4 +50,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByEmail(username).orElse(null);
     }
+
+    @Override
+    public void upgradeToHost() {
+        User user = getCurrentUser();
+        if (!user.getRoles().contains(com.nimscreation.projects.StaySoul.entity.enums.Roles.HOTEL_MANAGER)) {
+            user.getRoles().add(com.nimscreation.projects.StaySoul.entity.enums.Roles.HOTEL_MANAGER);
+            userRepository.save(user);
+        }
+    }
 }

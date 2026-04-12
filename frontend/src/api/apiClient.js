@@ -94,6 +94,10 @@ export const userApi = {
   getProfile: async () => {
     const response = await apiClient.get('/users/profile');
     return response.data;
+  },
+  upgradeToHost: async () => {
+    const response = await apiClient.post('/users/upgrade-to-host');
+    return response.data;
   }
 };
 

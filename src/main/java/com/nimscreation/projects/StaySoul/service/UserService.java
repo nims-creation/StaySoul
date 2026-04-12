@@ -12,5 +12,6 @@ public interface UserService {
 
     UserDto getMyProfile();
 
+    void upgradeToHost();
 
 }

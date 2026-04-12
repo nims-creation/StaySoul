@@ -44,6 +44,13 @@ public class UserController {
         return ResponseEntity.ok(userService.getMyProfile());
     }
 
+    @PostMapping("/upgrade-to-host")
+    @Operation(summary = "Upgrade user account to Hotel Manager (Host)", tags = {"Profile"})
+    public ResponseEntity<Void> upgradeToHost() {
+        userService.upgradeToHost();
+        return ResponseEntity.noContent().build();
+    }
+
     @GetMapping("/guests")
     @Operation(summary = "Get all my guests", tags = {"Booking Guests"})
     public ResponseEntity<List<GuestDto>> getAllGuests() {
