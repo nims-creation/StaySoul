@@ -9,6 +9,7 @@ const Navbar = () => {
   const { isAuthenticated, user, setIsAuthModalOpen, logout } = useAuth();
   const { searchParams, updateSearch } = useSearch();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
 
@@ -22,6 +23,14 @@ const Navbar = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const handleSearchChange = (e) => {
@@ -57,7 +66,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="fixed w-full bg-white z-[9999] border-b border-lightGray shadow-sm">
+    <nav className={`fixed w-full z-[9999] transition-all duration-300 border-b border-lightGray ${isScrolled ? 'bg-white/80 backdrop-blur-md shadow-md' : 'bg-white shadow-sm'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           

@@ -2,6 +2,16 @@ import React from 'react';
 import { Heart, Star } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { formatCurrency } from '../utils/currencyUtils';
+import { motion } from 'framer-motion';
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { type: "spring", stiffness: 350, damping: 25 }
+  }
+};
 
 const PropertyCard = ({ property }) => {
   // If property is from backend, map its fields, otherwise use mock field structure
@@ -14,16 +24,25 @@ const PropertyCard = ({ property }) => {
   const price = property.price || 0;
   const rating = property.averageRating ? property.averageRating.toFixed(1) : "New";
   const reviewCount = property.reviewCount || 0;
+  const [imgError, setImgError] = React.useState(false);
 
   return (
-    <Link to={`/hotel/${property.id}`} className="flex flex-col cursor-pointer group">
-      {/* Image Container */}
-      <div className="relative aspect-square overflow-hidden rounded-xl bg-grayBg mb-3">
-        <img 
-          src={imageUrl} 
-          alt={title}
-          className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
-        />
+    <motion.div variants={itemVariants} className="flex flex-col group h-full">
+      <Link to={`/hotel/${property.id}`} className="flex flex-col cursor-pointer h-full">
+        {/* Image Container */}
+        <div className="relative aspect-square overflow-hidden rounded-xl bg-grayBg mb-3 border border-gray-100">
+          {imgError ? (
+            <div className="w-full h-full bg-gradient-to-br from-gray-50 to-gray-200 flex items-center justify-center">
+              <span className="text-gray-400 font-medium text-sm">Image unavailable</span>
+            </div>
+          ) : (
+            <img 
+              src={imageUrl} 
+              onError={() => setImgError(true)}
+              alt={title}
+              className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
+            />
+          )}
         
         {/* Favorite Button */}
         <button className="absolute top-3 right-3 p-1 hover:scale-110 transition-transform">
@@ -54,7 +73,8 @@ const PropertyCard = ({ property }) => {
           <span className="text-[15px] font-light text-dark">{rating}</span>
         </div>
       </div>
-    </Link>
+      </Link>
+    </motion.div>
   );
 };
 
