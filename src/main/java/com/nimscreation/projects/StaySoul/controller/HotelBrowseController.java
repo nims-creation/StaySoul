@@ -24,7 +24,7 @@ public class HotelBrowseController {
     private final AtomicBoolean isUpdating = new AtomicBoolean(false);
 
     @GetMapping("/force-update-prices")
-    public ResponseEntity<String> forceUpdate() {
+    public ResponseEntity<java.util.Map<String, String>> forceUpdate() {
         if (isUpdating.compareAndSet(false, true)) {
             new Thread(() -> {
                 try {
@@ -33,9 +33,9 @@ public class HotelBrowseController {
                     isUpdating.set(false);
                 }
             }).start();
-            return ResponseEntity.ok("Pricing updates started in the background. Please wait 1-2 minutes for properties to appear.");
+            return ResponseEntity.ok(java.util.Map.of("message", "Pricing updates started in the background. Please wait 1-2 minutes for properties to appear."));
         } else {
-            return ResponseEntity.status(429).body("Update is already running in the background. Please wait.");
+            return ResponseEntity.status(429).body(java.util.Map.of("message", "Update is already running in the background. Please wait."));
         }
     }
 

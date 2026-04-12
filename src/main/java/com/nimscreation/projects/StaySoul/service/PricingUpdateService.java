@@ -35,9 +35,19 @@ public class PricingUpdateService {
     private final HotelMinPriceRepository hotelMinPriceRepository;
     private final PricingService pricingService;
 
+    @org.springframework.context.event.EventListener(org.springframework.boot.context.event.ApplicationReadyEvent.class)
+    public void onStartup() {
+        new Thread(() -> {
+            try {
+                updatePrices();
+            } catch (Exception e) {
+                log.error("Failed to run startup pricing update", e);
+            }
+        }).start();
+    }
+
     //    @Scheduled(cron = "*/5 * * * * *")
     @Scheduled(cron = "0 0 * * * *")
-    @org.springframework.context.event.EventListener(org.springframework.boot.context.event.ApplicationReadyEvent.class)
     public void updatePrices() {
         int page = 0;
         int batchSize = 100;
