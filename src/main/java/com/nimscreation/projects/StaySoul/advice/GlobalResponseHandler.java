@@ -20,7 +20,7 @@ public class GlobalResponseHandler implements ResponseBodyAdvice<Object> {
 
     @Override
     public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
-        List<String> allowedRoutes = List.of("/v3/api-docs", "/actuator");
+        List<String> allowedRoutes = List.of("/v3/api-docs", "/actuator", "/webhook");
 
         boolean isAllowed = allowedRoutes
                 .stream()
@@ -28,6 +28,16 @@ public class GlobalResponseHandler implements ResponseBodyAdvice<Object> {
 
         if(body instanceof ApiResponse<?> || isAllowed) {
             return body;
+        }
+
+        if (body instanceof String) {
+            try {
+                com.fasterxml.jackson.databind.ObjectMapper objectMapper = new com.fasterxml.jackson.databind.ObjectMapper();
+                objectMapper.findAndRegisterModules();
+                return objectMapper.writeValueAsString(new ApiResponse<>(body));
+            } catch (Exception e) {
+                return body;
+            }
         }
 
         return new ApiResponse<>(body);

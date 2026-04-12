@@ -37,6 +37,7 @@ public class PricingUpdateService {
 
     //    @Scheduled(cron = "*/5 * * * * *")
     @Scheduled(cron = "0 0 * * * *")
+    @org.springframework.context.event.EventListener(org.springframework.boot.context.event.ApplicationReadyEvent.class)
     public void updatePrices() {
         int page = 0;
         int batchSize = 100;
