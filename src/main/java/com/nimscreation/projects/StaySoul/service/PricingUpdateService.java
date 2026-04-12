@@ -88,7 +88,7 @@ public class PricingUpdateService {
         // Prepare HotelPrice entities in bulk
         List<HotelMinPrice> hotelPrices = new ArrayList<>();
         dailyMinPrices.forEach((date, price) -> {
-            HotelMinPrice hotelPrice = hotelMinPriceRepository.findByHotelAndDate(hotel, date)
+            HotelMinPrice hotelPrice = hotelMinPriceRepository.findFirstByHotelAndDate(hotel, date)
                     .orElse(new HotelMinPrice(hotel, date));
             hotelPrice.setPrice(price);
             hotelPrices.add(hotelPrice);
