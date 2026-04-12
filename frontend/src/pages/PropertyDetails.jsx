@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { hotelApi } from '../api/apiClient';
 import { mockProperties } from '../data/mockProperties';
-import { Star, Share, Heart, MapPin, Wifi, Car, Coffee, Tv } from 'lucide-react';
+import { Star, Share, Heart, MapPin, Wifi, Car, Coffee, Tv, Utensils, Waves, Wind, Activity, Check } from 'lucide-react';
 import BookingCard from '../components/BookingCard';
 import ReviewSection from '../components/ReviewSection';
 import ReviewForm from '../components/ReviewForm';
@@ -84,6 +84,19 @@ const PropertyDetails = () => {
 
   const images = getImages();
 
+  const getAmenityIcon = (name) => {
+    const lower = name.toLowerCase();
+    if(lower.includes('wifi')) return Wifi;
+    if(lower.includes('pool') || lower.includes('swim') || lower.includes('beach')) return Waves;
+    if(lower.includes('park') || lower.includes('car')) return Car;
+    if(lower.includes('restaurant') || lower.includes('food') || lower.includes('dine')) return Utensils;
+    if(lower.includes('spa') || lower.includes('gym') || lower.includes('fitness')) return Activity;
+    if(lower.includes('tv') || lower.includes('screen')) return Tv;
+    if(lower.includes('coffee') || lower.includes('work')) return Coffee;
+    if(lower.includes('air') || lower.includes('ac')) return Wind;
+    return Check;
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
       
@@ -130,7 +143,10 @@ const PropertyDetails = () => {
            <div className="py-8 border-b border-lightGray">
               <h3 className="text-xl font-semibold mb-6">What this place offers</h3>
               <div className="grid grid-cols-2 gap-4 text-dark text-[15px]">
-                  {property.amenities ? property.amenities.map(a => <div key={a} className="flex items-center"><Wifi size={24} className="mr-4 text-gray-500 font-light" /> {a}</div>) : (
+                  {property.amenities ? property.amenities.map(a => {
+                    const Icon = getAmenityIcon(a);
+                    return <div key={a} className="flex items-center"><Icon size={24} className="mr-4 text-gray-500 font-light" /> {a}</div>;
+                  }) : (
                     <>
                       <div className="flex items-center"><Wifi size={26} className="mr-4 font-light text-gray-600" /> Fast Wifi</div>
                       <div className="flex items-center"><Car size={26} className="mr-4 font-light text-gray-600" /> Free parking on premises</div>
