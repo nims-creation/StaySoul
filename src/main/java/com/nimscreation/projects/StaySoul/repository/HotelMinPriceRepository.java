@@ -17,22 +17,22 @@ public interface HotelMinPriceRepository extends JpaRepository<HotelMinPrice, Lo
             SELECT DISTINCT h.id as hotel_id, AVG(hmp.price) as avg_price
             FROM hotel_min_price hmp
             JOIN hotel h ON hmp.hotel_id = h.id
-            WHERE (:city IS NULL OR :city = '' OR LOWER(h.city) LIKE LOWER(CONCAT('%', :city, '%')))
+            WHERE (CAST(:city AS text) IS NULL OR CAST(:city AS text) = '' OR LOWER(h.city) LIKE LOWER(CONCAT('%', CAST(:city AS text), '%')))
                 AND hmp.date BETWEEN :startDate AND :endDate
                 AND h.active = true
-                AND (:category IS NULL OR :category = '' OR :category = ANY(h.amenities))
+                AND (CAST(:category AS text) IS NULL OR CAST(:category AS text) = '' OR CAST(:category AS text) = ANY(h.amenities))
             GROUP BY h.id, h.name
-            HAVING (:minPrice IS NULL OR AVG(hmp.price) >= :minPrice)
-                AND (:maxPrice IS NULL OR AVG(hmp.price) <= :maxPrice)
+            HAVING (CAST(:minPrice AS numeric) IS NULL OR AVG(hmp.price) >= CAST(:minPrice AS numeric))
+                AND (CAST(:maxPrice AS numeric) IS NULL OR AVG(hmp.price) <= CAST(:maxPrice AS numeric))
             """, 
             countQuery = """
             SELECT COUNT(DISTINCT h.id)
             FROM hotel_min_price hmp
             JOIN hotel h ON hmp.hotel_id = h.id
-            WHERE (:city IS NULL OR :city = '' OR LOWER(h.city) LIKE LOWER(CONCAT('%', :city, '%')))
+            WHERE (CAST(:city AS text) IS NULL OR CAST(:city AS text) = '' OR LOWER(h.city) LIKE LOWER(CONCAT('%', CAST(:city AS text), '%')))
                 AND hmp.date BETWEEN :startDate AND :endDate
                 AND h.active = true
-                AND (:category IS NULL OR :category = '' OR :category = ANY(h.amenities))
+                AND (CAST(:category AS text) IS NULL OR CAST(:category AS text) = '' OR CAST(:category AS text) = ANY(h.amenities))
             """,
             nativeQuery = true)
     Page<Object[]> findHotelsWithAvailableInventoryNative(
