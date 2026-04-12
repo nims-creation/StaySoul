@@ -103,7 +103,7 @@ const Navbar = () => {
               onClick={handleBecomeHostClick}
               className="hidden lg:block text-sm font-semibold hover:bg-grayBg px-4 py-2 rounded-full transition-colors"
             >
-              StaySoul your home
+              {user?.roles?.includes('HOTEL_MANAGER') ? 'Switch to hosting' : 'StaySoul your home'}
             </button>
             <button className="p-2 hover:bg-grayBg rounded-full transition-colors hidden md:block">
               <Globe size={18} className="text-dark" />
@@ -134,6 +134,17 @@ const Navbar = () => {
                     </button>
                     <button className="text-left px-4 py-2.5 text-sm hover:bg-grayBg transition-colors text-dark font-medium cursor-pointer">Wishlists</button>
                     <div className="h-[1px] bg-lightGray my-1"></div>
+                    
+                    {user?.roles?.includes('HOTEL_MANAGER') ? (
+                       <button onClick={() => { navigate('/admin'); setIsDropdownOpen(false); }} className="text-left px-4 py-2.5 text-sm hover:bg-grayBg transition-colors text-dark font-medium cursor-pointer">
+                          Host Dashboard
+                       </button>
+                    ) : (
+                       <button onClick={handleBecomeHostClick} className="text-left px-4 py-2.5 text-sm hover:bg-grayBg transition-colors text-dark font-medium cursor-pointer">
+                          StaySoul your home
+                       </button>
+                    )}
+
                     <button onClick={logout} className="flex space-x-2 items-center text-left px-4 py-2.5 text-sm hover:bg-grayBg transition-colors text-dark cursor-pointer">
                        <LogOut size={16} className="text-gray-600" />
                        <span>Log out</span>
