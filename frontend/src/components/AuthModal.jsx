@@ -76,7 +76,7 @@ const AuthModal = () => {
         let userProfile = { email: formData.email, name: formData.name, roles };
         try {
            const profileData = await userApi.getProfile();
-           userProfile = { ...profileData, roles };
+           userProfile = { ...profileData, roles: roles.length > 0 ? roles : profileData.roles };
         } catch(e) {
            console.log('Failed to fetch full profile.', e);
         }

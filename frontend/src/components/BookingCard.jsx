@@ -65,11 +65,14 @@ const BookingCard = ({ price: initialPrice, rating, dates, maxGuests, hotelId, r
 
   return (
     <div className="bg-white border text-dark border-lightGray rounded-xl p-6 shadow-xl sticky top-28">
-      <div className="flex justify-between items-baseline mb-4">
+      <div className="flex justify-between items-baseline mb-2">
         <div className="flex items-baseline space-x-1">
           <span className="text-2xl font-bold">{formatCurrency(price)}</span>
           <span className="text-gray-500 font-medium">night</span>
         </div>
+      </div>
+      <div className="text-xs text-amber-600 font-semibold mb-4 bg-amber-50 p-2 rounded-lg inline-block border border-amber-100">
+         Dynamic pricing active based on local demand
       </div>
 
       {/* Room Selection Dropdown */}
