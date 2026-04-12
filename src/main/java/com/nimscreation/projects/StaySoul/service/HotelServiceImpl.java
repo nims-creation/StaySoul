@@ -37,6 +37,7 @@ public class HotelServiceImpl implements HotelService{
 
     @Override
     @Transactional
+    @org.springframework.cache.annotation.CacheEvict(value = "hotelSearch", allEntries = true)
     public HotelDto createNewHotel(HotelDto hotelDto) {
         log.info("Creating a new hotel with name: {}", hotelDto.getName());
         Hotel hotel = modelMapper.map(hotelDto, Hotel.class);
@@ -75,6 +76,7 @@ public class HotelServiceImpl implements HotelService{
     }
 
     @Override
+    @org.springframework.cache.annotation.CacheEvict(value = "hotelSearch", allEntries = true)
     public HotelDto updateHotelById(Long id, HotelDto hotelDto) {
         log.info("Updating the hotel with ID: {}", id);
         Hotel hotel = hotelRepository
@@ -119,6 +121,7 @@ public class HotelServiceImpl implements HotelService{
 
     @Override
     @Transactional
+    @org.springframework.cache.annotation.CacheEvict(value = "hotelSearch", allEntries = true)
     public void deleteHotelById(Long id) {
         Hotel hotel = hotelRepository
                 .findById(id)
@@ -139,6 +142,7 @@ public class HotelServiceImpl implements HotelService{
 
     @Override
     @Transactional
+    @org.springframework.cache.annotation.CacheEvict(value = "hotelSearch", allEntries = true)
     public void activateHotel(Long hotelId) {
         log.info("Activating the hotel with ID: {}", hotelId);
         Hotel hotel = hotelRepository

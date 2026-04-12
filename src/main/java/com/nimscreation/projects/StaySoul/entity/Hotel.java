@@ -11,10 +11,15 @@ import org.hibernate.annotations.Formula;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
+
 @Entity
 @Getter
 @Setter
 @Table(name = "hotel")
+@SQLDelete(sql = "UPDATE hotel SET deleted = true WHERE id=?")
+@SQLRestriction("deleted = false")
 public class Hotel {
 
     @Id
@@ -59,5 +64,8 @@ public class Hotel {
     @OneToMany(mappedBy = "hotel")
     @JsonIgnore
     private List<Room> rooms;
+
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private boolean deleted = false;
 
 }

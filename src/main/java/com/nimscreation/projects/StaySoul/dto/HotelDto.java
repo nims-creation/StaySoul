@@ -8,6 +8,10 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -15,7 +19,11 @@ import java.util.List;
 public class HotelDto {
 
     private Long id;
+    
+    @NotBlank(message = "Hotel name is required")
     private String name;
+    
+    @NotBlank(message = "City cannot be blank")
     private String city;
     private String[] photos;
     private String[] amenities;
@@ -23,5 +31,7 @@ public class HotelDto {
     private Double lng;
     private HotelContactInfo contactInfo;
     private Boolean active;
+    
+    @Valid
     private List<RoomDto> rooms;
 }

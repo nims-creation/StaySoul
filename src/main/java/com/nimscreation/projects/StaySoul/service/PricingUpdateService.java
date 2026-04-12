@@ -37,6 +37,7 @@ public class PricingUpdateService {
 
     // Runs 2 minutes after startup, then every 1 hour (3600000 ms), completely avoiding boot/timeout crashes!
     @Scheduled(initialDelay = 120000, fixedDelay = 3600000)
+    @org.springframework.cache.annotation.CacheEvict(value = "hotelSearch", allEntries = true)
     public void updatePrices() {
         int page = 0;
         int batchSize = 100;

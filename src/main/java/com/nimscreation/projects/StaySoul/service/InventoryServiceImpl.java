@@ -66,6 +66,7 @@ public class InventoryServiceImpl implements InventoryService{
     }
 
     @Override
+    @org.springframework.cache.annotation.Cacheable(value = "hotelSearch")
     public Page<HotelPriceResponseDto> searchHotels(HotelSearchRequest hotelSearchRequest) {
         log.info("Searching hotels for {} city, from {} to {}", hotelSearchRequest.getCity(), hotelSearchRequest.getStartDate(), hotelSearchRequest.getEndDate());
         Pageable pageable = PageRequest.of(hotelSearchRequest.getPage(), hotelSearchRequest.getSize());
