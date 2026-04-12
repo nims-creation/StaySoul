@@ -46,4 +46,6 @@ public interface HotelMinPriceRepository extends JpaRepository<HotelMinPrice, Lo
     );
 
     Optional<HotelMinPrice> findFirstByHotelAndDate(Hotel hotel, LocalDate date);
+    
+    java.util.List<HotelMinPrice> findByHotelAndDateBetween(Hotel hotel, LocalDate startDate, LocalDate endDate);
 }

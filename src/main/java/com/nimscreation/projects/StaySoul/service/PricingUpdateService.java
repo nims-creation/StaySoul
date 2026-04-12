@@ -74,16 +74,20 @@ public class PricingUpdateService {
                 .entrySet().stream()
                 .collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().orElse(BigDecimal.ZERO)));
 
-        // Prepare HotelPrice entities in bulk
+        // Fetch all existing HotelMinPrice for this year in ONE query
+        List<HotelMinPrice> existingPrices = hotelMinPriceRepository.findByHotelAndDateBetween(hotel, startDate, endDate);
+        Map<LocalDate, HotelMinPrice> existingPriceMap = existingPrices.stream()
+                .collect(Collectors.toMap(HotelMinPrice::getDate, hp -> hp, (hp1, hp2) -> hp1)); // handle duplicates safely
+
+        // Prepare HotelPrice entities in memory
         List<HotelMinPrice> hotelPrices = new ArrayList<>();
         dailyMinPrices.forEach((date, price) -> {
-            HotelMinPrice hotelPrice = hotelMinPriceRepository.findFirstByHotelAndDate(hotel, date)
-                    .orElse(new HotelMinPrice(hotel, date));
+            HotelMinPrice hotelPrice = existingPriceMap.getOrDefault(date, new HotelMinPrice(hotel, date));
             hotelPrice.setPrice(price);
             hotelPrices.add(hotelPrice);
         });
 
-        // Save all HotelPrice entities in bulk
+        // Save all HotelPrice entities in ONE batched save query
         hotelMinPriceRepository.saveAll(hotelPrices);
     }
 
