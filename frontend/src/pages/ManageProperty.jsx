@@ -79,22 +79,54 @@ const ManageProperty = () => {
   };
 
   const handleSave = async () => {
+    // Validate - check if all rooms have a valid price and type
+    const invalidRoom = formData.rooms.find(r => !r.type || !r.basePrice || r.basePrice <= 0);
+    if (invalidRoom) {
+      setStatus({ type: 'error', msg: 'All room categories need a title and a price greater than 0.' });
+      return;
+    }
+
     try {
       setIsLoading(true);
-      if (hotelId) {
-        await adminApi.updateHotel(hotelId, formData);
-      } else {
-        const created = await adminApi.createHotel(formData);
-        setHotelId(created.id);
+      setStatus({ type: '', msg: '' });
+
+      // Sanitize and clone data - ensure basePrice is a proper number (not NaN)
+      const sanitizedData = {
+        ...formData,
+        rooms: formData.rooms.map(r => ({
+          ...r,
+          basePrice: Number(r.basePrice) || 100,
+          totalCount: Number(r.totalCount) || 1,
+          capacity: Number(r.capacity) || 2,
+        })),
+      };
+
+      // 30s timeout so we never freeze forever
+      const savePromise = hotelId
+        ? adminApi.updateHotel(hotelId, sanitizedData)
+        : adminApi.createHotel(sanitizedData);
+
+      const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('Request timed out. Render server may be waking up — please try again!')), 30000)
+      );
+
+      const result = await Promise.race([savePromise, timeoutPromise]);
+
+      if (!hotelId) {
+        setHotelId(result.id);
       }
       setStep(3);
       setStatus({ type: 'success', msg: 'Property and rooms saved successfully!' });
     } catch (err) {
-      setStatus({ type: 'error', msg: 'Failed to save property. Please check all fields.' });
+      const msg = err.message?.includes('timed out')
+        ? err.message
+        : (err.response?.data?.message || 'Failed to save property. Please check all fields and try again.');
+      setStatus({ type: 'error', msg });
     } finally {
       setIsLoading(false);
     }
   };
+
 
   const handleActivate = async () => {
     try {
