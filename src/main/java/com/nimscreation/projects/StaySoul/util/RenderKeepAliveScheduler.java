@@ -21,8 +21,8 @@ public class RenderKeepAliveScheduler {
 
     private final JdbcTemplate jdbcTemplate;
 
-    // Runs every 10 minutes (600,000 ms)
-    @Scheduled(fixedDelay = 600_000)
+    // Starts 60s after boot (DB is guaranteed up by then), then every 10 minutes
+    @Scheduled(initialDelay = 60_000, fixedDelay = 600_000)
     public void keepAlive() {
         try {
             jdbcTemplate.queryForObject("SELECT 1", Integer.class);

@@ -27,7 +27,8 @@ public class InitialDataSeeder implements CommandLineRunner {
         try {
             jdbcTemplate.execute("ALTER TABLE hotel ADD COLUMN IF NOT EXISTS deleted boolean NOT NULL DEFAULT false");
             jdbcTemplate.execute("ALTER TABLE room ADD COLUMN IF NOT EXISTS deleted boolean NOT NULL DEFAULT false");
-            System.out.println("Successfully ensured 'deleted' column exists on 'hotel' and 'room' tables.");
+            jdbcTemplate.execute("ALTER TABLE hotel ADD COLUMN IF NOT EXISTS description TEXT");
+            System.out.println("Successfully ensured 'deleted' and 'description' columns exist on 'hotel' and 'room' tables.");
         } catch (Exception e) {
             System.err.println("Could not add 'deleted' columns: " + e.getMessage());
         }

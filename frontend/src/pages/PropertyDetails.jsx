@@ -139,6 +139,13 @@ const PropertyDetails = () => {
               </div>
            </div>
 
+           {/* Description */}
+           {property.description && (
+             <div className="py-8 border-b border-lightGray">
+               <p className="text-dark text-[16px] leading-relaxed whitespace-pre-line">{property.description}</p>
+             </div>
+           )}
+
            {/* Amenities */}
            <div className="py-8 border-b border-lightGray">
               <h3 className="text-xl font-semibold mb-6">What this place offers</h3>

@@ -31,6 +31,9 @@ public class Hotel {
 
     private String city;
 
+    @Column(columnDefinition = "TEXT")
+    private String description;
+
     private Double lat;
     private Double lng;
 

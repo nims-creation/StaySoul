@@ -25,6 +25,7 @@ public class HotelDto {
     
     @NotBlank(message = "City cannot be blank")
     private String city;
+    private String description;
     private String[] photos;
     private String[] amenities;
     private Double lat;

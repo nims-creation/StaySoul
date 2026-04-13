@@ -76,6 +76,7 @@ public class HotelServiceImpl implements HotelService{
     }
 
     @Override
+    @Transactional
     @org.springframework.cache.annotation.CacheEvict(value = "hotelSearch", allEntries = true)
     public HotelDto updateHotelById(Long id, HotelDto hotelDto) {
         log.info("Updating the hotel with ID: {}", id);
