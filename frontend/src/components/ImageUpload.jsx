@@ -1,7 +1,7 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { Upload, X, Image as ImageIcon, Loader2, CheckCircle2 } from 'lucide-react';
 
-const ImageUpload = ({ onUploadSuccess, cloudName = "dv4a3qyrt", uploadPreset = "staysoul_uploads", currentPhotos = [] }) => {
+const ImageUpload = ({ onUploadSuccess, cloudName = "dv4a3qyrt", uploadPreset = "ml_default", currentPhotos = [] }) => {
   const [isUploading, setIsUploading] = useState(false);
   const [previews, setPreviews] = useState([]);
   const [isDragging, setIsDragging] = useState(false);
