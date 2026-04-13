@@ -9,15 +9,56 @@ const AdminDashboard = () => {
   const [hotels, setHotels] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isSeeding, setIsSeeding] = useState(false);
+  const [stats, setStats] = useState({
+    totalRevenue: 0,
+    totalBookings: 0,
+    activeListings: 0,
+    occupancyPct: 0,
+    statsLoading: true,
+  });
   const navigate = useNavigate();
 
   const fetchHotels = async () => {
     try {
       setIsLoading(true);
       const data = await adminApi.getOwnedHotels();
-      setHotels(data || []);
+      const hotelList = data || [];
+      setHotels(hotelList);
+
+      // Fetch real stats for all hotels in parallel (last 30 days)
+      const today = new Date().toISOString().split('T')[0];
+      const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+
+      const reportResults = await Promise.allSettled(
+        hotelList.map(h => adminApi.getReport(h.id, thirtyDaysAgo, today))
+      );
+
+      let totalRevenue = 0;
+      let totalBookings = 0;
+      reportResults.forEach(result => {
+        if (result.status === 'fulfilled' && result.value) {
+          totalRevenue += result.value.totalRevenue || result.value.totalRevenueOfConfirmedBookings || 0;
+          totalBookings += result.value.totalConfirmedBookings || 0;
+        }
+      });
+
+      // Occupancy = bookings in 30 days / (active hotels × 30 days) as a %
+      const activeCount = hotelList.filter(h => h.active).length;
+      const maxPossibleBookings = activeCount * 30;
+      const occupancyPct = maxPossibleBookings > 0
+        ? Math.min(Math.round((totalBookings / maxPossibleBookings) * 100), 100)
+        : 0;
+
+      setStats({
+        totalRevenue,
+        totalBookings,
+        activeListings: hotelList.filter(h => h.active).length,
+        occupancyPct,
+        statsLoading: false,
+      });
     } catch (err) {
       console.error("Failed to fetch owned hotels", err);
+      setStats(s => ({ ...s, statsLoading: false }));
     } finally {
       setIsLoading(false);
     }
@@ -78,10 +119,26 @@ const AdminDashboard = () => {
       {/* Stats Overview */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
          {[
-           { label: 'Total Revenue', value: formatCurrency(12450), icon: TrendingUp, color: 'text-green-600', bg: 'bg-green-50' },
-           { label: 'Active Listings', value: hotels.length.toString(), icon: Hotel, color: 'text-blue-600', bg: 'bg-blue-50' },
-           { label: 'Bookings (30d)', value: '24', icon: Calendar, color: 'text-purple-600', bg: 'bg-purple-50' },
-           { label: 'Avg Occupancy', value: '78%', icon: Users, color: 'text-amber-600', bg: 'bg-amber-50' }
+           {
+             label: 'Total Revenue (30d)',
+             value: stats.statsLoading ? '...' : formatCurrency(stats.totalRevenue),
+             icon: TrendingUp, color: 'text-green-600', bg: 'bg-green-50'
+           },
+           {
+             label: 'Active Listings',
+             value: stats.statsLoading ? '...' : stats.activeListings.toString(),
+             icon: Hotel, color: 'text-blue-600', bg: 'bg-blue-50'
+           },
+           {
+             label: 'Bookings (30d)',
+             value: stats.statsLoading ? '...' : stats.totalBookings.toString(),
+             icon: Calendar, color: 'text-purple-600', bg: 'bg-purple-50'
+           },
+           {
+             label: 'Avg Occupancy',
+             value: stats.statsLoading ? '...' : `${stats.occupancyPct}%`,
+             icon: Users, color: 'text-amber-600', bg: 'bg-amber-50'
+           }
          ].map((stat, idx) => {
            const Icon = stat.icon;
            return (
@@ -91,7 +148,7 @@ const AdminDashboard = () => {
                 </div>
                 <div>
                    <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">{stat.label}</span>
-                   <div className="text-2xl font-bold text-dark">{stat.value}</div>
+                   <div className={`text-2xl font-bold text-dark ${stats.statsLoading ? 'animate-pulse' : ''}`}>{stat.value}</div>
                 </div>
              </div>
            );
