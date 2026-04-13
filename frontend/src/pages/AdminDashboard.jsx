@@ -111,9 +111,10 @@ const AdminDashboard = () => {
              <div key={hotel.id} className="bg-white border border-lightGray rounded-2xl overflow-hidden group hover:shadow-md transition-all">
                 <div className="h-48 bg-grayBg relative">
                   <img 
-                    src={hotel.imageUrl || "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"} 
+                    src={(hotel.photos && hotel.photos.length > 0) ? hotel.photos[0] : "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"} 
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    alt="hotel"
+                    alt={hotel.name}
+                    onError={(e) => { e.target.src = "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"; }}
                   />
                   <div className="absolute top-4 right-4">
                      <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${hotel.active ? 'bg-green-100 text-green-600' : 'bg-amber-100 text-amber-600'}`}>
