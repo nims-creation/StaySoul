@@ -1,11 +1,18 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { Upload, X, Image as ImageIcon, Loader2, CheckCircle2 } from 'lucide-react';
 
 const ImageUpload = ({ onUploadSuccess, cloudName = "dv4a3qyrt", uploadPreset = "staysoul_uploads", currentPhotos = [] }) => {
   const [isUploading, setIsUploading] = useState(false);
-  const [previews, setPreviews] = useState(currentPhotos || []);
+  const [previews, setPreviews] = useState([]);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef(null);
+
+  // Sync previews when currentPhotos arrives asynchronously (e.g. after hotel data is fetched for edit)
+  useEffect(() => {
+    if (currentPhotos && currentPhotos.length > 0) {
+      setPreviews(currentPhotos);
+    }
+  }, [JSON.stringify(currentPhotos)]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const uploadFiles = useCallback(async (files) => {
     if (!files || files.length === 0) return;
