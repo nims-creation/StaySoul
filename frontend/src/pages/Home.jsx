@@ -36,23 +36,30 @@ const Home = () => {
     }
   };
 
-  // Use a ref to track first mount and prevent double-fetch race condition
+  // Track whether initial mount is done to prevent double-fetch
   const isMounted = useRef(false);
+  // Track whether we just reset location to skip the triggered re-fetch
+  const skipNextFetch = useRef(false);
 
-  // On first mount: reset stale location, then fetch
+  // On first mount: reset stale location if needed, then fetch
   useEffect(() => {
-    isMounted.current = true;
     if (searchParams.location) {
-      // Clear stale location — searchParams change will trigger the effect below
+      skipNextFetch.current = true; // next searchParams change is just our own reset, skip it
       updateSearch({ location: '' });
     } else {
       fetchHotels();
     }
+    isMounted.current = true;
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Re-fetch on every subsequent searchParams change (debounced)
   useEffect(() => {
-    if (!isMounted.current) return;
+    if (!isMounted.current) return; // skip on initial mount (handled above)
+    if (skipNextFetch.current) {
+      skipNextFetch.current = false; // consume the flag, then fetch after reset
+      const timer = setTimeout(fetchHotels, 100);
+      return () => clearTimeout(timer);
+    }
     const timer = setTimeout(fetchHotels, 500);
     return () => clearTimeout(timer);
   }, [searchParams]); // eslint-disable-line react-hooks/exhaustive-deps
