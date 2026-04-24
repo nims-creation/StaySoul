@@ -66,7 +66,7 @@ const Home = () => {
 
 
   return (
-    <div className="bg-white min-h-screen relative">
+    <div className="bg-cream min-h-screen relative">
       <FilterBar 
         activeCategory={searchParams.category} 
         onCategoryChange={(cat) => updateSearch({ category: cat })}
@@ -93,9 +93,9 @@ const Home = () => {
       </main>
 
       {/* Floating Toggle Button */}
-      <button 
+      <button
         onClick={() => setShowMap(!showMap)}
-        className="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 bg-dark text-white px-6 py-4 rounded-full font-black text-sm flex items-center gap-3 shadow-2xl hover:scale-105 active:scale-95 transition-all"
+        className="fixed bottom-[72px] lg:bottom-8 left-1/2 -translate-x-1/2 z-50 bg-gradient-primary text-white px-6 py-3.5 rounded-full font-bold text-[13px] flex items-center gap-2.5 shadow-premium hover:opacity-90 hover:scale-105 active:scale-95 transition-all duration-200"
       >
         {showMap ? <ListIcon size={18} /> : <MapIcon size={18} />}
         {showMap ? 'Show list' : 'Show map'}

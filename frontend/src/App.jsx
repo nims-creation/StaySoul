@@ -19,9 +19,15 @@ const OAuth2Callback = lazy(() => import('./pages/OAuth2Callback'));
 
 
 const LoadingFallback = () => (
-  <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-4">
-    <div className="w-12 h-12 border-4 border-red-500 border-t-transparent rounded-full animate-spin"></div>
-    <p className="text-gray-500 font-medium tracking-wide">Readying the perfect stay...</p>
+  <div className="flex flex-col items-center justify-center min-h-[60vh] gap-5">
+    {/* Gradient spinner ring */}
+    <div className="relative w-14 h-14">
+      <div className="absolute inset-0 rounded-full border-4 border-primary/15" />
+      <div className="absolute inset-0 rounded-full border-4 border-primary border-t-transparent animate-spin" />
+    </div>
+    <p className="text-muted text-[13px] font-medium tracking-wide italic">
+      Curating the perfect stay…
+    </p>
   </div>
 );
 
@@ -30,7 +36,7 @@ function App() {
     <AuthProvider>
       <SearchProvider>
         <Router>
-          <div className="min-h-screen bg-white flex flex-col">
+          <div className="min-h-screen bg-cream flex flex-col">
             <AuthModal />
             <Navbar />
             <main className="flex-grow">
