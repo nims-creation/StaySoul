@@ -43,6 +43,9 @@ public class Hotel {
     @Formula("(SELECT COUNT(*) FROM review r WHERE r.hotel_id = id)")
     private Long reviewCount;
 
+    @Formula("(SELECT COUNT(*) FROM room r WHERE r.hotel_id = id AND r.deleted = false)")
+    private Long totalRooms;
+
     @Column(columnDefinition = "TEXT[]")
     private String[] photos;
 
