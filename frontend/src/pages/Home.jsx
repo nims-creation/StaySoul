@@ -16,6 +16,7 @@ const Home = () => {
   const [properties, setProperties] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [totalCount, setTotalCount] = useState(0);
 
   const fetchHotels = async () => {
     try {
@@ -25,6 +26,7 @@ const Home = () => {
       
       const data = await hotelApi.searchHotels(city, 0, 20, searchParams.minPrice, searchParams.maxPrice, category); 
       setProperties(data.content || []);
+      setTotalCount(data.totalElements || 0);
       setError(null);
     } catch (err) {
       console.error("Backend fetch failed, using mock data", err);
@@ -63,6 +65,15 @@ const Home = () => {
     const timer = setTimeout(fetchHotels, 500);
     return () => clearTimeout(timer);
   }, [searchParams]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Update page title based on active search
+  useEffect(() => {
+    const city = searchParams.location;
+    document.title = city
+      ? `StaySoul – Hotels in ${city}`
+      : 'StaySoul – Find Your Perfect Stay';
+    return () => { document.title = 'StaySoul'; };
+  }, [searchParams.location]);
 
 
   return (
