@@ -15,6 +15,10 @@
 
 > A comprehensive, full-stack hotel management and booking system inspired by Airbnb. Features dynamic pricing, secure authentication (JWT & Google OAuth), interactive mapping, premium UI animations, and seamless Stripe payments.
 
+<p align="center">
+  <a href="./CHANGELOG.md"><img src="https://img.shields.io/badge/Changelog-View%20Updates-informational?style=for-the-badge" alt="Changelog"></a>
+</p>
+
 ---
 
 ## 🌐 Live Demo
