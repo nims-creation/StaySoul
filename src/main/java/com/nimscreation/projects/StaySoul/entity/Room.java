@@ -34,6 +34,9 @@ public class Room {
     @Column(nullable = false)
     private String type;
 
+    @Column(columnDefinition = "TEXT")
+    private String description;
+
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal basePrice;
 
