@@ -17,6 +17,9 @@ import java.util.Set;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "booking", indexes = {
+        @Index(name = "idx_booking_payment_session", columnList = "paymentSessionId")
+})
 public class Booking {
 
     @Id
