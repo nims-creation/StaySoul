@@ -53,6 +53,7 @@ const PropertyCard = ({ property }) => {
               src={imageUrl}
               onError={() => setImgError(true)}
               alt={title}
+              loading="lazy"
               className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-500 ease-out"
             />
           )}
@@ -74,6 +75,7 @@ const PropertyCard = ({ property }) => {
           {/* Wishlist Button */}
           <button
             onClick={handleWishlist}
+            aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
             className="absolute top-3 right-3 p-2 rounded-full glass-card hover:scale-110 active:scale-95 transition-all duration-200"
             style={{ transform: heartPop ? 'scale(1.3)' : undefined }}
           >
