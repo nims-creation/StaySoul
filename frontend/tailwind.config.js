@@ -4,6 +4,7 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
@@ -24,6 +25,16 @@ export default {
         lightGray: '#E8E4DF',   // Warm gray borders (not cold gray)
         grayBg:    '#F5F1EC',   // Warm gray surfaces
         glass:     'rgba(255,255,255,0.72)', // Glassmorphism fill
+        // ── Dark mode palette ───────────────────────────────────────────
+        dark: {
+          bg:      '#0F0F0F',   // Main dark background
+          surface: '#1A1A1A',   // Card / panel background
+          elevated:'#242424',   // Elevated surfaces (modals, dropdowns)
+          border:  '#2E2E2E',   // Subtle borders
+          muted:   '#6B6B6B',   // Muted / placeholder text
+          text:    '#E8E4DF',   // Primary body text
+          heading: '#FDFAF6',   // Headings
+        },
       },
       fontFamily: {
         sans:    ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
