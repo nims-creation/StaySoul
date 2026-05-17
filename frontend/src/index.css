@@ -132,3 +132,57 @@
   background: transparent !important;
   border: none !important;
 }
+
+/* ─── Dark Mode Overrides ────────────────────────────────────────────────── */
+html.dark {
+  color-scheme: dark;
+}
+
+html.dark body {
+  background-color: #0F0F0F;
+  color: #E8E4DF;
+}
+
+html.dark ::selection {
+  background: rgba(217, 79, 43, 0.28);
+  color: #FDFAF6;
+}
+
+/* Glass card — dark variant */
+html.dark .glass-card {
+  background: rgba(26, 26, 26, 0.80);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Shimmer — dark variant */
+html.dark .shimmer {
+  background: linear-gradient(
+    90deg,
+    #1a1a1a 25%,
+    #242424 50%,
+    #1a1a1a 75%
+  );
+  background-size: 1000px 100%;
+}
+
+/* Thin scrollbar — dark variant */
+html.dark .thin-scrollbar::-webkit-scrollbar-thumb {
+  background: #2E2E2E;
+}
+
+/* ─── Leaflet Dark Overrides ─────────────────────────────────────────────── */
+html.dark .leaflet-container {
+  background: #1a1a1a !important;
+}
+
+html.dark .leaflet-control-attribution {
+  background: rgba(26, 26, 26, 0.8) !important;
+  color: #6B6B6B !important;
+}
+
+html.dark .leaflet-control-zoom a {
+  background-color: #1A1A1A !important;
+  color: #E8E4DF !important;
+  border-color: #2E2E2E !important;
+}
+
