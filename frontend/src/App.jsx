@@ -2,6 +2,7 @@ import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { SearchProvider } from './context/SearchContext';
+import { ThemeProvider } from './context/ThemeContext';
 import Navbar from './components/Navbar';
 import ProtectedRoute from './components/ProtectedRoute';
 import AuthModal from './components/AuthModal';
@@ -33,34 +34,36 @@ const LoadingFallback = () => (
 
 function App() {
   return (
-    <AuthProvider>
-      <SearchProvider>
-        <Router>
-          <div className="min-h-screen bg-cream flex flex-col">
-            <AuthModal />
-            <Navbar />
-            <main className="flex-grow">
-              <Suspense fallback={<LoadingFallback />}>
-                <Routes>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/hotel/:id" element={<PropertyDetails />} />
-                  <Route path="/booking/success" element={<BookingSuccess />} />
-                  <Route path="/booking/cancel" element={<BookingCancel />} />
-                  <Route path="/oauth2/callback" element={<OAuth2Callback />} />
-                  <Route path="/trips" element={<ProtectedRoute><MyTrips /></ProtectedRoute>} />
-                  <Route path="/admin" element={<ProtectedRoute adminOnly={true}><AdminDashboard /></ProtectedRoute>} />
-                  <Route path="/admin/manage" element={<ProtectedRoute adminOnly={true}><ManageProperty /></ProtectedRoute>} />
-                  <Route path="/payments/:bookingId/status" element={<ProtectedRoute><PaymentStatus /></ProtectedRoute>} />
-                  <Route path="*" element={<Navigate to="/" />} />
-                </Routes>
-              </Suspense>
-            </main>
-            <MobileBottomNav />
-            {/* <Footer /> */}
-          </div>
-        </Router>
-      </SearchProvider>
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <SearchProvider>
+          <Router>
+            <div className="min-h-screen bg-cream dark:bg-dark-bg flex flex-col transition-colors duration-300">
+              <AuthModal />
+              <Navbar />
+              <main className="flex-grow">
+                <Suspense fallback={<LoadingFallback />}>
+                  <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/hotel/:id" element={<PropertyDetails />} />
+                    <Route path="/booking/success" element={<BookingSuccess />} />
+                    <Route path="/booking/cancel" element={<BookingCancel />} />
+                    <Route path="/oauth2/callback" element={<OAuth2Callback />} />
+                    <Route path="/trips" element={<ProtectedRoute><MyTrips /></ProtectedRoute>} />
+                    <Route path="/admin" element={<ProtectedRoute adminOnly={true}><AdminDashboard /></ProtectedRoute>} />
+                    <Route path="/admin/manage" element={<ProtectedRoute adminOnly={true}><ManageProperty /></ProtectedRoute>} />
+                    <Route path="/payments/:bookingId/status" element={<ProtectedRoute><PaymentStatus /></ProtectedRoute>} />
+                    <Route path="*" element={<Navigate to="/" />} />
+                  </Routes>
+                </Suspense>
+              </main>
+              <MobileBottomNav />
+              {/* <Footer /> */}
+            </div>
+          </Router>
+        </SearchProvider>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
 
