@@ -4,6 +4,7 @@ import { Calendar, MapPin, CheckCircle, Clock, XCircle, CreditCard, ChevronRight
 import { useNavigate } from 'react-router-dom';
 import { formatCurrency } from '../utils/currencyUtils';
 import { useToast } from '../context/ToastContext';
+import useDocumentTitle from '../utils/useDocumentTitle';
 
 const MyTrips = () => {
   const [bookings, setBookings] = useState([]);
@@ -12,6 +13,7 @@ const MyTrips = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const toast = useToast();
+  useDocumentTitle('My Trips');
 
   const fetchBookings = async () => {
     try {

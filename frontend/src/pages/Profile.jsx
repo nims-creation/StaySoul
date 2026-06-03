@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 import { User, Mail, Calendar, Shield, Edit3, Save, X, LogOut } from 'lucide-react';
+import useDocumentTitle from '../utils/useDocumentTitle';
 
 const Profile = () => {
   const { user, logout } = useAuth();
   const toast = useToast();
+  useDocumentTitle('My Profile');
   const [editing, setEditing] = useState(false);
   const [form, setForm] = useState({
     name: user?.name || '',
