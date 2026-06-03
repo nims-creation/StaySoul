@@ -1,8 +1,9 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { bookingApi } from '../api/apiClient';
 import { Calendar, MapPin, CheckCircle, Clock, XCircle, CreditCard, ChevronRight, AlertTriangle, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { formatCurrency } from '../utils/currencyUtils';
+import { useToast } from '../context/ToastContext';
 
 const MyTrips = () => {
   const [bookings, setBookings] = useState([]);
@@ -10,6 +11,7 @@ const MyTrips = () => {
   const [cancellingId, setCancellingId] = useState(null);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const toast = useToast();
 
   const fetchBookings = async () => {
     try {
@@ -36,12 +38,12 @@ const MyTrips = () => {
     try {
       setCancellingId(bookingId);
       await bookingApi.cancelBooking(bookingId);
-      // Refresh state
-      setBookings(prev => prev.map(b => 
+      setBookings(prev => prev.map(b =>
         b.id === bookingId ? { ...b, bookingStatus: 'CANCELLED' } : b
       ));
+      toast.success('Booking cancelled. Refund will be processed within 5-7 business days.');
     } catch (err) {
-      alert("Failed to cancel booking. Only confirmed bookings can be cancelled.");
+      toast.error('Failed to cancel booking. Only confirmed bookings can be cancelled.');
     } finally {
       setCancellingId(null);
     }
