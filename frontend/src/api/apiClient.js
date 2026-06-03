@@ -4,7 +4,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080
 
 export const apiClient = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 5000, // ⚡ 5 sec timeout — fail fast if backend is cold/down; shows mock data instantly
+  timeout: 30000, // 30s — accommodates Render free-tier cold starts (~25s wake-up)
   headers: {
     'Content-Type': 'application/json',
   },
