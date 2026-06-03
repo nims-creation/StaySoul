@@ -10,6 +10,7 @@ import MobileBottomNav from './components/MobileBottomNav';
 import Footer from './components/Footer';
 import { ToastProvider } from './context/ToastContext';
 import ScrollToTop from './components/ScrollToTop';
+import { WishlistProvider } from './context/WishlistContext';
 
 const Home = lazy(() => import('./pages/Home'));
 const PropertyDetails = lazy(() => import('./pages/PropertyDetails'));
@@ -41,8 +42,9 @@ function App() {
   return (
     <ThemeProvider>
       <ToastProvider>
-        <AuthProvider>
-          <SearchProvider>
+        <WishlistProvider>
+          <AuthProvider>
+            <SearchProvider>
           <Router>
             <div className="min-h-screen bg-cream dark:bg-dark-bg flex flex-col transition-colors duration-300">
               <AuthModal />
@@ -70,6 +72,7 @@ function App() {
           </Router>
           </SearchProvider>
         </AuthProvider>
+        </WishlistProvider>
       </ToastProvider>
     </ThemeProvider>
   );

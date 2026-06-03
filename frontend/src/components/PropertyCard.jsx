@@ -3,6 +3,7 @@ import { Heart, Star } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { formatCurrency } from '../utils/currencyUtils';
 import { motion } from 'framer-motion';
+import { useWishlist } from '../context/WishlistContext';
 
 const itemVariants = {
   hidden:  { opacity: 0, y: 24 },
@@ -25,13 +26,14 @@ const PropertyCard = ({ property }) => {
   const reviewCount = property.reviewCount   || 0;
 
   const [imgError,    setImgError]    = useState(false);
-  const [isWishlisted, setIsWishlisted] = useState(property.isFavorite || false);
+  const { toggle, isWishlisted: isWl } = useWishlist();
+  const isWishlisted = isWl(property.id);
   const [heartPop,    setHeartPop]    = useState(false);
 
   const handleWishlist = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    setIsWishlisted((prev) => !prev);
+    toggle(property.id);
     setHeartPop(true);
     setTimeout(() => setHeartPop(false), 350);
   };
