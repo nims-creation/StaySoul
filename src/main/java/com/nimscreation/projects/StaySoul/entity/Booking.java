@@ -18,7 +18,11 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "booking", indexes = {
-        @Index(name = "idx_booking_payment_session", columnList = "paymentSessionId")
+        @Index(name = "idx_booking_payment_session", columnList = "paymentSessionId"),
+        @Index(name = "idx_booking_user_id", columnList = "user_id"),
+        @Index(name = "idx_booking_hotel_id", columnList = "hotel_id"),
+        @Index(name = "idx_booking_status", columnList = "bookingStatus"),
+        @Index(name = "idx_booking_checkin", columnList = "checkInDate")
 })
 public class Booking {
 
