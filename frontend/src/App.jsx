@@ -8,6 +8,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import AuthModal from './components/AuthModal';
 import MobileBottomNav from './components/MobileBottomNav';
 import Footer from './components/Footer';
+import { ToastProvider } from './context/ToastContext';
 
 const Home = lazy(() => import('./pages/Home'));
 const PropertyDetails = lazy(() => import('./pages/PropertyDetails'));
@@ -37,8 +38,9 @@ const LoadingFallback = () => (
 function App() {
   return (
     <ThemeProvider>
-      <AuthProvider>
-        <SearchProvider>
+      <ToastProvider>
+        <AuthProvider>
+          <SearchProvider>
           <Router>
             <div className="min-h-screen bg-cream dark:bg-dark-bg flex flex-col transition-colors duration-300">
               <AuthModal />
@@ -62,8 +64,9 @@ function App() {
               <MobileBottomNav />
             </div>
           </Router>
-        </SearchProvider>
-      </AuthProvider>
+          </SearchProvider>
+        </AuthProvider>
+      </ToastProvider>
     </ThemeProvider>
   );
 }
