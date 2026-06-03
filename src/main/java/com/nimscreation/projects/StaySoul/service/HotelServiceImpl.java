@@ -13,6 +13,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +39,7 @@ public class HotelServiceImpl implements HotelService{
 
     @Override
     @Transactional
-    @org.springframework.cache.annotation.CacheEvict(value = "hotelSearch", allEntries = true)
+    @CacheEvict(value = "hotelSearch", allEntries = true)
     public HotelDto createNewHotel(HotelDto hotelDto) {
         log.info("Creating a new hotel with name: {}", hotelDto.getName());
         Hotel hotel = modelMapper.map(hotelDto, Hotel.class);
@@ -77,7 +79,7 @@ public class HotelServiceImpl implements HotelService{
 
     @Override
     @Transactional
-    @org.springframework.cache.annotation.CacheEvict(value = "hotelSearch", allEntries = true)
+    @CacheEvict(value = "hotelSearch", allEntries = true)
     public HotelDto updateHotelById(Long id, HotelDto hotelDto) {
         log.info("Updating the hotel with ID: {}", id);
         Hotel hotel = hotelRepository
@@ -122,7 +124,7 @@ public class HotelServiceImpl implements HotelService{
 
     @Override
     @Transactional
-    @org.springframework.cache.annotation.CacheEvict(value = "hotelSearch", allEntries = true)
+    @CacheEvict(value = "hotelSearch", allEntries = true)
     public void deleteHotelById(Long id) {
         Hotel hotel = hotelRepository
                 .findById(id)
@@ -143,7 +145,7 @@ public class HotelServiceImpl implements HotelService{
 
     @Override
     @Transactional
-    @org.springframework.cache.annotation.CacheEvict(value = "hotelSearch", allEntries = true)
+    @CacheEvict(value = "hotelSearch", allEntries = true)
     public void activateHotel(Long hotelId) {
         log.info("Activating the hotel with ID: {}", hotelId);
         Hotel hotel = hotelRepository
@@ -168,6 +170,7 @@ public class HotelServiceImpl implements HotelService{
 
     @Override
     @Transactional
+    @Cacheable(value = "hotelInfo", key = "#hotelId + '_' + #startDate + '_' + #endDate")
     public HotelInfoDto getHotelInfoById(Long hotelId, LocalDate startDate, LocalDate endDate) {
         Hotel hotel = hotelRepository
                 .findById(hotelId)
