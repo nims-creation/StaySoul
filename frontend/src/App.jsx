@@ -7,6 +7,7 @@ import Navbar from './components/Navbar';
 import ProtectedRoute from './components/ProtectedRoute';
 import AuthModal from './components/AuthModal';
 import MobileBottomNav from './components/MobileBottomNav';
+import Footer from './components/Footer';
 
 const Home = lazy(() => import('./pages/Home'));
 const PropertyDetails = lazy(() => import('./pages/PropertyDetails'));
@@ -17,6 +18,7 @@ const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
 const ManageProperty = lazy(() => import('./pages/ManageProperty'));
 const PaymentStatus = lazy(() => import('./pages/PaymentStatus'));
 const OAuth2Callback = lazy(() => import('./pages/OAuth2Callback'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 
 
 const LoadingFallback = () => (
@@ -53,12 +55,11 @@ function App() {
                     <Route path="/admin" element={<ProtectedRoute adminOnly={true}><AdminDashboard /></ProtectedRoute>} />
                     <Route path="/admin/manage" element={<ProtectedRoute adminOnly={true}><ManageProperty /></ProtectedRoute>} />
                     <Route path="/payments/:bookingId/status" element={<ProtectedRoute><PaymentStatus /></ProtectedRoute>} />
-                    <Route path="*" element={<Navigate to="/" />} />
+                    <Route path="*" element={<NotFound />} />
                   </Routes>
                 </Suspense>
               </main>
               <MobileBottomNav />
-              {/* <Footer /> */}
             </div>
           </Router>
         </SearchProvider>
