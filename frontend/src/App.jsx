@@ -9,6 +9,7 @@ import AuthModal from './components/AuthModal';
 import MobileBottomNav from './components/MobileBottomNav';
 import Footer from './components/Footer';
 import { ToastProvider } from './context/ToastContext';
+import ScrollToTop from './components/ScrollToTop';
 
 const Home = lazy(() => import('./pages/Home'));
 const PropertyDetails = lazy(() => import('./pages/PropertyDetails'));
@@ -62,6 +63,7 @@ function App() {
                 </Suspense>
               </main>
               <MobileBottomNav />
+              <ScrollToTop />
             </div>
           </Router>
           </SearchProvider>
