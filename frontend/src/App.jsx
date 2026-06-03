@@ -21,6 +21,7 @@ const ManageProperty = lazy(() => import('./pages/ManageProperty'));
 const PaymentStatus = lazy(() => import('./pages/PaymentStatus'));
 const OAuth2Callback = lazy(() => import('./pages/OAuth2Callback'));
 const NotFound = lazy(() => import('./pages/NotFound'));
+const Profile = lazy(() => import('./pages/Profile'));
 
 
 const LoadingFallback = () => (
@@ -58,6 +59,7 @@ function App() {
                     <Route path="/admin" element={<ProtectedRoute adminOnly={true}><AdminDashboard /></ProtectedRoute>} />
                     <Route path="/admin/manage" element={<ProtectedRoute adminOnly={true}><ManageProperty /></ProtectedRoute>} />
                     <Route path="/payments/:bookingId/status" element={<ProtectedRoute><PaymentStatus /></ProtectedRoute>} />
+                    <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                 </Suspense>
