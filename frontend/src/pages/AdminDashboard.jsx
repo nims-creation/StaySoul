@@ -4,6 +4,7 @@ import { seedPremiumProperties } from '../utils/seedData';
 import { Plus, Hotel, Bed, Trash2, Edit3, Settings, TrendingUp, Users, Calendar, MapPin, Database } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { formatCurrency } from '../utils/currencyUtils';
+import { useToast } from '../context/ToastContext';
 
 const AdminDashboard = () => {
   const [hotels, setHotels] = useState([]);
@@ -17,6 +18,7 @@ const AdminDashboard = () => {
     statsLoading: true,
   });
   const navigate = useNavigate();
+  const toast = useToast();
 
   const fetchHotels = async () => {
     try {
@@ -72,11 +74,11 @@ const AdminDashboard = () => {
     try {
       setIsSeeding(true);
       await seedPremiumProperties();
-      await fetchHotels(); // Refresh list
-      alert('Demo properties seeded successfully!');
+      await fetchHotels();
+      toast.success('Demo properties seeded successfully!');
     } catch (err) {
       console.error(err);
-      alert('Failed to seed properties. Make sure you are logged in.');
+      toast.error('Failed to seed properties. Make sure you are logged in.');
     } finally {
       setIsSeeding(false);
     }
@@ -187,9 +189,10 @@ const AdminDashboard = () => {
                      </button>
                      <button 
                        onClick={async () => {
-                         if(confirm('Delete this property?')) {
+                         if(window.confirm('Delete this property?')) {
                             await adminApi.deleteHotel(hotel.id);
                             setHotels(h => h.filter(x => x.id !== hotel.id));
+                            toast.success(`"${hotel.name}" deleted successfully.`);
                          }
                        }}
                        className="p-3 bg-white rounded-full text-red-500 hover:bg-red-50 transition-colors hover:scale-110"
@@ -214,8 +217,9 @@ const AdminDashboard = () => {
                              try {
                                await adminApi.activateHotel(hotel.id);
                                setHotels(h => h.map(x => x.id === hotel.id ? {...x, active: true} : x));
+                               toast.success(`"${hotel.name}" is now live!`);
                              } catch (err) {
-                               alert('Failed to activate. Make sure you have added rooms.');
+                               toast.error('Failed to activate. Make sure you have added rooms.');
                              }
                           }}
                           className="text-sm font-bold text-primary px-3 py-1 border border-primary rounded-lg hover:bg-primary hover:text-white transition-all"
