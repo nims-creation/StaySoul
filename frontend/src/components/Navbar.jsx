@@ -169,6 +169,7 @@ const Navbar = () => {
                       { label: 'Messages',  action: null },
                       { label: 'Trips',     action: () => { navigate('/trips'); setIsDropdownOpen(false); } },
                       { label: 'Wishlists', action: null },
+                      { label: 'Profile',   action: () => { navigate('/profile'); setIsDropdownOpen(false); } },
                     ].map((item) => (
                       <button
                         key={item.label}
