@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { todayISO, daysFromNowISO } from '../utils/dateUtils';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api/v1';
 
@@ -15,8 +16,8 @@ export const hotelApi = {
     // Current backend requires a body for search.
     const requestBody = {
       city: city,
-      startDate: new Date().toISOString().split('T')[0], // Today
-      endDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // 5 days from now
+      startDate: todayISO(),
+      endDate: daysFromNowISO(5),
       roomsCount: 1,
       minPrice: minPrice,
       maxPrice: maxPrice,
