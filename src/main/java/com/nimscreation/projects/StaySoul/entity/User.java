@@ -34,6 +34,10 @@ public class User implements UserDetails {
 
     private String name;
 
+    private String profilePicture;
+
+    private String phoneNumber;
+
     private LocalDate dateOfBirth;
 
     @Enumerated(EnumType.STRING)
