@@ -17,7 +17,11 @@ import org.hibernate.annotations.SQLRestriction;
 @Entity
 @Getter
 @Setter
-@Table(name = "hotel")
+@Table(name = "hotel", indexes = {
+        @Index(name = "idx_hotel_city", columnList = "city"),
+        @Index(name = "idx_hotel_active", columnList = "active"),
+        @Index(name = "idx_hotel_deleted", columnList = "deleted")
+})
 @SQLDelete(sql = "UPDATE hotel SET deleted = true WHERE id=?")
 @SQLRestriction("deleted = false")
 public class Hotel {
