@@ -44,8 +44,28 @@ const PropertyDetails = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen pt-24 pb-12 flex justify-center">
-         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 animate-pulse">
+        {/* Title skeleton */}
+        <div className="h-8 bg-grayBg dark:bg-dark-surface rounded-xl w-2/3 mb-3" />
+        <div className="h-4 bg-grayBg dark:bg-dark-surface rounded-lg w-1/3 mb-8" />
+        {/* Gallery skeleton */}
+        <div className="grid grid-cols-4 grid-rows-2 gap-2 h-[400px] md:h-[500px] rounded-2xl overflow-hidden mb-12">
+          <div className="col-span-2 row-span-2 bg-grayBg dark:bg-dark-surface" />
+          <div className="bg-grayBg dark:bg-dark-surface" />
+          <div className="bg-grayBg dark:bg-dark-surface" />
+          <div className="bg-grayBg dark:bg-dark-surface" />
+          <div className="bg-grayBg dark:bg-dark-surface" />
+        </div>
+        {/* Content skeleton */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+          <div className="lg:col-span-2 space-y-4">
+            <div className="h-6 bg-grayBg dark:bg-dark-surface rounded-lg w-1/2" />
+            <div className="h-4 bg-grayBg dark:bg-dark-surface rounded-lg w-full" />
+            <div className="h-4 bg-grayBg dark:bg-dark-surface rounded-lg w-5/6" />
+            <div className="h-4 bg-grayBg dark:bg-dark-surface rounded-lg w-4/6" />
+          </div>
+          <div className="lg:col-span-1 h-64 bg-grayBg dark:bg-dark-surface rounded-3xl" />
+        </div>
       </div>
     );
   }
