@@ -10,6 +10,7 @@ const MyTrips = () => {
   const [bookings, setBookings] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [cancellingId, setCancellingId] = useState(null);
+  const [confirmCancelId, setConfirmCancelId] = useState(null);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const toast = useToast();
@@ -33,10 +34,6 @@ const MyTrips = () => {
   }, []);
 
   const handleCancelBooking = async (bookingId) => {
-    if (!window.confirm("Are you sure you want to cancel this booking? This will initiate a refund if already paid.")) {
-      return;
-    }
-
     try {
       setCancellingId(bookingId);
       await bookingApi.cancelBooking(bookingId);
@@ -44,6 +41,7 @@ const MyTrips = () => {
         b.id === bookingId ? { ...b, bookingStatus: 'CANCELLED' } : b
       ));
       toast.success('Booking cancelled. Refund will be processed within 5-7 business days.');
+      setConfirmCancelId(null);
     } catch (err) {
       toast.error('Failed to cancel booking. Only confirmed bookings can be cancelled.');
     } finally {
@@ -169,36 +167,52 @@ const MyTrips = () => {
                   </div>
                 </div>
 
-                <div className="mt-8 flex flex-col sm:flex-row justify-between items-center gap-6">
-                   <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 rounded-2xl bg-grayBg flex items-center justify-center text-dark border border-lightGray">
-                         <CreditCard size={20} />
-                      </div>
-                      <div>
-                         <div className="text-xs font-bold text-gray-400 uppercase tracking-widest">Amount Paid</div>
-                         <div className="text-xl font-black text-dark">{formatCurrency(booking.amount || 0)}</div>
-                      </div>
-                   </div>
-                   
-                   <div className="flex items-center gap-4 w-full sm:w-auto">
-                      {(booking.bookingStatus === 'CONFIRMED' || booking.bookingStatus === 'RESERVED') && (
+                <div className="mt-8 flex flex-col gap-4">
+                   <div className="flex flex-col sm:flex-row justify-between items-center gap-6">
+                     <div className="flex items-center gap-3">
+                        <div className="w-12 h-12 rounded-2xl bg-grayBg flex items-center justify-center text-dark border border-lightGray">
+                           <CreditCard size={20} />
+                        </div>
+                        <div>
+                           <div className="text-xs font-bold text-gray-400 uppercase tracking-widest">Amount Paid</div>
+                           <div className="text-xl font-black text-dark">{formatCurrency(booking.amount || 0)}</div>
+                        </div>
+                     </div>
+                     
+                     <div className="flex items-center gap-4 w-full sm:w-auto">
+                        {(booking.bookingStatus === 'CONFIRMED' || booking.bookingStatus === 'RESERVED') && (
+                          <button 
+                             onClick={() => setConfirmCancelId(booking.id)}
+                             className="flex-1 sm:flex-none px-6 py-3.5 border-2 border-red-50 text-red-500 font-bold rounded-2xl hover:bg-red-50 transition-all flex items-center justify-center gap-2"
+                          >
+                             <XCircle size={18} />
+                             Cancel
+                          </button>
+                        )}
+                        
                         <button 
-                           onClick={() => handleCancelBooking(booking.id)}
-                           disabled={cancellingId === booking.id}
-                           className="flex-1 sm:flex-none px-6 py-3.5 border-2 border-red-50 text-red-500 font-bold rounded-2xl hover:bg-red-50 transition-all flex items-center justify-center gap-2"
+                          onClick={() => navigate(`/hotel/${booking.hotel?.id}`)}
+                          className="flex-1 sm:flex-none px-8 py-4 bg-grayBg text-dark font-bold rounded-2xl hover:bg-lightGray transition-all flex items-center justify-center gap-2"
                         >
-                           {cancellingId === booking.id ? <Loader2 className="animate-spin" size={18} /> : <XCircle size={18} />}
-                           Cancel
+                           View Details
                         </button>
-                      )}
-                      
-                      <button 
-                        onClick={() => navigate(`/hotel/${booking.hotel?.id}`)}
-                        className="flex-1 sm:flex-none px-8 py-4 bg-grayBg text-dark font-bold rounded-2xl hover:bg-lightGray transition-all flex items-center justify-center gap-2"
-                      >
-                         View Details
-                      </button>
+                     </div>
                    </div>
+
+                   {confirmCancelId === booking.id && (
+                     <div className="bg-red-50 p-4 rounded-2xl flex items-center justify-between animate-in fade-in slide-in-from-top-2">
+                       <span className="text-sm font-bold text-red-700">Are you sure you want to cancel this booking?</span>
+                       <div className="flex gap-2">
+                         <button onClick={() => setConfirmCancelId(null)} className="px-4 py-2 text-sm font-bold text-gray-500 hover:text-dark">Keep</button>
+                         <button 
+                           onClick={() => handleCancelBooking(booking.id)}
+                           className="px-4 py-2 text-sm font-bold bg-red-600 text-white rounded-xl hover:bg-red-700 flex items-center gap-2"
+                         >
+                           {cancellingId === booking.id ? <Loader2 className="animate-spin" size={14} /> : "Yes, Cancel"}
+                         </button>
+                       </div>
+                     </div>
+                   )}
                 </div>
               </div>
             </div>
@@ -210,4 +224,3 @@ const MyTrips = () => {
 };
 
 export default MyTrips;
-
