@@ -7,11 +7,16 @@ import { useSearch } from '../context/SearchContext';
 import { hotelApi } from '../api/apiClient';
 import { mockProperties } from '../data/mockProperties';
 import { Map as MapIcon, List as ListIcon } from 'lucide-react';
+import useDocumentTitle from '../utils/useDocumentTitle';
 
 const Home = () => {
   const { searchParams, updateSearch, resetSearch } = useSearch();
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [showMap, setShowMap] = useState(false);
+
+  // Dynamic page title: reflects active city search or default brand title
+  const city = searchParams.location;
+  useDocumentTitle(city ? `Hotels in ${city}` : 'Find Your Perfect Stay');
   
   const [properties, setProperties] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -65,15 +70,6 @@ const Home = () => {
     const timer = setTimeout(fetchHotels, 500);
     return () => clearTimeout(timer);
   }, [searchParams]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  // Update page title based on active search
-  useEffect(() => {
-    const city = searchParams.location;
-    document.title = city
-      ? `StaySoul – Hotels in ${city}`
-      : 'StaySoul – Find Your Perfect Stay';
-    return () => { document.title = 'StaySoul'; };
-  }, [searchParams.location]);
 
 
   return (
