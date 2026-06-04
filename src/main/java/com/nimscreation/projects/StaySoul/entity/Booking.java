@@ -4,6 +4,7 @@ import com.nimscreation.projects.StaySoul.entity.enums.BookingStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
@@ -60,6 +61,10 @@ public class Booking {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private BookingStatus bookingStatus;
+
+    /** Derived number of nights; computed from DB date diff — no extra column needed. */
+    @Formula("(check_out_date - check_in_date)")
+    private Integer totalNights;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
