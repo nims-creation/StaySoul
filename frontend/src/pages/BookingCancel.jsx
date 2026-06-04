@@ -1,9 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { XCircle, ArrowLeft, RefreshCw } from 'lucide-react';
+import useDocumentTitle from '../utils/useDocumentTitle';
 
 const BookingCancel = () => {
   const navigate = useNavigate();
+  useDocumentTitle('Payment Cancelled');
 
   return (
     <div className="min-h-screen pt-32 pb-12 bg-gray-50 flex items-center justify-center px-4">

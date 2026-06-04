@@ -2,12 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { bookingApi } from '../api/apiClient';
 import { CheckCircle2, XCircle, Loader2, ArrowRight, Home, Calendar } from 'lucide-react';
+import useDocumentTitle from '../utils/useDocumentTitle';
 
 const PaymentStatus = () => {
   const { bookingId } = useParams();
   const navigate = useNavigate();
   const [status, setStatus] = useState('loading'); // loading, success, failure
   const [attempts, setAttempts] = useState(0);
+
+  const titleMap = { loading: 'Verifying Payment…', success: 'Booking Confirmed!', failure: 'Payment Unsuccessful' };
+  useDocumentTitle(titleMap[status] ?? 'Payment Status');
 
   useEffect(() => {
     let intervalId;

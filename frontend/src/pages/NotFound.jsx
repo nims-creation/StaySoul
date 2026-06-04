@@ -1,9 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Home, ArrowLeft, Search } from 'lucide-react';
+import useDocumentTitle from '../utils/useDocumentTitle';
 
 const NotFound = () => {
   const navigate = useNavigate();
+  useDocumentTitle('Page Not Found');
 
   return (
     <div className="min-h-screen bg-cream dark:bg-dark-bg flex items-center justify-center px-4">
