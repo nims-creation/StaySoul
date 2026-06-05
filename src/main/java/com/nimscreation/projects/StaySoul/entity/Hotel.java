@@ -20,7 +20,8 @@ import org.hibernate.annotations.SQLRestriction;
 @Table(name = "hotel", indexes = {
         @Index(name = "idx_hotel_city", columnList = "city"),
         @Index(name = "idx_hotel_active", columnList = "active"),
-        @Index(name = "idx_hotel_deleted", columnList = "deleted")
+        @Index(name = "idx_hotel_deleted", columnList = "deleted"),
+        @Index(name = "idx_hotel_city_category", columnList = "city, category")
 })
 @SQLDelete(sql = "UPDATE hotel SET deleted = true WHERE id=?")
 @SQLRestriction("deleted = false")
@@ -34,6 +35,14 @@ public class Hotel {
     private String name;
 
     private String city;
+
+    /**
+     * Property category used for frontend filter chips
+     * (e.g. "beach", "mountain", "city", "countryside", "luxury").
+     * Maps directly to the category param in HotelSearchRequestDto.
+     */
+    @Column(length = 64)
+    private String category;
 
     @Column(columnDefinition = "TEXT")
     private String description;
