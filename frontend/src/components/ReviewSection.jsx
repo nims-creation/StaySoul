@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Star, ThumbsUp, MessageSquare, Image as ImageIcon } from 'lucide-react';
-import { hotelApi, bookingApi } from '../api/apiClient';
+import { Star, ThumbsUp, MessageSquare } from 'lucide-react';
+import { apiClient } from '../api/apiClient';
 
 const ReviewSection = ({ hotelId }) => {
   const [reviews, setReviews] = useState([]);
@@ -9,11 +9,9 @@ const ReviewSection = ({ hotelId }) => {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/api/v1/hotels/${hotelId}/reviews`);
-        if (response.ok) {
-          const data = await response.json();
-          setReviews(data);
-        }
+        // Use centralized apiClient so VITE_API_BASE_URL is respected in all environments
+        const response = await apiClient.get(`/hotels/${hotelId}/reviews`);
+        setReviews(response.data || []);
       } catch (err) {
         console.error("Failed to fetch reviews", err);
       } finally {
