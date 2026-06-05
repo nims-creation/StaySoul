@@ -1,5 +1,6 @@
 import React from 'react';
 import PropertyCard from './PropertyCard';
+import PropertyCardSkeleton from './PropertyCardSkeleton';
 import { SearchX } from 'lucide-react';
 import { useSearch } from '../context/SearchContext';
 import { motion } from 'framer-motion';
@@ -12,17 +13,7 @@ const containerVariants = {
   },
 };
 
-/* Premium warm shimmer skeleton */
-const SkeletonCard = () => (
-  <div className="flex flex-col gap-3">
-    <div className="aspect-square rounded-2xl shimmer shadow-card" />
-    <div className="space-y-2 px-0.5">
-      <div className="h-3.5 shimmer rounded-full w-3/4" />
-      <div className="h-3   shimmer rounded-full w-1/2"  />
-      <div className="h-4   shimmer rounded-full w-1/3 mt-2" />
-    </div>
-  </div>
-);
+// SkeletonCard extracted to PropertyCardSkeleton.jsx for reuse across pages
 
 const PropertyGrid = ({ properties, isLoading, error, isSplitView }) => {
   const { searchParams } = useSearch();
@@ -39,7 +30,7 @@ const PropertyGrid = ({ properties, isLoading, error, isSplitView }) => {
     return (
       <div className={wrapperCls}>
         <div className={`grid gap-x-5 gap-y-8 ${gridCls}`}>
-          {[...Array(8)].map((_, i) => <SkeletonCard key={i} />)}
+          {[...Array(8)].map((_, i) => <PropertyCardSkeleton key={i} />)}
         </div>
       </div>
     );
