@@ -24,8 +24,14 @@ export const WishlistProvider = ({ children }) => {
 
   const isWishlisted = (hotelId) => wishlist.includes(hotelId);
 
+  /** Total number of wishlisted properties — useful for badge counters in Navbar */
+  const wishlistCount = wishlist.length;
+
+  /** Remove all saved properties at once */
+  const clearAll = () => setWishlist([]);
+
   return (
-    <WishlistContext.Provider value={{ wishlist, toggle, isWishlisted }}>
+    <WishlistContext.Provider value={{ wishlist, toggle, isWishlisted, wishlistCount, clearAll }}>
       {children}
     </WishlistContext.Provider>
   );
