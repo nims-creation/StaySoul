@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+﻿import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { bookingApi } from '../api/apiClient';
 import { CheckCircle2, XCircle, Loader2, ArrowRight, Home, Calendar } from 'lucide-react';
@@ -57,7 +57,7 @@ const PaymentStatus = () => {
                  <Loader2 className="text-primary" size={32} />
               </div>
             </div>
-            <h1 className="text-2xl font-bold text-dark">Verifying Payment...</h1>
+            <h1 className="text-2xl font-bold text-ink">Verifying Payment...</h1>
             <p className="text-gray-500">Please wait while we confirm your reservation with the hotel.</p>
             <div className="bg-grayBg p-4 rounded-2xl flex items-center gap-2 text-xs text-gray-400 font-bold uppercase tracking-wider justify-center">
                <span className="h-2 w-2 rounded-full bg-primary animate-pulse"></span>
@@ -71,16 +71,16 @@ const PaymentStatus = () => {
             <div className="mx-auto w-24 h-24 bg-green-100 rounded-full flex items-center justify-center text-green-600 border-4 border-white shadow-lg">
                <CheckCircle2 size={48} />
             </div>
-            <h1 className="text-3xl font-black text-dark tracking-tight">Booking Confirmed!</h1>
+            <h1 className="text-3xl font-black text-ink tracking-tight">Booking Confirmed!</h1>
             <p className="text-gray-500 leading-relaxed font-medium">
-              We've secured your stay at <span className="text-dark font-bold">your selected hotel</span>. 
-              A confirmation receipt in <span className="text-dark font-bold">Rupees (₹)</span> has been sent to your email.
+              We've secured your stay at <span className="text-ink font-bold">your selected hotel</span>. 
+              A confirmation receipt in <span className="text-ink font-bold">Rupees (₹)</span> has been sent to your email.
             </p>
             
             <div className="pt-6 border-t border-lightGray space-y-3">
                <Link 
                  to="/trips" 
-                 className="w-full py-4 bg-dark text-white font-bold rounded-2xl flex items-center justify-center gap-2 hover:bg-black transition-all"
+                 className="w-full py-4 bg-ink text-white font-bold rounded-2xl flex items-center justify-center gap-2 hover:bg-black transition-all"
                >
                  View My Trips <ArrowRight size={18} />
                </Link>
@@ -99,7 +99,7 @@ const PaymentStatus = () => {
             <div className="mx-auto w-24 h-24 bg-red-100 rounded-full flex items-center justify-center text-red-600 border-4 border-white shadow-lg">
                <XCircle size={48} />
             </div>
-            <h1 className="text-2xl font-bold text-dark">Payment Unsuccessful</h1>
+            <h1 className="text-2xl font-bold text-ink">Payment Unsuccessful</h1>
             <p className="text-gray-500">
               Something went wrong, or the payment was cancelled. No charges were made to your account.
             </p>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Instagram, Twitter, Facebook, Globe, IndianRupee } from 'lucide-react';
+import { Globe, IndianRupee, PlayCircle, Rss, Share2 } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -9,7 +9,7 @@ const Footer = () => {
         {/* Main Footer Content */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pb-12">
           <div>
-            <h4 className="text-sm font-bold text-dark mb-4">Support</h4>
+            <h4 className="text-sm font-bold text-ink mb-4">Support</h4>
             <ul className="space-y-3 text-sm text-gray-600">
               <li className="hover:underline cursor-pointer">Help Centre</li>
               <li className="hover:underline cursor-pointer">AirCover</li>
@@ -19,7 +19,7 @@ const Footer = () => {
             </ul>
           </div>
           <div>
-            <h4 className="text-sm font-bold text-dark mb-4">Hosting</h4>
+            <h4 className="text-sm font-bold text-ink mb-4">Hosting</h4>
             <ul className="space-y-3 text-sm text-gray-600">
               <li className="hover:underline cursor-pointer">StaySoul your home</li>
               <li className="hover:underline cursor-pointer">AirCover for Hosts</li>
@@ -29,7 +29,7 @@ const Footer = () => {
             </ul>
           </div>
           <div>
-            <h4 className="text-sm font-bold text-dark mb-4">StaySoul</h4>
+            <h4 className="text-sm font-bold text-ink mb-4">StaySoul</h4>
             <ul className="space-y-3 text-sm text-gray-600">
               <li className="hover:underline cursor-pointer">Newsroom</li>
               <li className="hover:underline cursor-pointer">New features</li>
@@ -39,11 +39,11 @@ const Footer = () => {
             </ul>
           </div>
           <div>
-            <h4 className="text-sm font-bold text-dark mb-4">Social</h4>
+            <h4 className="text-sm font-bold text-ink mb-4">Social</h4>
             <div className="flex space-x-4">
-              <Instagram className="text-dark hover:text-primary cursor-pointer transition-colors" size={20} />
-              <Twitter className="text-dark hover:text-primary cursor-pointer transition-colors" size={20} />
-              <Facebook className="text-dark hover:text-primary cursor-pointer transition-colors" size={20} />
+              <PlayCircle className="text-ink hover:text-primary cursor-pointer transition-colors" size={20} />
+              <Rss className="text-ink hover:text-primary cursor-pointer transition-colors" size={20} />
+              <Share2 className="text-ink hover:text-primary cursor-pointer transition-colors" size={20} />
             </div>
           </div>
         </div>
@@ -60,7 +60,7 @@ const Footer = () => {
             <span className="hover:underline cursor-pointer">Sitemap</span>
           </div>
           
-          <div className="flex items-center space-x-6 font-semibold text-dark">
+          <div className="flex items-center space-x-6 font-semibold text-ink">
             <button className="flex items-center gap-1 hover:bg-grayBg p-2 rounded-lg transition-colors">
               <Globe size={16} />
               <span>English (IN)</span>

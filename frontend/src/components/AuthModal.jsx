@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { authApi, userApi, apiClient } from '../api/apiClient';
 import { jwtDecode } from 'jwt-decode';
@@ -105,9 +105,9 @@ const AuthModal = () => {
             onClick={() => setIsAuthModalOpen(false)}
             className="absolute left-6 p-2 hover:bg-grayBg rounded-full transition-colors"
           >
-            <X size={20} className="text-dark" />
+            <X size={20} className="text-ink" />
           </button>
-          <h2 className="font-bold text-lg text-dark">
+          <h2 className="font-bold text-lg text-ink">
             {isLoginMode ? 'Welcome back' : 'Create an account'}
           </h2>
         </div>
@@ -115,7 +115,7 @@ const AuthModal = () => {
         {/* Body */}
         <div className="p-8">
           <div className="mb-8">
-            <h3 className="text-2xl font-bold text-dark mb-2">Experience StaySoul</h3>
+            <h3 className="text-2xl font-bold text-ink mb-2">Experience StaySoul</h3>
             <p className="text-gray-500 text-sm">Discover unique stays and local experiences around the world.</p>
           </div>
           
@@ -135,7 +135,7 @@ const AuthModal = () => {
                     <input 
                       type="text" 
                       placeholder="Full Name" 
-                      className="w-full p-4 pl-12 bg-gray-50 border border-lightGray rounded-2xl outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-dark"
+                      className="w-full p-4 pl-12 bg-gray-50 border border-lightGray rounded-2xl outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-ink"
                       value={formData.name}
                       onChange={(e) => setFormData({...formData, name: e.target.value})}
                       required={!isLoginMode}
@@ -148,7 +148,7 @@ const AuthModal = () => {
                 <input 
                   type="email" 
                   placeholder="Email Address" 
-                  className="w-full p-4 pl-12 bg-gray-50 border border-lightGray rounded-2xl outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-dark"
+                  className="w-full p-4 pl-12 bg-gray-50 border border-lightGray rounded-2xl outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-ink"
                   value={formData.email}
                   onChange={(e) => setFormData({...formData, email: e.target.value})}
                   required
@@ -160,7 +160,7 @@ const AuthModal = () => {
                 <input 
                   type="password" 
                   placeholder="Password" 
-                  className="w-full p-4 pl-12 bg-gray-50 border border-lightGray rounded-2xl outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-dark"
+                  className="w-full p-4 pl-12 bg-gray-50 border border-lightGray rounded-2xl outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-ink"
                   value={formData.password}
                   onChange={(e) => setFormData({...formData, password: e.target.value})}
                   required
@@ -172,14 +172,14 @@ const AuthModal = () => {
                     <button 
                        type="button"
                        onClick={() => setIsHostSignUp(false)}
-                       className={`flex-1 py-2.5 text-sm font-bold rounded-xl transition-all ${!isHostSignUp ? 'bg-white shadow-sm text-dark' : 'text-gray-500 hover:text-dark'}`}
+                       className={`flex-1 py-2.5 text-sm font-bold rounded-xl transition-all ${!isHostSignUp ? 'bg-white shadow-sm text-ink' : 'text-gray-500 hover:text-ink'}`}
                     >
                        Book Stays
                     </button>
                     <button 
                        type="button"
                        onClick={() => setIsHostSignUp(true)}
-                       className={`flex-1 py-2.5 text-sm font-bold rounded-xl transition-all ${isHostSignUp ? 'bg-white shadow-sm text-dark' : 'text-gray-500 hover:text-dark'}`}
+                       className={`flex-1 py-2.5 text-sm font-bold rounded-xl transition-all ${isHostSignUp ? 'bg-white shadow-sm text-ink' : 'text-gray-500 hover:text-ink'}`}
                     >
                        Host Properties
                     </button>
@@ -205,7 +205,7 @@ const AuthModal = () => {
 
           <button 
             onClick={() => window.location.href = `${API_BASE_URL}/oauth2/authorization/google`}
-            className="mt-6 w-full flex items-center justify-center gap-3 border border-lightGray hover:bg-grayBg py-4 rounded-2xl transition-all font-bold text-dark active:scale-[0.98]"
+            className="mt-6 w-full flex items-center justify-center gap-3 border border-lightGray hover:bg-grayBg py-4 rounded-2xl transition-all font-bold text-ink active:scale-[0.98]"
           >
              <img 
                src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png" 
@@ -224,7 +224,7 @@ const AuthModal = () => {
                  setIsLoginMode(!isLoginMode);
                  setError('');
               }}
-              className="font-bold text-dark hover:text-primary border-b-2 border-dark hover:border-primary transition-all pb-0.5"
+              className="font-bold text-ink hover:text-primary border-b-2 border-ink hover:border-primary transition-all pb-0.5"
             >
               {isLoginMode ? 'Create an account' : 'Log back in'}
             </button>

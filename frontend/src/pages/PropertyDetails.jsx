@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { hotelApi } from '../api/apiClient';
 import { mockProperties } from '../data/mockProperties';
@@ -46,25 +46,25 @@ const PropertyDetails = () => {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 animate-pulse">
         {/* Title skeleton */}
-        <div className="h-8 bg-grayBg dark:bg-dark-surface rounded-xl w-2/3 mb-3" />
-        <div className="h-4 bg-grayBg dark:bg-dark-surface rounded-lg w-1/3 mb-8" />
+        <div className="h-8 bg-grayBg dark:bg-ink-surface rounded-xl w-2/3 mb-3" />
+        <div className="h-4 bg-grayBg dark:bg-ink-surface rounded-lg w-1/3 mb-8" />
         {/* Gallery skeleton */}
         <div className="grid grid-cols-4 grid-rows-2 gap-2 h-[400px] md:h-[500px] rounded-2xl overflow-hidden mb-12">
-          <div className="col-span-2 row-span-2 bg-grayBg dark:bg-dark-surface" />
-          <div className="bg-grayBg dark:bg-dark-surface" />
-          <div className="bg-grayBg dark:bg-dark-surface" />
-          <div className="bg-grayBg dark:bg-dark-surface" />
-          <div className="bg-grayBg dark:bg-dark-surface" />
+          <div className="col-span-2 row-span-2 bg-grayBg dark:bg-ink-surface" />
+          <div className="bg-grayBg dark:bg-ink-surface" />
+          <div className="bg-grayBg dark:bg-ink-surface" />
+          <div className="bg-grayBg dark:bg-ink-surface" />
+          <div className="bg-grayBg dark:bg-ink-surface" />
         </div>
         {/* Content skeleton */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           <div className="lg:col-span-2 space-y-4">
-            <div className="h-6 bg-grayBg dark:bg-dark-surface rounded-lg w-1/2" />
-            <div className="h-4 bg-grayBg dark:bg-dark-surface rounded-lg w-full" />
-            <div className="h-4 bg-grayBg dark:bg-dark-surface rounded-lg w-5/6" />
-            <div className="h-4 bg-grayBg dark:bg-dark-surface rounded-lg w-4/6" />
+            <div className="h-6 bg-grayBg dark:bg-ink-surface rounded-lg w-1/2" />
+            <div className="h-4 bg-grayBg dark:bg-ink-surface rounded-lg w-full" />
+            <div className="h-4 bg-grayBg dark:bg-ink-surface rounded-lg w-5/6" />
+            <div className="h-4 bg-grayBg dark:bg-ink-surface rounded-lg w-4/6" />
           </div>
-          <div className="lg:col-span-1 h-64 bg-grayBg dark:bg-dark-surface rounded-3xl" />
+          <div className="lg:col-span-1 h-64 bg-grayBg dark:bg-ink-surface rounded-3xl" />
         </div>
       </div>
     );
@@ -122,10 +122,10 @@ const PropertyDetails = () => {
       
       {/* Title & Header Metadata */}
       <div>
-        <h1 className="text-[26px] font-semibold text-dark mb-1">{title}</h1>
+        <h1 className="text-[26px] font-semibold text-ink mb-1">{title}</h1>
         <div className="flex justify-between items-center text-sm">
           <div className="flex items-center space-x-4">
-            <span className="flex items-center text-dark font-medium"><Star size={14} className="mr-1 fill-dark" /> {property.rating}</span>
+            <span className="flex items-center text-ink font-medium"><Star size={14} className="mr-1 fill-ink" /> {property.rating}</span>
             <span className="font-semibold underline">{property.reviewCount > 0 ? `${property.reviewCount} reviews` : 'No reviews yet'}</span>
             <span className="flex items-center text-gray-600"><MapPin size={14} className="mr-1" /> {location}</span>
           </div>
@@ -155,21 +155,21 @@ const PropertyDetails = () => {
            <div className="flex justify-between items-center pb-6 border-b border-lightGray">
               <div>
                  <h2 className="text-2xl font-semibold mb-1">Entire place hosted by {host}</h2>
-                 <p className="text-dark">4 guests · 2 bedrooms · 2 beds · 1 bath</p>
+                 <p className="text-ink">4 guests · 2 bedrooms · 2 beds · 1 bath</p>
               </div>
            </div>
 
            {/* Description */}
            {property.description && (
              <div className="py-8 border-b border-lightGray">
-               <p className="text-dark text-[16px] leading-relaxed whitespace-pre-line">{property.description}</p>
+               <p className="text-ink text-[16px] leading-relaxed whitespace-pre-line">{property.description}</p>
              </div>
            )}
 
            {/* Amenities */}
            <div className="py-8 border-b border-lightGray">
               <h3 className="text-xl font-semibold mb-6">What this place offers</h3>
-              <div className="grid grid-cols-2 gap-4 text-dark text-[15px]">
+              <div className="grid grid-cols-2 gap-4 text-ink text-[15px]">
                   {property.amenities ? property.amenities.map(a => {
                     const Icon = getAmenityIcon(a);
                     return <div key={a} className="flex items-center"><Icon size={24} className="mr-4 text-gray-500 font-light" /> {a}</div>;

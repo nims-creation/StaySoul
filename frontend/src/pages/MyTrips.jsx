@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { bookingApi } from '../api/apiClient';
 import { Calendar, MapPin, CheckCircle, Clock, XCircle, CreditCard, ChevronRight, AlertTriangle, Loader2, Moon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -91,7 +91,7 @@ const MyTrips = () => {
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20">
       <div className="flex justify-between items-baseline mb-10">
-         <h1 className="text-4xl font-black text-dark tracking-tight">Trips</h1>
+         <h1 className="text-4xl font-black text-ink tracking-tight">Trips</h1>
          <span className="text-gray-400 font-bold">{bookings.length} reservations</span>
       </div>
       
@@ -108,13 +108,13 @@ const MyTrips = () => {
           <div className="bg-white w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl shadow-gray-200">
              <Calendar className="text-primary" size={40} />
           </div>
-          <h2 className="text-2xl font-black text-dark mb-3">No trips booked... yet!</h2>
+          <h2 className="text-2xl font-black text-ink mb-3">No trips booked... yet!</h2>
           <p className="text-gray-500 mb-10 max-w-sm mx-auto leading-relaxed">
             Time to dust off your bags and start planning your next holiday. We've got thousands of stays waiting.
           </p>
           <button 
             onClick={() => navigate('/')}
-            className="px-10 py-5 bg-dark text-white font-bold rounded-2xl hover:bg-black transition-all shadow-xl active:scale-95"
+            className="px-10 py-5 bg-ink text-white font-bold rounded-2xl hover:bg-black transition-all shadow-xl active:scale-95"
           >
             Start exploring
           </button>
@@ -139,10 +139,10 @@ const MyTrips = () => {
               <div className="flex-1 p-8 flex flex-col justify-between relative">
                 <div>
                   <div className="flex justify-between items-start mb-1">
-                    <h3 className="text-2xl font-black text-dark group-hover:text-primary transition-colors pr-8">
+                    <h3 className="text-2xl font-black text-ink group-hover:text-primary transition-colors pr-8">
                        {booking.hotel?.name || "StaySoul Managed Hotel"}
                     </h3>
-                    <div className="p-3 bg-grayBg rounded-2xl text-gray-400 group-hover:text-dark transition-colors">
+                    <div className="p-3 bg-grayBg rounded-2xl text-gray-400 group-hover:text-ink transition-colors">
                        <ChevronRight size={20} />
                     </div>
                   </div>
@@ -155,15 +155,15 @@ const MyTrips = () => {
                   <div className="grid grid-cols-3 gap-6 pb-8 border-b border-lightGray">
                      <div className="flex flex-col gap-1">
                         <span className="text-[10px] uppercase font-black text-gray-400 tracking-widest">Check-in</span>
-                        <span className="text-base font-bold text-dark">{formatDate(booking.checkInDate)}</span>
+                        <span className="text-base font-bold text-ink">{formatDate(booking.checkInDate)}</span>
                      </div>
                      <div className="flex flex-col gap-1">
                         <span className="text-[10px] uppercase font-black text-gray-400 tracking-widest">Checkout</span>
-                        <span className="text-base font-bold text-dark">{formatDate(booking.checkOutDate)}</span>
+                        <span className="text-base font-bold text-ink">{formatDate(booking.checkOutDate)}</span>
                      </div>
                      <div className="flex flex-col gap-1">
                         <span className="text-[10px] uppercase font-black text-gray-400 tracking-widest">Duration</span>
-                        <span className="text-base font-bold text-dark flex items-center gap-1.5">
+                        <span className="text-base font-bold text-ink flex items-center gap-1.5">
                           <Moon size={14} className="text-primary" />
                           {getNightCount(booking.checkInDate, booking.checkOutDate)} nights
                         </span>
@@ -174,12 +174,12 @@ const MyTrips = () => {
                 <div className="mt-8 flex flex-col gap-4">
                    <div className="flex flex-col sm:flex-row justify-between items-center gap-6">
                      <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 rounded-2xl bg-grayBg flex items-center justify-center text-dark border border-lightGray">
+                        <div className="w-12 h-12 rounded-2xl bg-grayBg flex items-center justify-center text-ink border border-lightGray">
                            <CreditCard size={20} />
                         </div>
                         <div>
                            <div className="text-xs font-bold text-gray-400 uppercase tracking-widest">Amount Paid</div>
-                           <div className="text-xl font-black text-dark">{formatCurrency(booking.amount || 0)}</div>
+                           <div className="text-xl font-black text-ink">{formatCurrency(booking.amount || 0)}</div>
                         </div>
                      </div>
                      
@@ -196,7 +196,7 @@ const MyTrips = () => {
                         
                         <button 
                           onClick={() => navigate(`/hotel/${booking.hotel?.id}`)}
-                          className="flex-1 sm:flex-none px-8 py-4 bg-grayBg text-dark font-bold rounded-2xl hover:bg-lightGray transition-all flex items-center justify-center gap-2"
+                          className="flex-1 sm:flex-none px-8 py-4 bg-grayBg text-ink font-bold rounded-2xl hover:bg-lightGray transition-all flex items-center justify-center gap-2"
                         >
                            View Details
                         </button>
@@ -207,7 +207,7 @@ const MyTrips = () => {
                      <div className="bg-red-50 p-4 rounded-2xl flex items-center justify-between animate-in fade-in slide-in-from-top-2">
                        <span className="text-sm font-bold text-red-700">Are you sure you want to cancel this booking?</span>
                        <div className="flex gap-2">
-                         <button onClick={() => setConfirmCancelId(null)} className="px-4 py-2 text-sm font-bold text-gray-500 hover:text-dark">Keep</button>
+                         <button onClick={() => setConfirmCancelId(null)} className="px-4 py-2 text-sm font-bold text-gray-500 hover:text-ink">Keep</button>
                          <button 
                            onClick={() => handleCancelBooking(booking.id)}
                            className="px-4 py-2 text-sm font-bold bg-red-600 text-white rounded-xl hover:bg-red-700 flex items-center gap-2"

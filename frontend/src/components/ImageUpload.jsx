@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback, useEffect } from 'react';
+﻿import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { Upload, X, Image as ImageIcon, Loader2, CheckCircle2 } from 'lucide-react';
 
 const ImageUpload = ({ onUploadSuccess, cloudName = "dv4a3qyrt", uploadPreset = "ml_default", currentPhotos = [] }) => {
@@ -124,7 +124,7 @@ const ImageUpload = ({ onUploadSuccess, cloudName = "dv4a3qyrt", uploadPreset = 
         {isUploading ? (
           <div className="flex flex-col items-center gap-4">
             <Loader2 className="animate-spin text-primary" size={48} />
-            <p className="text-dark font-black text-xl italic">Uploading photos...</p>
+            <p className="text-ink font-black text-xl italic">Uploading photos...</p>
           </div>
         ) : isDragging ? (
           <div className="flex flex-col items-center gap-4 pointer-events-none">
@@ -139,7 +139,7 @@ const ImageUpload = ({ onUploadSuccess, cloudName = "dv4a3qyrt", uploadPreset = 
             <div className="w-20 h-20 bg-white rounded-3xl flex items-center justify-center mb-6 shadow-xl group-hover:scale-110 transition-transform">
               <Upload className="text-primary" size={32} />
             </div>
-            <h3 className="text-2xl font-black text-dark mb-2">Drag & drop your property photos</h3>
+            <h3 className="text-2xl font-black text-ink mb-2">Drag & drop your property photos</h3>
             <p className="text-gray-500 font-medium max-w-xs leading-relaxed">
               Or <span className="text-primary font-bold underline">click to browse</span>. High-resolution JPG, PNG or WebP works best. (Up to 10 photos)
             </p>
@@ -171,7 +171,7 @@ const ImageUpload = ({ onUploadSuccess, cloudName = "dv4a3qyrt", uploadPreset = 
 
           {/* Add more photos tile */}
           <div
-            className="aspect-square flex flex-col items-center justify-center gap-2 border-2 border-dashed border-lightGray rounded-2xl text-gray-400 hover:text-dark hover:border-dark transition-all cursor-pointer"
+            className="aspect-square flex flex-col items-center justify-center gap-2 border-2 border-dashed border-lightGray rounded-2xl text-gray-400 hover:text-ink hover:border-ink transition-all cursor-pointer"
             onClick={() => fileInputRef.current?.click()}
           >
             <ImageIcon size={24} />

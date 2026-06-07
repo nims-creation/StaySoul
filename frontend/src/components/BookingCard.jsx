@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { bookingApi } from '../api/apiClient';
 import { formatCurrency } from '../utils/currencyUtils';
@@ -64,7 +64,7 @@ const BookingCard = ({ price: initialPrice, rating, dates, maxGuests, hotelId, r
   };
 
   return (
-    <div className="bg-white border text-dark border-lightGray rounded-xl p-6 shadow-xl sticky top-28">
+    <div className="bg-white border text-ink border-lightGray rounded-xl p-6 shadow-xl sticky top-28">
       <div className="flex justify-between items-baseline mb-2">
         <div className="flex items-baseline space-x-1">
           <span className="text-2xl font-bold">{formatCurrency(price)}</span>
@@ -93,7 +93,7 @@ const BookingCard = ({ price: initialPrice, rating, dates, maxGuests, hotelId, r
         </div>
       )}
 
-      <div className="border border-lightGray rounded-lg mb-4 flex flex-col focus-within:ring-2 focus-within:ring-dark transition-all">
+      <div className="border border-lightGray rounded-lg mb-4 flex flex-col focus-within:ring-2 focus-within:ring-ink transition-all">
         <div className="flex border-b border-lightGray">
           <div className="flex-1 p-3 border-r border-lightGray relative">
             <label className="block text-[10px] font-bold uppercase track-wide mb-1">Check-in</label>

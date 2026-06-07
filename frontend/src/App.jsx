@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from 'react';
+﻿import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { SearchProvider } from './context/SearchContext';
@@ -46,7 +46,7 @@ function App() {
           <AuthProvider>
             <SearchProvider>
           <Router>
-            <div className="min-h-screen bg-cream dark:bg-dark-bg flex flex-col transition-colors duration-300">
+            <div className="min-h-screen bg-cream dark:bg-ink-bg flex flex-col transition-colors duration-300">
               <AuthModal />
               <Navbar />
               <main className="flex-grow">

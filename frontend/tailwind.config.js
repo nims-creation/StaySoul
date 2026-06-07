@@ -1,4 +1,4 @@
-/** @type {import('tailwindcss').Config} */
+﻿/** @type {import('tailwindcss').Config} */
 export default {
   content: [
     "./index.html",
@@ -18,15 +18,20 @@ export default {
           DEFAULT: '#C9963A',   // Warm gold accent
           light:   '#FBF3E4',   // Gold tint bg
         },
-        dark:      '#0D0D0D',   // Near-black for headings
+        // ── Foreground / text colours ────────────────────────────────────
         charcoal:  '#3D3D3D',   // Body text
         muted:     '#8A8A8A',   // Captions / secondary text
         cream:     '#FDFAF6',   // Warm off-white background
         lightGray: '#E8E4DF',   // Warm gray borders (not cold gray)
         grayBg:    '#F5F1EC',   // Warm gray surfaces
         glass:     'rgba(255,255,255,0.72)', // Glassmorphism fill
-        // ── Dark mode palette ───────────────────────────────────────────
-        dark: {
+        // ── Dark mode palette ────────────────────────────────────────────
+        // DEFAULT makes `text-ink` resolve to #0D0D0D (near-black for headings)
+        // while text-ink-bg, bg-ink-surface etc. still work as before.
+        // Previously the flat `dark: '#0D0D0D'` key was silently overwritten
+        // by this object, causing @apply text-ink to crash on Vercel.
+        ink: {
+          DEFAULT: '#0D0D0D',   // Near-black — resolves text-ink / bg-ink
           bg:      '#0F0F0F',   // Main dark background
           surface: '#1A1A1A',   // Card / panel background
           elevated:'#242424',   // Elevated surfaces (modals, dropdowns)

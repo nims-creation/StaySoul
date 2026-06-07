@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { Star, Send, ShieldCheck, X } from 'lucide-react';
 import ImageUpload from './ImageUpload';
 import { useAuth } from '../context/AuthContext';
@@ -54,7 +54,7 @@ const ReviewForm = ({ hotelId, onReviewSubmitted }) => {
         <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center text-green-600 mx-auto mb-4">
            <ShieldCheck size={32} />
         </div>
-        <h3 className="text-xl font-black text-dark mb-2">Review Published!</h3>
+        <h3 className="text-xl font-black text-ink mb-2">Review Published!</h3>
         <p className="text-gray-500 font-medium">Thank you for helping the StaySoul community.</p>
       </div>
     );
@@ -66,7 +66,7 @@ const ReviewForm = ({ hotelId, onReviewSubmitted }) => {
          <div className="bg-primary/10 p-2.5 rounded-2xl text-primary">
             <Send size={20} />
          </div>
-         <h2 className="text-xl font-black text-dark">Share your experience</h2>
+         <h2 className="text-xl font-black text-ink">Share your experience</h2>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -111,7 +111,7 @@ const ReviewForm = ({ hotelId, onReviewSubmitted }) => {
         <button
           type="submit"
           disabled={isSubmitting || !isAuthenticated}
-          className="w-full py-4 bg-dark text-white rounded-2xl font-black hover:bg-black transition-all shadow-xl active:scale-95 disabled:opacity-40"
+          className="w-full py-4 bg-ink text-white rounded-2xl font-black hover:bg-black transition-all shadow-xl active:scale-95 disabled:opacity-40"
         >
           {isSubmitting ? "Syncing..." : "Post Review"}
         </button>

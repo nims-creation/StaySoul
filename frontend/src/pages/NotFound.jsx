@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Home, ArrowLeft, Search } from 'lucide-react';
 import useDocumentTitle from '../utils/useDocumentTitle';
@@ -8,7 +8,7 @@ const NotFound = () => {
   useDocumentTitle('Page Not Found');
 
   return (
-    <div className="min-h-screen bg-cream dark:bg-dark-bg flex items-center justify-center px-4">
+    <div className="min-h-screen bg-cream dark:bg-ink-bg flex items-center justify-center px-4">
       <div className="text-center max-w-lg">
         {/* Animated 404 */}
         <div className="relative mb-8">
@@ -22,10 +22,10 @@ const NotFound = () => {
           </div>
         </div>
 
-        <h2 className="text-3xl font-black text-dark dark:text-dark-heading mb-3">
+        <h2 className="text-3xl font-black text-ink dark:text-ink-heading mb-3">
           Lost in paradise?
         </h2>
-        <p className="text-muted dark:text-dark-muted text-base leading-relaxed mb-10">
+        <p className="text-muted dark:text-ink-muted text-base leading-relaxed mb-10">
           The page you're looking for has checked out. Let's get you back to
           finding your perfect stay.
         </p>
@@ -33,7 +33,7 @@ const NotFound = () => {
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <button
             onClick={() => navigate(-1)}
-            className="flex items-center justify-center gap-2 px-6 py-3.5 border-2 border-lightGray dark:border-dark-border text-dark dark:text-dark-text font-bold rounded-2xl hover:bg-grayBg dark:hover:bg-dark-surface transition-all active:scale-95"
+            className="flex items-center justify-center gap-2 px-6 py-3.5 border-2 border-lightGray dark:border-ink-border text-ink dark:text-ink-text font-bold rounded-2xl hover:bg-grayBg dark:hover:bg-ink-surface transition-all active:scale-95"
           >
             <ArrowLeft size={18} />
             Go back
@@ -47,7 +47,7 @@ const NotFound = () => {
           </button>
           <button
             onClick={() => navigate('/')}
-            className="flex items-center justify-center gap-2 px-6 py-3.5 bg-grayBg dark:bg-dark-surface text-dark dark:text-dark-text font-bold rounded-2xl hover:bg-lightGray dark:hover:bg-dark-elevated transition-all active:scale-95"
+            className="flex items-center justify-center gap-2 px-6 py-3.5 bg-grayBg dark:bg-ink-surface text-ink dark:text-ink-text font-bold rounded-2xl hover:bg-lightGray dark:hover:bg-ink-elevated transition-all active:scale-95"
           >
             <Search size={18} />
             Explore stays

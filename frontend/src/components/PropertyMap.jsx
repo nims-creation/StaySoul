@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+﻿import React, { useEffect, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -10,7 +10,7 @@ const createPriceIcon = (price) => {
   return L.divIcon({
     className: 'custom-price-marker',
     html: `
-      <div class="bg-white px-3 py-1.5 rounded-full shadow-lg border border-gray-200 hover:bg-dark hover:text-white transition-all transform hover:scale-110 flex items-center justify-center">
+      <div class="bg-white px-3 py-1.5 rounded-full shadow-lg border border-gray-200 hover:bg-ink hover:text-white transition-all transform hover:scale-110 flex items-center justify-center">
         <span class="text-xs font-blackTracking leading-none">${formatCurrency(price)}</span>
       </div>
     `,
@@ -166,7 +166,7 @@ const PropertyMap = ({ properties }) => {
                       />
                     </div>
                     <div className="px-3 pb-3">
-                      <h4 className="font-bold text-dark text-sm truncate">{p.name}</h4>
+                      <h4 className="font-bold text-ink text-sm truncate">{p.name}</h4>
                       <p className="text-primary font-black text-sm mt-0.5">{formatCurrency(p.price || 0)} <span className="text-gray-400 text-[10px] font-medium">night</span></p>
                     </div>
                   </div>

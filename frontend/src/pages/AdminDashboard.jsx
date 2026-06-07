@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { adminApi } from '../api/apiClient';
 import { seedPremiumProperties } from '../utils/seedData';
 import { Plus, Hotel, Bed, Trash2, Edit3, Settings, TrendingUp, Users, Calendar, MapPin, Database } from 'lucide-react';
@@ -96,7 +96,7 @@ const AdminDashboard = () => {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
         <div>
-           <h1 className="text-3xl font-bold text-dark mb-2">Host Dashboard</h1>
+           <h1 className="text-3xl font-bold text-ink mb-2">Host Dashboard</h1>
            <p className="text-gray-500">Manage your properties, bookings and revenue from one place.</p>
         </div>
         <div className="flex gap-4">
@@ -150,14 +150,14 @@ const AdminDashboard = () => {
                 </div>
                 <div>
                    <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">{stat.label}</span>
-                   <div className={`text-2xl font-bold text-dark ${stats.statsLoading ? 'animate-pulse' : ''}`}>{stat.value}</div>
+                   <div className={`text-2xl font-bold text-ink ${stats.statsLoading ? 'animate-pulse' : ''}`}>{stat.value}</div>
                 </div>
              </div>
            );
          })}
       </div>
 
-       <h2 className="text-xl font-bold text-dark mb-6">Your Listings</h2>
+       <h2 className="text-xl font-bold text-ink mb-6">Your Listings</h2>
       
       {hotels.length === 0 ? (
         <div className="bg-white border-2 border-dashed border-lightGray rounded-3xl py-20 text-center">
@@ -183,7 +183,7 @@ const AdminDashboard = () => {
                   <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
                      <button 
                        onClick={() => navigate(`/admin/manage?id=${hotel.id}`)}
-                       className="p-3 bg-white rounded-full text-dark hover:text-primary transition-colors hover:scale-110"
+                       className="p-3 bg-white rounded-full text-ink hover:text-primary transition-colors hover:scale-110"
                      >
                        <Edit3 size={20} />
                      </button>
@@ -202,12 +202,12 @@ const AdminDashboard = () => {
                   </div>
                 </div>
                 <div className="p-5">
-                   <h3 className="font-bold text-dark text-lg mb-1">{hotel.name}</h3>
+                   <h3 className="font-bold text-ink text-lg mb-1">{hotel.name}</h3>
                    <p className="text-gray-500 text-sm mb-4 flex items-center gap-1">
                       <MapPin size={14} /> {hotel.city}
                    </p>
                    <div className="flex justify-between items-center pt-4 border-t border-lightGray">
-                      <div className="flex items-center gap-2 text-dark font-medium">
+                      <div className="flex items-center gap-2 text-ink font-medium">
                          <Bed size={16} />
                          <span>{(hotel.rooms || []).length} Rooms</span>
                       </div>
@@ -229,7 +229,7 @@ const AdminDashboard = () => {
                       ) : (
                         <button 
                           onClick={() => navigate(`/admin/manage?id=${hotel.id}`)}
-                          className="text-sm font-bold text-gray-500 hover:text-dark flex items-center gap-1"
+                          className="text-sm font-bold text-gray-500 hover:text-ink flex items-center gap-1"
                         >
                            <Settings size={14} /> Manage
                         </button>

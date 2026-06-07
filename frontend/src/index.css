@@ -1,4 +1,4 @@
-@tailwind base;
+﻿@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -14,8 +14,11 @@
     color: #0D0D0D;
   }
 
+  /* Use raw value instead of @apply text-ink — the 'dark' key conflicts
+     with the dark-mode nested object in tailwind.config.js, causing the
+     PostCSS @apply resolver to fail during production builds on Vercel. */
   h1, h2, h3 {
-    @apply text-dark;
+    color: #0D0D0D;
   }
 }
 

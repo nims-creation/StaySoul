@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Sun, Moon } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 
@@ -11,7 +11,7 @@ const ThemeToggle = ({ className = '' }) => {
       onClick={toggleTheme}
       aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
       title={isDark ? 'Light mode' : 'Dark mode'}
-      className={`relative p-2 rounded-full transition-all duration-300 hover:bg-grayBg dark:hover:bg-dark-surface focus:outline-none group ${className}`}
+      className={`relative p-2 rounded-full transition-all duration-300 hover:bg-grayBg dark:hover:bg-ink-surface focus:outline-none group ${className}`}
     >
       {/* Track */}
       <span className="sr-only">{isDark ? 'Light mode' : 'Dark mode'}</span>
@@ -32,7 +32,7 @@ const ThemeToggle = ({ className = '' }) => {
         <Moon
           size={18}
           strokeWidth={1.8}
-          className={`absolute inset-0 text-charcoal dark:text-dark-muted transition-all duration-300 ${
+          className={`absolute inset-0 text-charcoal dark:text-ink-muted transition-all duration-300 ${
             isDark
               ? 'opacity-0 rotate-90 scale-50'
               : 'opacity-100 rotate-0 scale-100'

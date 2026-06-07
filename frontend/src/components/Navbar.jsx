@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+﻿import React, { useState, useEffect, useRef } from 'react';
 import { Search, Globe, Menu, UserCircle, LogOut } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useSearch } from '../context/SearchContext';
@@ -62,8 +62,8 @@ const Navbar = () => {
     <nav
       className={`fixed w-full z-[9999] transition-all duration-300 ${
         isScrolled
-          ? 'bg-cream/80 dark:bg-dark-bg/80 backdrop-blur-xl shadow-navbar border-b border-lightGray dark:border-dark-border'
-          : 'bg-cream dark:bg-dark-bg border-b border-lightGray/60 dark:border-dark-border/60'
+          ? 'bg-cream/80 dark:bg-ink-bg/80 backdrop-blur-xl shadow-navbar border-b border-lightGray dark:border-ink-border'
+          : 'bg-cream dark:bg-ink-bg border-b border-lightGray/60 dark:border-ink-border/60'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -85,8 +85,8 @@ const Navbar = () => {
 
           {/* ── Search Bar — Center ───────────────────────────────────────── */}
           <div className="hidden md:flex flex-1 justify-center px-6">
-            <div className="flex items-center bg-white dark:bg-dark-surface border border-lightGray dark:border-dark-border rounded-full py-2.5 px-5 shadow-card hover:shadow-card-hover transition-all duration-200 w-full max-w-md">
-              <div className="flex flex-col flex-1 pr-4 border-r border-lightGray dark:border-dark-border">
+            <div className="flex items-center bg-white dark:bg-ink-surface border border-lightGray dark:border-ink-border rounded-full py-2.5 px-5 shadow-card hover:shadow-card-hover transition-all duration-200 w-full max-w-md">
+              <div className="flex flex-col flex-1 pr-4 border-r border-lightGray dark:border-ink-border">
                 <label className="text-[9px] font-bold uppercase tracking-widest text-muted mb-0.5">
                   Where
                 </label>
@@ -94,7 +94,7 @@ const Navbar = () => {
                   type="text"
                   name="location"
                   placeholder="Anywhere in the world"
-                  className="text-[13px] font-semibold focus:outline-none bg-transparent placeholder:text-muted placeholder:font-normal text-dark dark:text-dark-text w-36"
+                  className="text-[13px] font-semibold focus:outline-none bg-transparent placeholder:text-muted placeholder:font-normal text-ink dark:text-ink-text w-36"
                   value={searchParams.location}
                   onChange={handleSearchChange}
                 />
@@ -107,7 +107,7 @@ const Navbar = () => {
                   type="number"
                   name="guests"
                   min="1"
-                  className="text-[13px] font-semibold focus:outline-none bg-transparent w-10 text-dark dark:text-dark-text"
+                  className="text-[13px] font-semibold focus:outline-none bg-transparent w-10 text-ink dark:text-ink-text"
                   value={searchParams.guests}
                   onChange={handleSearchChange}
                 />
@@ -124,7 +124,7 @@ const Navbar = () => {
             {/* Become a host text */}
             <button
               onClick={handleBecomeHostClick}
-              className="hidden lg:block text-[13px] font-semibold text-dark dark:text-dark-text hover:bg-grayBg dark:hover:bg-dark-surface px-4 py-2 rounded-full transition-all"
+              className="hidden lg:block text-[13px] font-semibold text-ink dark:text-ink-text hover:bg-grayBg dark:hover:bg-ink-surface px-4 py-2 rounded-full transition-all"
             >
               {user?.roles?.includes('HOTEL_MANAGER') ? 'Switch to hosting' : 'StaySoul your home'}
             </button>
@@ -132,20 +132,20 @@ const Navbar = () => {
             {/* Theme toggle */}
             <ThemeToggle />
 
-            <button className="p-2 hover:bg-grayBg dark:hover:bg-dark-surface rounded-full transition-colors hidden md:flex items-center justify-center">
-              <Globe size={17} strokeWidth={1.8} className="text-charcoal dark:text-dark-text" />
+            <button className="p-2 hover:bg-grayBg dark:hover:bg-ink-surface rounded-full transition-colors hidden md:flex items-center justify-center">
+              <Globe size={17} strokeWidth={1.8} className="text-charcoal dark:text-ink-text" />
             </button>
 
             {/* Avatar + dropdown trigger */}
             <div
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="flex items-center gap-2 bg-white dark:bg-dark-surface border border-lightGray dark:border-dark-border rounded-full px-3 py-2 ml-1 cursor-pointer hover:shadow-premium transition-all duration-200"
+              className="flex items-center gap-2 bg-white dark:bg-ink-surface border border-lightGray dark:border-ink-border rounded-full px-3 py-2 ml-1 cursor-pointer hover:shadow-premium transition-all duration-200"
             >
-              <Menu size={16} strokeWidth={1.8} className="text-charcoal dark:text-dark-text" />
+              <Menu size={16} strokeWidth={1.8} className="text-charcoal dark:text-ink-text" />
               <div className={`w-7 h-7 rounded-full flex items-center justify-center text-[11px] font-bold ${
                 isAuthenticated
                   ? 'bg-gradient-primary text-white'
-                  : 'bg-grayBg dark:bg-dark-elevated text-muted'
+                  : 'bg-grayBg dark:bg-ink-elevated text-muted'
               }`}>
                 {isAuthenticated && user?.name
                   ? user.name.charAt(0).toUpperCase()
@@ -156,13 +156,13 @@ const Navbar = () => {
 
             {/* ── Dropdown ───────────────────────────────────────────────── */}
             {isDropdownOpen && (
-              <div className="absolute top-14 right-0 w-64 bg-white dark:bg-dark-elevated border border-lightGray dark:border-dark-border rounded-2xl shadow-premium py-2 flex flex-col z-50 overflow-hidden">
+              <div className="absolute top-14 right-0 w-64 bg-white dark:bg-ink-elevated border border-lightGray dark:border-ink-border rounded-2xl shadow-premium py-2 flex flex-col z-50 overflow-hidden">
                 {isAuthenticated ? (
                   <>
                     {/* User header */}
-                    <div className="px-4 py-3 border-b border-lightGray dark:border-dark-border">
+                    <div className="px-4 py-3 border-b border-lightGray dark:border-ink-border">
                       <p className="text-[11px] text-muted font-medium uppercase tracking-widest mb-0.5">Signed in as</p>
-                      <p className="text-dark dark:text-dark-heading font-bold text-[14px] truncate">{user?.name || user?.email?.split('@')[0]}</p>
+                      <p className="text-ink dark:text-ink-heading font-bold text-[14px] truncate">{user?.name || user?.email?.split('@')[0]}</p>
                     </div>
 
                     {[
@@ -174,13 +174,13 @@ const Navbar = () => {
                       <button
                         key={item.label}
                         onClick={item.action}
-                        className="text-left px-4 py-2.5 text-[13px] font-medium text-charcoal dark:text-dark-text hover:bg-grayBg dark:hover:bg-dark-surface transition-colors"
+                        className="text-left px-4 py-2.5 text-[13px] font-medium text-charcoal dark:text-ink-text hover:bg-grayBg dark:hover:bg-ink-surface transition-colors"
                       >
                         {item.label}
                       </button>
                     ))}
 
-                    <div className="h-px bg-lightGray dark:bg-dark-border mx-4 my-1" />
+                    <div className="h-px bg-lightGray dark:bg-ink-border mx-4 my-1" />
 
                     {user?.roles?.includes('HOTEL_MANAGER') ? (
                       <button
@@ -192,7 +192,7 @@ const Navbar = () => {
                     ) : (
                       <button
                         onClick={handleBecomeHostClick}
-                        className="text-left px-4 py-2.5 text-[13px] font-medium text-charcoal dark:text-dark-text hover:bg-grayBg dark:hover:bg-dark-surface transition-colors"
+                        className="text-left px-4 py-2.5 text-[13px] font-medium text-charcoal dark:text-ink-text hover:bg-grayBg dark:hover:bg-ink-surface transition-colors"
                       >
                         StaySoul your home
                       </button>
@@ -200,7 +200,7 @@ const Navbar = () => {
 
                     <button
                       onClick={logout}
-                      className="flex items-center gap-2.5 px-4 py-2.5 text-[13px] font-medium text-charcoal dark:text-dark-text hover:bg-grayBg dark:hover:bg-dark-surface transition-colors"
+                      className="flex items-center gap-2.5 px-4 py-2.5 text-[13px] font-medium text-charcoal dark:text-ink-text hover:bg-grayBg dark:hover:bg-ink-surface transition-colors"
                     >
                       <LogOut size={14} strokeWidth={1.8} className="text-muted" />
                       <span>Log out</span>
@@ -210,24 +210,24 @@ const Navbar = () => {
                   <>
                     <button
                       onClick={() => { setIsAuthModalOpen(true); setIsDropdownOpen(false); }}
-                      className="text-left px-4 py-2.5 text-[13px] font-bold text-dark dark:text-dark-heading hover:bg-grayBg dark:hover:bg-dark-surface transition-colors"
+                      className="text-left px-4 py-2.5 text-[13px] font-bold text-ink dark:text-ink-heading hover:bg-grayBg dark:hover:bg-ink-surface transition-colors"
                     >
                       Log in
                     </button>
                     <button
                       onClick={() => { setIsAuthModalOpen(true); setIsDropdownOpen(false); }}
-                      className="text-left px-4 py-2.5 text-[13px] font-medium text-charcoal dark:text-dark-text hover:bg-grayBg dark:hover:bg-dark-surface transition-colors"
+                      className="text-left px-4 py-2.5 text-[13px] font-medium text-charcoal dark:text-ink-text hover:bg-grayBg dark:hover:bg-ink-surface transition-colors"
                     >
                       Sign up
                     </button>
-                    <div className="h-px bg-lightGray dark:bg-dark-border mx-4 my-1" />
+                    <div className="h-px bg-lightGray dark:bg-ink-border mx-4 my-1" />
                     <button
                       onClick={handleBecomeHostClick}
-                      className="text-left px-4 py-2.5 text-[13px] font-medium text-charcoal dark:text-dark-text hover:bg-grayBg dark:hover:bg-dark-surface transition-colors"
+                      className="text-left px-4 py-2.5 text-[13px] font-medium text-charcoal dark:text-ink-text hover:bg-grayBg dark:hover:bg-ink-surface transition-colors"
                     >
                       StaySoul your home
                     </button>
-                    <button className="text-left px-4 py-2.5 text-[13px] font-medium text-charcoal dark:text-dark-text hover:bg-grayBg dark:hover:bg-dark-surface transition-colors">
+                    <button className="text-left px-4 py-2.5 text-[13px] font-medium text-charcoal dark:text-ink-text hover:bg-grayBg dark:hover:bg-ink-surface transition-colors">
                       Help center
                     </button>
                   </>
@@ -241,13 +241,13 @@ const Navbar = () => {
 
       {/* ── Mobile Search Bar ─────────────────────────────────────────────── */}
       <div className="md:hidden px-4 pb-3">
-        <div className="flex items-center bg-white dark:bg-dark-surface border border-lightGray dark:border-dark-border rounded-full px-4 py-2.5 shadow-card">
+        <div className="flex items-center bg-white dark:bg-ink-surface border border-lightGray dark:border-ink-border rounded-full px-4 py-2.5 shadow-card">
           <Search size={15} strokeWidth={2} className="text-primary mr-3 shrink-0" />
           <input
             type="text"
             name="location"
             placeholder="Where to? Explore the world…"
-            className="text-[13px] font-semibold focus:outline-none bg-transparent w-full text-dark dark:text-dark-text placeholder:text-muted placeholder:font-normal"
+            className="text-[13px] font-semibold focus:outline-none bg-transparent w-full text-ink dark:text-ink-text placeholder:text-muted placeholder:font-normal"
             value={searchParams.location}
             onChange={handleSearchChange}
           />

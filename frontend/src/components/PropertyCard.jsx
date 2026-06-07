@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { Heart, Star } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { formatCurrency } from '../utils/currencyUtils';
@@ -67,7 +67,7 @@ const PropertyCard = ({ property }) => {
           {rating && (
             <div className="absolute top-3 left-3 glass-card flex items-center gap-1 px-2.5 py-1.5 rounded-xl">
               <Star size={11} className="fill-gold text-gold" />
-              <span className="text-dark text-[11px] font-bold leading-none">{rating}</span>
+              <span className="text-ink text-[11px] font-bold leading-none">{rating}</span>
               {reviewCount > 0 && (
                 <span className="text-muted text-[10px] font-medium leading-none">({reviewCount})</span>
               )}
@@ -95,7 +95,7 @@ const PropertyCard = ({ property }) => {
         {/* ── Property Details ──────────────────────────────────────────── */}
         <div className="flex flex-col gap-0.5 px-0.5">
           {/* Location + Title */}
-          <h3 className="font-semibold text-dark text-[14.5px] leading-snug truncate">
+          <h3 className="font-semibold text-ink text-[14.5px] leading-snug truncate">
             {location}
             {title && location && <span className="text-muted font-normal"> · </span>}
             {title}
@@ -106,7 +106,7 @@ const PropertyCard = ({ property }) => {
 
           {/* Price */}
           <div className="flex items-baseline gap-1 mt-1.5">
-            <span className="text-dark font-bold text-[15px]">
+            <span className="text-ink font-bold text-[15px]">
               {formatCurrency(price)}
             </span>
             <span className="text-muted text-[13px] font-normal">/ night</span>

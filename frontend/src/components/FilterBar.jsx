@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import {
   Wifi,
   Waves,
@@ -45,8 +45,8 @@ const FilterBar = ({ activeCategory, onCategoryChange, onToggleFilterModal }) =>
                 onClick={() => onCategoryChange(cat.id)}
                 className={`relative flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition-all duration-200 shrink-0
                   ${isActive
-                    ? 'bg-dark text-white shadow-premium'
-                    : 'bg-white text-charcoal border border-lightGray hover:border-charcoal hover:text-dark hover:shadow-sm'
+                    ? 'bg-ink text-white shadow-premium'
+                    : 'bg-white text-charcoal border border-lightGray hover:border-charcoal hover:text-ink hover:shadow-sm'
                   }`}
               >
                 <Icon
@@ -72,7 +72,7 @@ const FilterBar = ({ activeCategory, onCategoryChange, onToggleFilterModal }) =>
         {/* Global Filter Button */}
         <button
           onClick={onToggleFilterModal}
-          className="hidden md:flex items-center gap-2 px-4 py-2.5 border border-lightGray rounded-full text-dark font-semibold text-sm hover:border-dark hover:shadow-sm transition-all shrink-0 bg-white"
+          className="hidden md:flex items-center gap-2 px-4 py-2.5 border border-lightGray rounded-full text-ink font-semibold text-sm hover:border-ink hover:shadow-sm transition-all shrink-0 bg-white"
         >
           <SlidersHorizontal size={15} strokeWidth={1.8} />
           <span>Filters</span>

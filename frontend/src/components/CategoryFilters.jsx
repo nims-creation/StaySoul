@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import {  
   Palmtree, 
   Home, 
@@ -40,8 +40,8 @@ const CategoryFilters = () => {
                 onClick={() => setActive(category.name)}
                 className={`flex flex-col items-center justify-center min-w-max gap-2 pb-2 border-b-2 transition-colors ${
                   isActive 
-                    ? 'border-dark text-dark' 
-                    : 'border-transparent text-gray-500 hover:text-dark hover:border-gray-300'
+                    ? 'border-ink text-ink' 
+                    : 'border-transparent text-gray-500 hover:text-ink hover:border-gray-300'
                 }`}
               >
                 <Icon size={24} strokeWidth={isActive ? 2 : 1.5} />

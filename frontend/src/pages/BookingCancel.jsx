@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { XCircle, ArrowLeft, RefreshCw } from 'lucide-react';
 import useDocumentTitle from '../utils/useDocumentTitle';
@@ -16,7 +16,7 @@ const BookingCancel = () => {
           </div>
         </div>
         
-        <h1 className="text-3xl font-bold text-dark mb-4">Payment Cancelled</h1>
+        <h1 className="text-3xl font-bold text-ink mb-4">Payment Cancelled</h1>
         <p className="text-gray-600 mb-8 leading-relaxed">
           The booking process was not completed because the payment was cancelled. No charges were made to your account.
         </p>
@@ -32,7 +32,7 @@ const BookingCancel = () => {
           
           <button 
             onClick={() => navigate('/')}
-            className="w-full bg-white text-dark border border-lightGray font-semibold py-3 rounded-xl hover:bg-grayBg transition-colors flex items-center justify-center gap-2"
+            className="w-full bg-white text-ink border border-lightGray font-semibold py-3 rounded-xl hover:bg-grayBg transition-colors flex items-center justify-center gap-2"
           >
             <ArrowLeft size={18} />
             Return Home

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { adminApi } from '../api/apiClient';
 import { 
@@ -145,7 +145,7 @@ const ManageProperty = () => {
     <div className="max-w-5xl mx-auto px-4 pt-32 pb-20">
       <button 
         onClick={() => navigate('/admin')}
-        className="flex items-center gap-2 text-gray-500 hover:text-dark mb-8 transition-colors font-medium"
+        className="flex items-center gap-2 text-gray-500 hover:text-ink mb-8 transition-colors font-medium"
       >
         <ArrowLeft size={18} />
         Back to Dashboard
@@ -163,7 +163,7 @@ const ManageProperty = () => {
                  <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold transition-all ${step >= s.n ? 'bg-primary text-white' : 'bg-gray-200 text-gray-500'}`}>
                     {step > s.n ? <CheckCircle2 size={20} /> : s.n}
                  </div>
-                 <span className={`text-xs font-bold uppercase tracking-widest ${step >= s.n ? 'text-dark' : 'text-gray-400'}`}>{s.label}</span>
+                 <span className={`text-xs font-bold uppercase tracking-widest ${step >= s.n ? 'text-ink' : 'text-gray-400'}`}>{s.label}</span>
               </div>
               {s.n < 3 && <div className={`flex-1 h-1 mx-4 -mt-6 rounded ${step > s.n ? 'bg-primary' : 'bg-gray-200'}`}></div>}
            </React.Fragment>
@@ -176,7 +176,7 @@ const ManageProperty = () => {
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
              <div className="p-8 border-b border-lightGray bg-grayBg/20 flex justify-between items-center">
                 <div>
-                   <h1 className="text-2xl font-bold text-dark flex items-center gap-2">
+                   <h1 className="text-2xl font-bold text-ink flex items-center gap-2">
                      <Hotel className="text-primary" />
                      {editId ? 'Edit Property Info' : 'New Property'}
                    </h1>
@@ -276,7 +276,7 @@ const ManageProperty = () => {
                 <div className="pt-8 border-t border-lightGray flex justify-end">
                    <button 
                      onClick={() => setStep(2)}
-                     className="px-10 py-4 bg-dark text-white font-bold rounded-2xl hover:bg-black transition-all active:scale-95"
+                     className="px-10 py-4 bg-ink text-white font-bold rounded-2xl hover:bg-black transition-all active:scale-95"
                    >
                      Continue to Rooms
                    </button>
@@ -290,7 +290,7 @@ const ManageProperty = () => {
            <div className="animate-in fade-in slide-in-from-right-4 duration-500">
               <div className="p-8 border-b border-lightGray bg-grayBg/20 flex justify-between items-center">
                 <div>
-                   <h1 className="text-2xl font-bold text-dark flex items-center gap-2">
+                   <h1 className="text-2xl font-bold text-ink flex items-center gap-2">
                      <Bed className="text-primary" />
                      Rooms & Inventory
                    </h1>
@@ -357,7 +357,7 @@ const ManageProperty = () => {
                    <button 
                      onClick={handleSave}
                      disabled={isLoading || formData.rooms.some(r => !r.type)}
-                     className="px-12 py-4 bg-dark text-white font-bold rounded-2xl hover:bg-black transition-all shadow-xl active:scale-95 disabled:opacity-40"
+                     className="px-12 py-4 bg-ink text-white font-bold rounded-2xl hover:bg-black transition-all shadow-xl active:scale-95 disabled:opacity-40"
                    >
                      {isLoading ? "Saving Everything..." : "Save & Finalize"}
                    </button>
@@ -372,7 +372,7 @@ const ManageProperty = () => {
               <div className="mx-auto w-24 h-24 bg-green-100 rounded-full flex items-center justify-center text-green-600 mb-8 border-4 border-white shadow-xl">
                  <CheckCircle2 size={48} />
               </div>
-              <h1 className="text-3xl font-black text-dark mb-4">Property Ready!</h1>
+              <h1 className="text-3xl font-black text-ink mb-4">Property Ready!</h1>
               <p className="text-gray-500 max-w-lg mx-auto mb-12 text-lg leading-relaxed">
                  You've set up **{formData.name}** with **{formData.rooms.length} room types**. Launch now to start receiving bookings.
               </p>

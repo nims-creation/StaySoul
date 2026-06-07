@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import PropertyCard from './PropertyCard';
 import PropertyCardSkeleton from './PropertyCardSkeleton';
 import { SearchX } from 'lucide-react';
@@ -42,7 +42,7 @@ const PropertyGrid = ({ properties, isLoading, error, isSplitView }) => {
         <div className="bg-grayBg p-7 rounded-3xl mb-5 shadow-card">
           <SearchX size={44} className="text-muted" strokeWidth={1.5} />
         </div>
-        <h2 className="text-2xl font-bold text-dark mb-2 tracking-tight">No stays found</h2>
+        <h2 className="text-2xl font-bold text-ink mb-2 tracking-tight">No stays found</h2>
         <p className="text-muted max-w-sm text-[14px] leading-relaxed">
           Try adjusting your filters or exploring a different destination.
         </p>

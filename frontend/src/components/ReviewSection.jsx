@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { Star, ThumbsUp, MessageSquare } from 'lucide-react';
 import { apiClient } from '../api/apiClient';
 
@@ -27,7 +27,7 @@ const ReviewSection = ({ hotelId }) => {
     <div className="py-12 border-t border-lightGray">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h2 className="text-2xl font-black text-dark flex items-center gap-3">
+          <h2 className="text-2xl font-black text-ink flex items-center gap-3">
             <Star className="text-primary fill-primary" size={24} />
             {reviews.length > 0 ? `${(reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length).toFixed(1)} · ${reviews.length} reviews` : "No reviews yet"}
           </h2>
@@ -42,7 +42,7 @@ const ReviewSection = ({ hotelId }) => {
                 {review.userName?.[0]}
               </div>
               <div>
-                <h4 className="font-bold text-dark">{review.userName}</h4>
+                <h4 className="font-bold text-ink">{review.userName}</h4>
                 <p className="text-gray-400 text-xs font-medium">
                   {new Date(review.createdAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
                 </p>
@@ -54,12 +54,12 @@ const ReviewSection = ({ hotelId }) => {
                 <Star 
                   key={i} 
                   size={12} 
-                  className={i < review.rating ? "text-dark fill-dark" : "text-gray-200 fill-gray-100"} 
+                  className={i < review.rating ? "text-ink fill-ink" : "text-gray-200 fill-gray-100"} 
                 />
               ))}
             </div>
 
-            <p className="text-dark leading-relaxed font-normal text-[15px]">
+            <p className="text-ink leading-relaxed font-normal text-[15px]">
               {review.comment}
             </p>
 
@@ -77,10 +77,10 @@ const ReviewSection = ({ hotelId }) => {
             )}
 
             <div className="flex items-center gap-4 pt-2">
-               <button className="flex items-center gap-1 text-xs font-bold text-gray-500 hover:text-dark transition-colors">
+               <button className="flex items-center gap-1 text-xs font-bold text-gray-500 hover:text-ink transition-colors">
                  <ThumbsUp size={14} /> Helpful
                </button>
-               <button className="flex items-center gap-1 text-xs font-bold text-gray-500 hover:text-dark transition-colors">
+               <button className="flex items-center gap-1 text-xs font-bold text-gray-500 hover:text-ink transition-colors">
                  <MessageSquare size={14} /> Reply
                </button>
             </div>
@@ -91,7 +91,7 @@ const ReviewSection = ({ hotelId }) => {
       {reviews.length === 0 && (
         <div className="bg-grayBg/20 border border-dashed border-lightGray rounded-3xl p-12 text-center">
            <MessageSquare size={48} className="mx-auto text-gray-300 mb-4" />
-           <h3 className="text-xl font-black text-dark mb-2">Be the first to share!</h3>
+           <h3 className="text-xl font-black text-ink mb-2">Be the first to share!</h3>
            <p className="text-gray-500 font-medium">Help other travelers by sharing your experience at this property.</p>
         </div>
       )}
